@@ -2,9 +2,13 @@ package com.example.streetapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 import com.example.streetapp.fragments.GlobalTrainings
+import com.example.streetapp.fragments.SettingsFragment
 import com.example.streetapp.fragments.UserTrainings
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -54,6 +58,29 @@ class MainActivity : AppCompatActivity() {
 
             }
         }*/
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.top_bar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.settings -> {
+                Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show()
+                fragmentTransaction = supportFragmentManager.beginTransaction()
+                fragmentTransaction.replace(R.id.fragment_container, SettingsFragment())
+                fragmentTransaction.commit()
+                return true
+            }
+            else -> {
+                Toast.makeText(this, "nothing", Toast.LENGTH_SHORT).show()
+                return false
+            }
+        }
 
     }
 }
