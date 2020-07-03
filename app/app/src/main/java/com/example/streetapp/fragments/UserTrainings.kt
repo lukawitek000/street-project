@@ -61,7 +61,11 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 2)
         recyclerView.adapter = recyclerViewAdapter
 
-
+        val button: View = view.findViewById(R.id.floatingButton)
+        button.setOnClickListener{
+            Toast.makeText(context, "click nice", Toast.LENGTH_SHORT).show()
+            (activity as MainActivity).replaceFragment(CreateTraining.newInstance(), CreateTraining.TAG)
+        }
 
 
         return view
