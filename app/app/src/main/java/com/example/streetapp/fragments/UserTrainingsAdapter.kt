@@ -19,7 +19,9 @@ class UserTrainingsAdapter(val context: Activity, var trainings: ArrayList<Train
     }
 
     class UserTrainingsHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var name: TextView = itemView.findViewById<TextView>(R.id.textView);
+        var name: TextView = itemView.findViewById<TextView>(R.id.training_name)
+        var type = itemView.findViewById<TextView>(R.id.training_type)
+        var createDate = itemView.findViewById<TextView>(R.id.training_date)
 
     }
 
@@ -30,5 +32,7 @@ class UserTrainingsAdapter(val context: Activity, var trainings: ArrayList<Train
     override fun onBindViewHolder(holder: UserTrainingsHolder, position: Int) {
         val training = trainings[position]
         holder.name.text = training.name
+        holder.type.text = training.type
+        holder.createDate.text = training.creatingDate.toString()
     }
 }
