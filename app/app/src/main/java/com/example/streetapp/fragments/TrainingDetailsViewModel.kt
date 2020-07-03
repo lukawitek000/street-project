@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.streetapp.models.Training
 
-class TrainingDetailsViewModel(training: Training) : ViewModel() {
+class TrainingDetailsViewModel(var training: Training) : ViewModel() {
 
     companion object {
         val TAG = TrainingDetailsViewModel::class.java.simpleName

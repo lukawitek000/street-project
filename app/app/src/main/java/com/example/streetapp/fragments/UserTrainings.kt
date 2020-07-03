@@ -14,8 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.MainActivity
 import com.example.streetapp.R
 import com.example.streetapp.models.Training
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.Month
+import java.time.temporal.TemporalAdjusters.next
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.random.Random
+import kotlin.random.Random.Default.nextInt
 
 class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
 
@@ -43,8 +49,10 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
             var random = (0..255).random().toString()
             var day = (1..30).random()
             var month = (1..12).random()
-            var year = (2010..2020).random()
-            trainingList.add(Training("name $i", "Handstand", "random $random", Date(year, month, day)))
+            var year = Random.nextInt(2010, 2020)
+            var time = nextInt(10, 200)
+            trainingList.add(Training("name $i", "Handstand", time, "random $random",
+                Date(year -1900, month, day), arrayOf("some link $random", "next likt to some yt films $random", "or some wbsite $random")))
         }
         val spanCount = activity?.windowManager?.defaultDisplay?.width
         Log.i("UserTrainings", "spanCount = $spanCount")

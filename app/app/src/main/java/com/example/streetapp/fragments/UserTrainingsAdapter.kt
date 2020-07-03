@@ -1,6 +1,7 @@
 package com.example.streetapp.fragments
 
 import android.app.Activity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.R
 import com.example.streetapp.models.Training
-import kotlinx.android.synthetic.main.user_trainings_item.view.*
+import java.text.SimpleDateFormat
 
 class UserTrainingsAdapter(val context: Activity,  var trainings: ArrayList<Training>,  var onClickTrainingHandler: OnClickTrainingHandler) :
     RecyclerView.Adapter<UserTrainingsAdapter.UserTrainingsHolder>() {
@@ -30,6 +31,7 @@ class UserTrainingsAdapter(val context: Activity,  var trainings: ArrayList<Trai
         var name: TextView = itemView.findViewById<TextView>(R.id.training_name)
         var type = itemView.findViewById<TextView>(R.id.training_type)
         var createDate = itemView.findViewById<TextView>(R.id.training_date)
+        var timeInMinutes = itemView.findViewById<TextView>(R.id.timeTextView)
         init {
             itemView.setOnClickListener(this)
         }
@@ -48,6 +50,14 @@ class UserTrainingsAdapter(val context: Activity,  var trainings: ArrayList<Trai
         val training = trainings[position]
         holder.name.text = training.name
         holder.type.text = training.type
-        holder.createDate.text = training.creatingDate.toString()
+        val time = training.timeInMinutes.toString() + "min"
+        holder.timeInMinutes.text = time
+
+
+        val pattern = "yyyy/MM/dd"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        val date: String = simpleDateFormat.format(training.creatingDate)
+        holder.createDate.text = date
+
     }
 }

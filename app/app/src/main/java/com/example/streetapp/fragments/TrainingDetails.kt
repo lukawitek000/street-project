@@ -10,9 +10,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.library.baseAdapters.DataBinderMapperImpl
 import androidx.lifecycle.ViewModelProviders
 import com.example.streetapp.R
+import com.example.streetapp.databinding.FragmentTrainingDetailsBinding
 import com.example.streetapp.models.Training
+import java.lang.StringBuilder
 
 
 /**
@@ -25,28 +29,43 @@ class TrainingDetails : Fragment() {
 
     private lateinit var viewModel: TrainingDetailsViewModel
     private lateinit var viewModelFactory: TrainingDetailsViewModelFactory
+    private lateinit var binding: FragmentTrainingDetailsBinding
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_training_details, container, false)
+      //  val view = inflater.inflate(R.layout.fragment_training_details, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_training_details, container, false)
 
 
 
-
-        var training : Training = arguments?.get("training") as Training
+        val training : Training = arguments?.get("training") as Training
 
         viewModelFactory = TrainingDetailsViewModelFactory(training)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(TrainingDetailsViewModel::class.java)
 
 
-        Toast.makeText(context, "training ${training.name}", Toast.LENGTH_SHORT).show()
-        val text = view.findViewById<TextView>(R.id.textView)
-        text.text = training.name
 
-        return view
+        Toast.makeText(context, "training ${training.name}", Toast.LENGTH_SHORT).show()
+        binding.name.text = viewModel.training.name
+        binding.date.text = viewModel.training.creatingDate.toString()
+        binding.type.text = viewModel.training.type
+        binding.description.text = viewModel.training.description
+        binding.durationTime.text = viewModel.training.timeInMinutes.toString()
+
+        var stringBuilder = StringBuilder()
+
+        for(str in viewModel.training.links){
+            stringBuilder.append(str).append("\n")
+        }
+
+        binding.links.text = stringBuilder.toString()
+
+        return binding.root
     }
 
     companion object {
