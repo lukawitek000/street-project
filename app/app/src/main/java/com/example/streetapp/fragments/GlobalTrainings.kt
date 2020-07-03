@@ -12,6 +12,7 @@ class GlobalTrainings : Fragment() {
 
     companion object {
         fun newInstance() = GlobalTrainings()
+        val TAG = GlobalTrainings::class.java.simpleName
     }
 
     private lateinit var viewModel: GlobalTrainingsViewModel

@@ -1,5 +1,6 @@
 package com.example.streetapp.models
 
+import java.io.Serializable
 import java.sql.Time
 import java.util.*
 
@@ -10,4 +11,4 @@ data class Training(var name: String,
                     var creatingDate: Date
                     //var links: Array<String>,
                     //var exercises: Array<Exercise>
-                    )
+                    ) : Serializable

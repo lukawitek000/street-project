@@ -7,18 +7,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.streetapp.MainActivity
 import com.example.streetapp.R
 import com.example.streetapp.models.Training
 import java.util.*
 import kotlin.collections.ArrayList
 
-class UserTrainings : Fragment() {
+class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
 
     companion object {
         fun newInstance() = UserTrainings()
+        val TAG = UserTrainings::class.java.simpleName
     }
 
     private lateinit var viewModel: UserTrainingsViewModel
@@ -46,7 +49,7 @@ class UserTrainings : Fragment() {
         val spanCount = activity?.windowManager?.defaultDisplay?.width
         Log.i("UserTrainings", "spanCount = $spanCount")
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        val recyclerViewAdapter = UserTrainingsAdapter(this.requireActivity(), trainingList)
+        val recyclerViewAdapter = UserTrainingsAdapter(this.requireActivity(), trainingList, this)
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 2)
         recyclerView.adapter = recyclerViewAdapter
 
@@ -60,6 +63,15 @@ class UserTrainings : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(UserTrainingsViewModel::class.java)
         // TODO: Use the ViewModel
+    }
+
+    override fun onClick(training: Training) {
+        Toast.makeText(activity, "click on ${training.name}", Toast.LENGTH_SHORT).show()
+        val frag = TrainingDetails.newInstance()
+        val bundle = Bundle()
+        bundle.putSerializable("training", training)
+        frag.arguments = bundle
+        (activity as MainActivity).replaceFragment(frag, TrainingDetails.TAG)
     }
 
 }

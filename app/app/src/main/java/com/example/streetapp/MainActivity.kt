@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.streetapp.fragments.GlobalTrainings
 import com.example.streetapp.fragments.SettingsFragment
@@ -28,16 +29,14 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.user_trainings -> {
                     Toast.makeText(this, "user trainings", Toast.LENGTH_SHORT).show()
-                    fragmentTransaction = supportFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.fragment_container, UserTrainings())
-                    fragmentTransaction.commit()
+                    val frag = UserTrainings.newInstance()
+                    replaceFragment(frag, UserTrainings.TAG)
                     true
                 }
                 R.id.global_trainings -> {
                     Toast.makeText(this, "global trainings", Toast.LENGTH_SHORT).show()
-                    fragmentTransaction = supportFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.fragment_container, GlobalTrainings())
-                    fragmentTransaction.commit()
+                    val frag = GlobalTrainings.newInstance()
+                    replaceFragment(frag, GlobalTrainings.TAG)
                     true
                 }
                 else -> false
@@ -63,6 +62,11 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    fun replaceFragment(fragment: Fragment, tag: String) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment, tag).addToBackStack("").commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

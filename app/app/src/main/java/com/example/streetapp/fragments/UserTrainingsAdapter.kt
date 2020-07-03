@@ -10,18 +10,33 @@ import com.example.streetapp.R
 import com.example.streetapp.models.Training
 import kotlinx.android.synthetic.main.user_trainings_item.view.*
 
-class UserTrainingsAdapter(val context: Activity, var trainings: ArrayList<Training>) :
+class UserTrainingsAdapter(val context: Activity,  var trainings: ArrayList<Training>,  var onClickTrainingHandler: OnClickTrainingHandler) :
     RecyclerView.Adapter<UserTrainingsAdapter.UserTrainingsHolder>() {
+
+
+    interface OnClickTrainingHandler {
+        fun onClick(training: Training)
+    }
+
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserTrainingsHolder {
         val rootView = LayoutInflater.from(context).inflate(R.layout.user_trainings_item, parent, false)
         return UserTrainingsHolder(rootView)
     }
 
-    class UserTrainingsHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class UserTrainingsHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var name: TextView = itemView.findViewById<TextView>(R.id.training_name)
         var type = itemView.findViewById<TextView>(R.id.training_type)
         var createDate = itemView.findViewById<TextView>(R.id.training_date)
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(p0: View?) {
+            onClickTrainingHandler.onClick(trainings[adapterPosition])
+        }
 
     }
 
