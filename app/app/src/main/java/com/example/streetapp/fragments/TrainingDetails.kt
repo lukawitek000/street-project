@@ -41,7 +41,8 @@ class TrainingDetails : Fragment() {
       //  val view = inflater.inflate(R.layout.fragment_training_details, container, false)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_training_details, container, false)
 
-
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //(activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val training : Training = arguments?.get("training") as Training
 
@@ -57,7 +58,7 @@ class TrainingDetails : Fragment() {
         binding.description.text = viewModel.training.description
         binding.durationTime.text = viewModel.training.timeInMinutes.toString()
 
-        var stringBuilder = StringBuilder()
+        val stringBuilder = StringBuilder()
 
         for(str in viewModel.training.links){
             stringBuilder.append(str).append("\n")
@@ -74,4 +75,8 @@ class TrainingDetails : Fragment() {
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
 }

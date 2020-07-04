@@ -2,13 +2,17 @@ package com.example.streetapp.fragments
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import com.example.streetapp.R
 
-class CreateTraining : Fragment() {
+class CreateTraining : Fragment(){
 
     companion object {
         fun newInstance() = CreateTraining()
@@ -21,6 +25,10 @@ class CreateTraining : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //(activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+
         return inflater.inflate(R.layout.create_training_fragment, container, false)
     }
 
@@ -28,6 +36,11 @@ class CreateTraining : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(CreateTrainingViewModel::class.java)
         // TODO: Use the ViewModel
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
 }
