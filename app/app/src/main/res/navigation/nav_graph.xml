@@ -48,4 +48,9 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
+    <fragment
+        android:id="@+id/favourite_trainings"
+        android:name="com.example.streetapp.fragments.FavouritesTrainings"
+        android:label="favourites_trainings_fragment"
+        tools:layout="@layout/favourites_trainings_fragment" />
 </navigation>

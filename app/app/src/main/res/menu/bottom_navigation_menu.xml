@@ -8,4 +8,9 @@
         android:id="@+id/global_trainings"
         android:icon="@android:drawable/stat_notify_chat"
         android:title="global" />
+
+    <item
+        android:id="@+id/favourite_trainings"
+        android:icon="@drawable/ic_baseline_favorite_24"
+        android:title="favourite"/>
 </menu>

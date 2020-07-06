@@ -16,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.example.streetapp.fragments.FavouritesTrainings
 import com.example.streetapp.fragments.GlobalTrainings
 import com.example.streetapp.fragments.SettingsFragment
 import com.example.streetapp.fragments.UserTrainings
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             fragmentTransaction.commit()
         }*/
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNav.setOnNavigationItemSelectedListener { item ->
+       /* bottomNav.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.user_trainings -> {
                     Toast.makeText(this, "user trainings", Toast.LENGTH_SHORT).show()
@@ -57,9 +58,18 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(frag, GlobalTrainings.TAG)
                     true
                 }
-                else -> false
+                R.id.favourite_trainings -> {
+                    Toast.makeText(this, "favourite trainings", Toast.LENGTH_SHORT).show()
+                    val frag = FavouritesTrainings.newInstance()
+                    replaceFragment(frag, FavouritesTrainings.TAG)
+                    true
+                }
+                else -> {
+                    Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
+                    false
+                }
 
-            } }
+            } }*/
 
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
