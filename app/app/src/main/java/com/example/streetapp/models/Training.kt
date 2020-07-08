@@ -2,6 +2,7 @@ package com.example.streetapp.models
 
 import java.io.Serializable
 import java.sql.Time
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 

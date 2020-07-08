@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.MainActivity
 import com.example.streetapp.R
+import com.example.streetapp.TemporaryDatabase
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
@@ -47,24 +48,11 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
         val view = inflater.inflate(R.layout.user_trainings_fragment, container, false)
 
 
-        val trainingList = ArrayList<Training>()
-        for(i in 0..50) {
-            var random = (0..255).random().toString()
-            var day = (1..30).random()
-            var month = (1..12).random()
-            var year = Random.nextInt(2010, 2020)
-            var time = nextInt(10, 200)
-            trainingList.add(Training("name $i", "Handstand", time, "random $random",
-                Date(year -1900, month, day), arrayListOf(Link("some link $random", "url.com")),
-                arrayListOf(Exercise("exervise name", Time(12), 12, "some descritpion",
-                    arrayListOf(Link("some link exercise", "urlexercise.com"))),
-                    Exercise("exervise name 20000000", Time(12), 12, "some descritpion",
-                        arrayListOf(Link("some link exercise", "urlexercise.com"))))))
-        }
+
         val spanCount = activity?.windowManager?.defaultDisplay?.width
         Log.i("UserTrainings", "spanCount = $spanCount")
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        val recyclerViewAdapter = UserTrainingsAdapter(this.requireActivity(), trainingList, this)
+        val recyclerViewAdapter = UserTrainingsAdapter(this.requireActivity(), TemporaryDatabase.getAll(), this)
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 2)
         recyclerView.adapter = recyclerViewAdapter
 
