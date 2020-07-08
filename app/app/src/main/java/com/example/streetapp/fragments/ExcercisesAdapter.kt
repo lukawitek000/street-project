@@ -2,6 +2,7 @@ package com.example.streetapp.fragments
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.R
@@ -32,7 +33,7 @@ class ExcercisesAdapter(private val exercises: ArrayList<Exercise>) : RecyclerVi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExercisesHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ExercisesItemBinding.inflate(inflater)
+        val binding = DataBindingUtil.inflate<ExercisesItemBinding>(inflater, R.layout.exercises_item, parent, false)
         return ExercisesHolder(binding)
     }
 

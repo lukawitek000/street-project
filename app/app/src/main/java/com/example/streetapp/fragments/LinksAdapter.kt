@@ -2,7 +2,9 @@ package com.example.streetapp.fragments
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.streetapp.R
 import com.example.streetapp.databinding.LinksItemBinding
 import com.example.streetapp.models.Link
 
@@ -22,7 +24,7 @@ class LinksAdapter(val links: ArrayList<Link>) : RecyclerView.Adapter<LinksAdapt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LinksHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = LinksItemBinding.inflate(inflater)
+        val binding = DataBindingUtil.inflate<LinksItemBinding>(inflater, R.layout.links_item, parent, false)
         return LinksHolder(binding)
     }
 

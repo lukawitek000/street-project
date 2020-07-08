@@ -10,6 +10,6 @@ data class Training(var name: String,
                     var timeInMinutes: Int,
                     var description: String,
                     var creatingDate: Date,
-                    var links: ArrayList<Link>
-                    //var exercises: Array<Exercise>
+                    var links: ArrayList<Link>,
+                    var exercises: ArrayList<Exercise>
                     ) : Serializable

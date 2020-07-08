@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.DataBinderMapperImpl
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.streetapp.R
 import com.example.streetapp.databinding.FragmentTrainingDetailsBinding
 import com.example.streetapp.models.Training
@@ -47,7 +50,7 @@ class TrainingDetails : Fragment() {
         val training : Training = arguments?.get("training") as Training
 
         viewModelFactory = TrainingDetailsViewModelFactory(training)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(TrainingDetailsViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(TrainingDetailsViewModel::class.java)
 
 
 
@@ -58,13 +61,18 @@ class TrainingDetails : Fragment() {
         binding.description.text = viewModel.training.description
         binding.durationTime.text = viewModel.training.timeInMinutes.toString()
 
-        val stringBuilder = StringBuilder()
+        val recyclerViewLinks = binding.trainingLinks
+        val recyclerViewLinksAdapter = LinksAdapter(viewModel.training.links)
+        recyclerViewLinks.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerViewLinks.adapter = recyclerViewLinksAdapter
 
-        for(str in viewModel.training.links){
-            stringBuilder.append(str).append("\n")
-        }
 
-        binding.links.text = stringBuilder.toString()
+
+        val recyclerView = binding.exerciseLinksRecyclerView
+        val recyclerViewAdapter = ExcercisesAdapter(viewModel.training.exercises)
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerView.adapter = recyclerViewAdapter
+
 
         return binding.root
     }
