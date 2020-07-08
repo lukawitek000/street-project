@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.databinding.LinksItemBinding
+import com.example.streetapp.models.Link
 
-class LinksAdapter(val links: ArrayList<String>) : RecyclerView.Adapter<LinksAdapter.LinksHolder>() {
+class LinksAdapter(val links: ArrayList<Link>) : RecyclerView.Adapter<LinksAdapter.LinksHolder>() {
 
 
 
@@ -13,8 +14,9 @@ class LinksAdapter(val links: ArrayList<String>) : RecyclerView.Adapter<LinksAda
 
 
     inner class LinksHolder(val binding: LinksItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(link: String) {
-            binding.linkTitle.text = link
+        fun bind(link: Link) {
+            binding.linkTitle.text = link.title
+            binding.urlAddress.text = link.url
         }
     }
 
@@ -33,7 +35,7 @@ class LinksAdapter(val links: ArrayList<String>) : RecyclerView.Adapter<LinksAda
         holder.bind(link)
     }
 
-    fun addLink(link: String){
+    fun addLink(link: Link){
         links.add(link)
     }
 

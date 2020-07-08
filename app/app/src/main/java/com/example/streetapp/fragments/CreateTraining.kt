@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.R
 import com.example.streetapp.models.Exercise
+import com.example.streetapp.models.Link
 import java.sql.Time
 
 class CreateTraining : Fragment(){
@@ -33,13 +34,15 @@ class CreateTraining : Fragment(){
 
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.links_recycler_view)
-        val recyclerViewAdapter = LinksAdapter(arrayListOf("First link", "Second Link", "Third link"))
+        val recyclerViewAdapter = LinksAdapter(arrayListOf(Link("First link", "urlFirst.com"), Link("Second Link", "urlSecond.com"), Link("Third link", "urlThird.com")))
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = recyclerViewAdapter
 
 
         val exercisesRecyclerView = view.findViewById<RecyclerView>(R.id.exercises_recycler_view)
-        val exercisesRecyclerViewAdapter = ExcercisesAdapter(arrayListOf(Exercise("name", Time(123), 4, "some description", arrayListOf("link1", "link2"))))
+        val exercisesRecyclerViewAdapter = ExcercisesAdapter(arrayListOf(Exercise("name",
+            Time(123), 4, "some description",
+            arrayListOf(Link("link1", "url.com"), Link("link2", "url2.com")))))
         exercisesRecyclerView.layoutManager = LinearLayoutManager(activity)
         exercisesRecyclerView.adapter = exercisesRecyclerViewAdapter
 

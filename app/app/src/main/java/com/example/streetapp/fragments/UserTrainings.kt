@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.MainActivity
 import com.example.streetapp.R
+import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
 import java.time.Duration
 import java.time.LocalDateTime
@@ -52,7 +53,7 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
             var year = Random.nextInt(2010, 2020)
             var time = nextInt(10, 200)
             trainingList.add(Training("name $i", "Handstand", time, "random $random",
-                Date(year -1900, month, day), arrayOf("some link $random", "next likt to some yt films $random", "or some wbsite $random")))
+                Date(year -1900, month, day), arrayListOf(Link("some link $random", "url.com"))))
         }
         val spanCount = activity?.windowManager?.defaultDisplay?.width
         Log.i("UserTrainings", "spanCount = $spanCount")
