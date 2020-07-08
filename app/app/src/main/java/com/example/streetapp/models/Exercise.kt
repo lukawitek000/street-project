@@ -6,4 +6,4 @@ data class Exercise(var name: String,
                     var time: Time,
                     var numberOfRepetitions: Int,
                     var descritption: String,
-                    var links: Array<String>)
+                    var links: ArrayList<String>)

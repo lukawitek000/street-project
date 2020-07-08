@@ -3,14 +3,13 @@ package com.example.streetapp.fragments
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.R
+import com.example.streetapp.models.Exercise
+import java.sql.Time
 
 class CreateTraining : Fragment(){
 
@@ -26,10 +25,25 @@ class CreateTraining : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
 
+        val view = inflater.inflate(R.layout.create_training_fragment, container, false)
+
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         //(activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        return inflater.inflate(R.layout.create_training_fragment, container, false)
+
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.links_recycler_view)
+        val recyclerViewAdapter = LinksAdapter(arrayListOf("First link", "Second Link", "Third link"))
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = recyclerViewAdapter
+
+
+        val exercisesRecyclerView = view.findViewById<RecyclerView>(R.id.exercises_recycler_view)
+        val exercisesRecyclerViewAdapter = ExcercisesAdapter(arrayListOf(Exercise("name", Time(123), 4, "some description", arrayListOf("link1", "link2"))))
+        exercisesRecyclerView.layoutManager = LinearLayoutManager(activity)
+        exercisesRecyclerView.adapter = exercisesRecyclerViewAdapter
+
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
