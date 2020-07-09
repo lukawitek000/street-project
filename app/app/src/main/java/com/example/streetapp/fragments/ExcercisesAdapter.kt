@@ -1,6 +1,7 @@
 package com.example.streetapp.fragments
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,12 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.R
 import com.example.streetapp.databinding.ExercisesItemBinding
 import com.example.streetapp.models.Exercise
+import com.example.streetapp.models.Link
 import kotlinx.android.synthetic.main.exercises_item.view.*
 
 class ExcercisesAdapter(private val exercises: ArrayList<Exercise>) : RecyclerView.Adapter<ExcercisesAdapter.ExercisesHolder>() {
 
 
     private val viewPool = RecyclerView.RecycledViewPool()
+
+
+
 
     inner class ExercisesHolder(val binding : ExercisesItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val recyclerView = binding.root.findViewById<RecyclerView>(R.id.exercise_links)
@@ -48,7 +53,7 @@ class ExcercisesAdapter(private val exercises: ArrayList<Exercise>) : RecyclerVi
         val linksLayoutManager = LinearLayoutManager(holder.recyclerView.context)
         holder.recyclerView.layoutManager = linksLayoutManager
         holder.recyclerView.adapter = LinksAdapter(exercise.links)
-        holder.recyclerView.setRecycledViewPool(viewPool)
+        //holder.recyclerView.setRecycledViewPool(viewPool)
 
 
     }

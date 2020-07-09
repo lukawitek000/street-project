@@ -9,6 +9,8 @@ class CreateTrainingViewModel : ViewModel() {
 
     val exercisesCreating: ArrayList<Exercise> = ArrayList()
 
+    val exerciseCreatingLinks: ArrayList<Link> = ArrayList()
+
     fun addLink(link: Link) {
         trainingLinksCreating.add(link)
     }
@@ -17,6 +19,15 @@ class CreateTrainingViewModel : ViewModel() {
     fun addExercise(exercise: Exercise) {
         exercisesCreating.add(exercise)
     }
+
+    fun addExerciseLink(link: Link) {
+        exerciseCreatingLinks.add(link)
+    }
+
+    fun clearExerciseLinks() {
+        exerciseCreatingLinks.clear()
+    }
+
 
 
 

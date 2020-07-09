@@ -32,7 +32,11 @@
         android:id="@+id/createTraining2"
         android:name="com.example.streetapp.fragments.CreateTraining"
         android:label="create_training_fragment"
-        tools:layout="@layout/create_training_fragment" />
+        tools:layout="@layout/create_training_fragment" >
+        <action
+            android:id="@+id/action_createTraining2_to_user_trainings"
+            app:destination="@id/user_trainings" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.streetapp.fragments.SettingsFragment"
