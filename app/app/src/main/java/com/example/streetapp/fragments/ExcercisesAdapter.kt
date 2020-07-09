@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.exercises_item.view.*
 class ExcercisesAdapter(private val exercises: ArrayList<Exercise>) : RecyclerView.Adapter<ExcercisesAdapter.ExercisesHolder>() {
 
 
-    private val viewPool = RecyclerView.RecycledViewPool()
+    // private val viewPool = RecyclerView.RecycledViewPool()
 
 
 
@@ -53,7 +53,7 @@ class ExcercisesAdapter(private val exercises: ArrayList<Exercise>) : RecyclerVi
         val linksLayoutManager = LinearLayoutManager(holder.recyclerView.context)
         holder.recyclerView.layoutManager = linksLayoutManager
         holder.recyclerView.adapter = LinksAdapter(exercise.links)
-        //holder.recyclerView.setRecycledViewPool(viewPool)
+        // holder.recyclerView.setRecycledViewPool(viewPool)
 
 
     }

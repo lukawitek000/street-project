@@ -20,6 +20,7 @@ import com.example.streetapp.R
 import com.example.streetapp.databinding.FragmentTrainingDetailsBinding
 import com.example.streetapp.models.Training
 import java.lang.StringBuilder
+import java.text.SimpleDateFormat
 
 
 /**
@@ -56,7 +57,21 @@ class TrainingDetails : Fragment() {
 
         Toast.makeText(context, "training ${training.name}", Toast.LENGTH_SHORT).show()
         binding.name.text = viewModel.training.name
-        binding.date.text = viewModel.training.creatingDate.toString()
+        //binding.date.text = viewModel.training.creatingDate.toString()
+
+
+
+
+        val pattern = "yyyy/MM/dd"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        val date: String = simpleDateFormat.format(viewModel.training.creatingDate)
+        binding.date.text = date
+
+
+
+
+
+
         binding.type.text = viewModel.training.type
         binding.description.text = viewModel.training.description
         binding.durationTime.text = viewModel.training.timeInMinutes.toString()
