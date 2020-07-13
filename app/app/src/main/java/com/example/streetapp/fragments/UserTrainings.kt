@@ -2,13 +2,12 @@ package com.example.streetapp.fragments
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.*
 
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -41,8 +40,7 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
 
     private lateinit var viewModel: UserTrainingsViewModel
 
-
-
+    private lateinit var recyclerViewAdapter: UserTrainingsAdapter
 
 
     override fun onCreateView(
@@ -54,11 +52,12 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
         viewModel = ViewModelProvider(this).get(UserTrainingsViewModel::class.java)
 
         viewModel.trainings = TemporaryDatabase.getAll()
+        viewModel.allTrainings = TemporaryDatabase.getAll()
 
         val spanCount = activity?.windowManager?.defaultDisplay?.width
         Log.i("UserTrainings", "spanCount = $spanCount")
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        val recyclerViewAdapter = UserTrainingsAdapter(this.requireActivity(), viewModel.trainings, this)
+        recyclerViewAdapter = UserTrainingsAdapter(this.requireActivity(), viewModel.trainings, this)
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 2)
         recyclerView.adapter = recyclerViewAdapter
 
@@ -82,24 +81,46 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 Toast.makeText(context, "what was clicked ${dropdownItems[p2]} ", Toast.LENGTH_SHORT).show()
 
+                sortTrainings(p2)
 
-                if ( p2 == 0) {
-                    viewModel.trainings.sortWith(compareByDescending{it.creatingDate})
-                    recyclerViewAdapter.notifyDataSetChanged()
-//                    viewModel.trainings = sortedList as ArrayList<Training>
-                } else {
-                    viewModel.trainings.sortWith(compareBy {it.name})
-                    recyclerViewAdapter.notifyDataSetChanged()
-                 //   viewModel.trainings = sortedList as ArrayList<Training>
-                }
+
 
 
             }
 
         }
-       // val sortedList = viewModel.trainings.sortedWith(compareBy {it.creatingDate})
-        //viewModel.trainings = listOf(sortedList) as ArrayList<Training>
-        //listOf(sortedList)
+
+        val searchEditText = view.findViewById<EditText>(R.id.filterTextInput)
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                Log.i(TAG, "After text changed $p0")
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                Log.i(TAG, "Before text vhanged $p0")
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int){
+                Log.i(TAG , "ontextChanged $p0")
+                val filterList = viewModel.allTrainings.filter {
+                    if (it.name.contains(p0!!, true) || it.type.contains(p0!!, true)
+                        || it.description.contains(p0!!, true)){
+                        return@filter true
+                    }
+                    false
+                }
+
+                viewModel.trainings = ArrayList(filterList)
+                recyclerViewAdapter.trainings = viewModel.trainings
+                sortTrainings(spinner.selectedItemPosition)
+                recyclerViewAdapter.notifyDataSetChanged()
+
+                Log.i(TAG, "filter list $filterList view model trainings ${viewModel.trainings}, all trainings ${viewModel.allTrainings}")
+            }
+
+        })
 
 
         setHasOptionsMenu(true)
@@ -111,6 +132,27 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
         viewModel = ViewModelProvider(this).get(UserTrainingsViewModel::class.java)
         // TODO: Use the ViewModel
     }
+
+
+    private fun sortTrainings(position: Int) {
+        if ( position == 0) {
+            sortByLatest()
+        } else {
+            sortByName()
+        }
+    }
+
+    private fun sortByName() {
+        viewModel.trainings.sortWith(compareBy {it.name})
+        recyclerViewAdapter.notifyDataSetChanged()
+    }
+
+    private fun sortByLatest() {
+        viewModel.trainings.sortWith(compareByDescending{it.creatingDate})
+        recyclerViewAdapter.notifyDataSetChanged()
+    }
+
+
 
     override fun onClick(training: Training) {
         Toast.makeText(activity, "click on ${training.name}", Toast.LENGTH_SHORT).show()

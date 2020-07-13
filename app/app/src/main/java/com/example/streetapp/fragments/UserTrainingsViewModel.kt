@@ -5,4 +5,5 @@ import com.example.streetapp.models.Training
 
 class UserTrainingsViewModel : ViewModel() {
     var trainings = ArrayList<Training>()
+    var allTrainings = ArrayList<Training>()
 }
