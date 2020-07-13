@@ -4,9 +4,13 @@ import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +27,7 @@ import java.time.LocalDateTime
 import java.time.Month
 import java.time.temporal.TemporalAdjusters.next
 import java.util.*
+import java.util.EnumSet.of
 import kotlin.collections.ArrayList
 import kotlin.random.Random
 import kotlin.random.Random.Default.nextInt
@@ -46,13 +51,14 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
     ): View? {
 
         val view = inflater.inflate(R.layout.user_trainings_fragment, container, false)
+        viewModel = ViewModelProvider(this).get(UserTrainingsViewModel::class.java)
 
-
+        viewModel.trainings = TemporaryDatabase.getAll()
 
         val spanCount = activity?.windowManager?.defaultDisplay?.width
         Log.i("UserTrainings", "spanCount = $spanCount")
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        val recyclerViewAdapter = UserTrainingsAdapter(this.requireActivity(), TemporaryDatabase.getAll(), this)
+        val recyclerViewAdapter = UserTrainingsAdapter(this.requireActivity(), viewModel.trainings, this)
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 2)
         recyclerView.adapter = recyclerViewAdapter
 
@@ -64,13 +70,45 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
             navController.navigate(R.id.action_user_trainings_to_createTraining2)
         }
 
+        val spinner: Spinner = view.findViewById(R.id.sortBySpinner)
+        val dropdownItems = arrayOf("Latest", "Alphabetically")
+        spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, dropdownItems)
+        spinner.setSelection(0)
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                Toast.makeText(context, "what was clicked ${dropdownItems[p2]} ", Toast.LENGTH_SHORT).show()
+
+
+                if ( p2 == 0) {
+                    viewModel.trainings.sortWith(compareByDescending{it.creatingDate})
+                    recyclerViewAdapter.notifyDataSetChanged()
+//                    viewModel.trainings = sortedList as ArrayList<Training>
+                } else {
+                    viewModel.trainings.sortWith(compareBy {it.name})
+                    recyclerViewAdapter.notifyDataSetChanged()
+                 //   viewModel.trainings = sortedList as ArrayList<Training>
+                }
+
+
+            }
+
+        }
+       // val sortedList = viewModel.trainings.sortedWith(compareBy {it.creatingDate})
+        //viewModel.trainings = listOf(sortedList) as ArrayList<Training>
+        //listOf(sortedList)
+
+
         setHasOptionsMenu(true)
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(UserTrainingsViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(UserTrainingsViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
