@@ -1,5 +1,6 @@
 package com.example.streetapp.fragments
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ class LinksAdapter(val links: ArrayList<Link>, val onClearClickListener: OnClear
 
     interface OnClearClickListener {
         fun onClick(link: Link)
+        fun onClickLink(link: Link)
     }
 
 
@@ -26,6 +28,11 @@ class LinksAdapter(val links: ArrayList<Link>, val onClearClickListener: OnClear
 
             binding.clearImageView.setOnClickListener {
                 onClearClickListener.onClick(link)
+            }
+
+            binding.root.setOnClickListener {
+                Log.i("LinksAdapter", "on click link listener")
+                onClearClickListener.onClickLink(link)
             }
         }
 

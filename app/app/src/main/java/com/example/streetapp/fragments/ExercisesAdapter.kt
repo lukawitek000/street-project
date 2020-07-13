@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.streetapp.MainActivity
 import com.example.streetapp.R
 import com.example.streetapp.databinding.ExercisesItemBinding
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
 
 class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
-                       private val onClearExerciseLinkListener: ExercisesAdapter.OnClearExerciseLinkListener)
+                       private val onClearExerciseLinkListener: ExercisesAdapter.OnClearExerciseLinkListener,
+                        private val activity: MainActivity)
     : RecyclerView.Adapter<ExercisesAdapter.ExercisesHolder>(), LinksAdapter.OnClearClickListener{
 
 
@@ -96,5 +98,9 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
         // this.holder.adapterPosition
         // holder.recyclerView.adapter?.notifyDataSetChanged()
 
+    }
+
+    override fun onClickLink(link: Link) {
+        activity.openExternalLink(link)
     }
 }

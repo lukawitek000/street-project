@@ -1,6 +1,8 @@
 package com.example.streetapp
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -22,6 +24,7 @@ import com.example.streetapp.fragments.FavouritesTrainings
 import com.example.streetapp.fragments.GlobalTrainings
 import com.example.streetapp.fragments.SettingsFragment
 import com.example.streetapp.fragments.UserTrainings
+import com.example.streetapp.models.Link
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -142,4 +145,18 @@ class MainActivity : AppCompatActivity() {
         }
 
     }*/
+
+    fun openExternalLink(link: Link) {
+       // Toast.makeText(activity, "Link clicked", Toast.LENGTH_SHORT).show()
+        val intent: Intent = Intent(Intent.ACTION_VIEW)
+
+        var uriAddress = link.url
+        if (!uriAddress.startsWith("http://") && !uriAddress.startsWith("https://")){
+            uriAddress = "http://$uriAddress"
+        }
+        intent.data = Uri.parse(uriAddress)
+        //intent.`package` = "com.google.android.d"
+        startActivity(intent)
+    }
+
 }

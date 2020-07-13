@@ -1,5 +1,7 @@
 package com.example.streetapp.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.streetapp.MainActivity
 import com.example.streetapp.R
 import com.example.streetapp.TemporaryDatabase
 import com.example.streetapp.databinding.FragmentTrainingDetailsBinding
@@ -85,7 +88,7 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
 
 
         val recyclerView = binding.exerciseLinksRecyclerView
-        recyclerViewAdapter = ExercisesAdapter(viewModel.training.exercises, this)
+        recyclerViewAdapter = ExercisesAdapter(viewModel.training.exercises, this, activity as MainActivity)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = recyclerViewAdapter
 
@@ -123,6 +126,22 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
             viewModel.training.exercises
         }
         recyclerViewLinksAdapter.notifyDataSetChanged()
+    }
+
+    override fun onClickLink(link: Link) {
+        /*Toast.makeText(activity, "Link clicked", Toast.LENGTH_SHORT).show()
+        val intent: Intent = Intent(Intent.ACTION_VIEW)
+
+        var uriAddress = link.url
+        if (!uriAddress.startsWith("http://") && !uriAddress.startsWith("https://")){
+            uriAddress = "http://$uriAddress"
+        }
+        intent.data = Uri.parse(uriAddress)
+        //intent.`package` = "com.google.android.d"
+        startActivity(intent)*/
+        (activity as MainActivity).openExternalLink(link)
+
+
     }
 
     override fun onClickExerciseLinkDelete(exercise: Exercise, link: Link) {

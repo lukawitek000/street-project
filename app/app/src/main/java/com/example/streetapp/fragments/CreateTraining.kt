@@ -74,7 +74,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
 
         val exercisesRecyclerView : RecyclerView = binding.exercisesRecyclerView
-        exercisesRecyclerViewAdapter = ExercisesAdapter(viewModel.exercisesCreating, this)
+        exercisesRecyclerViewAdapter = ExercisesAdapter(viewModel.exercisesCreating, this, activity as MainActivity)
         exercisesRecyclerView.layoutManager = LinearLayoutManager(activity)
         exercisesRecyclerView.adapter = exercisesRecyclerViewAdapter
 
@@ -236,6 +236,10 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
             return
         }
         linksRecyclerViewAdapter.notifyDataSetChanged()
+    }
+
+    override fun onClickLink(link: Link) {
+        (activity as MainActivity).openExternalLink(link)
     }
 
     override fun onClickExerciseLinkDelete(exercise: Exercise, link: Link) {
