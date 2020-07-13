@@ -13,4 +13,6 @@ data class Training(var name: String,
                     var creatingDate: Date,
                     var links: ArrayList<Link>,
                     var exercises: ArrayList<Exercise>
-                    ) : Serializable
+                    ) : Serializable {
+ constructor() : this("", "", 0, "", Date(), ArrayList<Link>(), ArrayList<Exercise>())
+}

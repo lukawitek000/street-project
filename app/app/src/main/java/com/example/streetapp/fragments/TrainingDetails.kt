@@ -101,7 +101,7 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
 
 
         binding.editTrainingButton.setOnClickListener {
-            findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToCreateTraining2(viewModel.training))
+            findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToCreateTraining2())
         }
 
 

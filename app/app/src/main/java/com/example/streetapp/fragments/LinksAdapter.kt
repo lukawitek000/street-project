@@ -10,7 +10,7 @@ import com.example.streetapp.R
 import com.example.streetapp.databinding.LinksItemBinding
 import com.example.streetapp.models.Link
 
-class LinksAdapter(val links: ArrayList<Link>, val onClearClickListener: OnClearClickListener) : RecyclerView.Adapter<LinksAdapter.LinksHolder>() {
+class LinksAdapter(var links: ArrayList<Link>?, val onClearClickListener: OnClearClickListener) : RecyclerView.Adapter<LinksAdapter.LinksHolder>() {
 
 
     interface OnClearClickListener {
@@ -46,16 +46,18 @@ class LinksAdapter(val links: ArrayList<Link>, val onClearClickListener: OnClear
     }
 
     override fun getItemCount(): Int {
-        return links.size
+        return links?.size ?: 0
     }
 
     override fun onBindViewHolder(holder: LinksHolder, position: Int) {
-        val link = links[position]
-        holder.bind(link)
+        val link = links?.get(position)
+        if (link != null) {
+            holder.bind(link)
+        }
     }
 
     fun addLink(link: Link){
-        links.add(link)
+        links?.add(link)
     }
 
 }

@@ -12,7 +12,7 @@
         tools:layout="@layout/user_trainings_fragment" >
         <action
             android:id="@+id/action_user_trainings_to_createTraining2"
-            app:destination="@id/createTraining2"
+            app:destination="@id/create_training_graph"
             app:enterAnim="@anim/fragment_fade_enter" />
         <action
             android:id="@+id/action_user_trainings_to_settingsFragment"
@@ -29,20 +29,6 @@
         android:label="global_trainings_fragment"
         tools:layout="@layout/global_trainings_fragment" />
     <fragment
-        android:id="@+id/createTraining2"
-        android:name="com.example.streetapp.fragments.CreateTraining"
-        android:label="create_training_fragment"
-        tools:layout="@layout/create_training_fragment" >
-        <argument
-            android:name="training"
-            app:argType="com.example.streetapp.models.Training"
-            app:nullable="true"
-            android:defaultValue="@null"/>
-        <action
-            android:id="@+id/action_createTraining2_to_user_trainings"
-            app:destination="@id/user_trainings" />
-    </fragment>
-    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.streetapp.fragments.SettingsFragment"
         android:label="SettingsFragment" />
@@ -58,11 +44,40 @@
             android:defaultValue="@null" />
         <action
             android:id="@+id/action_trainingDetails_to_createTraining2"
-            app:destination="@id/createTraining2" />
+            app:destination="@id/create_training_graph" />
     </fragment>
     <fragment
         android:id="@+id/favourite_trainings"
         android:name="com.example.streetapp.fragments.FavouritesTrainings"
         android:label="favourites_trainings_fragment"
         tools:layout="@layout/favourites_trainings_fragment" />
+    <navigation android:id="@+id/create_training_graph"
+        app:startDestination="@id/createTraining2">
+        <fragment
+            android:id="@+id/createTraining2"
+            android:name="com.example.streetapp.fragments.CreateTraining"
+            android:label="create_training_fragment"
+            tools:layout="@layout/create_training_fragment">
+            <argument
+                android:name="exercise"
+                android:defaultValue="@null"
+                app:argType="com.example.streetapp.models.Exercise"
+                app:nullable="true" />
+            <action
+                android:id="@+id/action_createTraining2_to_user_trainings"
+                app:destination="@id/user_trainings" />
+            <action
+                android:id="@+id/action_createTraining2_to_createExercise"
+                app:destination="@id/createExercise" />
+        </fragment>
+        <fragment
+            android:id="@+id/createExercise"
+            android:name="com.example.streetapp.fragments.CreateExercise"
+            android:label="create_exercise_fragment"
+            tools:layout="@layout/create_exercise_fragment">
+            <action
+                android:id="@+id/action_createExercise_to_createTraining2"
+                app:destination="@id/createTraining2" />
+        </fragment>
+    </navigation>
 </navigation>
