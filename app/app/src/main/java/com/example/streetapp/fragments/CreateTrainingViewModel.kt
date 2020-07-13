@@ -5,9 +5,9 @@ import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
 
 class CreateTrainingViewModel : ViewModel() {
-    val trainingLinksCreating = ArrayList<Link>()
+    var trainingLinksCreating = ArrayList<Link>()
 
-    val exercisesCreating: ArrayList<Exercise> = ArrayList()
+    var exercisesCreating: ArrayList<Exercise> = ArrayList()
 
     val exerciseCreatingLinks: ArrayList<Link> = ArrayList()
 

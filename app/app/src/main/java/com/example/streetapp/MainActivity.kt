@@ -1,10 +1,12 @@
 package com.example.streetapp
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -101,7 +103,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+    }
+
+
     override fun onSupportNavigateUp(): Boolean {
+        hideKeyboard()
         Toast.makeText(this, "onsupport navigation", Toast.LENGTH_SHORT).show()
         return findNavController(R.id.fragment_container).navigateUp()
     }

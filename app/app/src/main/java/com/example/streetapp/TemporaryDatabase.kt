@@ -31,6 +31,11 @@ object TemporaryDatabase {
         return trainingsList
     }
 
+    fun updateTraining(training: Training, update: Training) {
+        val index = trainings.indexOf(training)
+        trainings[index] = update
+    }
+
 
 
     fun insert(training: Training){
@@ -39,6 +44,11 @@ object TemporaryDatabase {
 
     fun getAll() : ArrayList<Training>{
         return trainings
+    }
+
+
+    fun deleteTraining(training: Training) {
+        trainings.remove(training)
     }
 
 }

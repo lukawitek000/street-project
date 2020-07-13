@@ -1,25 +1,22 @@
 package com.example.streetapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.library.baseAdapters.DataBinderMapperImpl
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.streetapp.R
+import com.example.streetapp.TemporaryDatabase
 import com.example.streetapp.databinding.FragmentTrainingDetailsBinding
+import com.example.streetapp.models.Exercise
+import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
-import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 
 
@@ -28,7 +25,7 @@ import java.text.SimpleDateFormat
  * Use the [TrainingDetails.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TrainingDetails : Fragment() {
+class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, ExercisesAdapter.OnClearExerciseLinkListener {
 
 
     private lateinit var viewModel: TrainingDetailsViewModel
@@ -36,6 +33,9 @@ class TrainingDetails : Fragment() {
     private lateinit var binding: FragmentTrainingDetailsBinding
 
 
+
+    private lateinit var recyclerViewLinksAdapter : LinksAdapter
+    private lateinit var recyclerViewAdapter: ExercisesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +47,7 @@ class TrainingDetails : Fragment() {
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         //(activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+
 
         val training : Training = arguments?.get("training") as Training
 
@@ -77,16 +78,29 @@ class TrainingDetails : Fragment() {
         binding.durationTime.text = viewModel.training.timeInMinutes.toString()
 
         val recyclerViewLinks = binding.trainingLinks
-        val recyclerViewLinksAdapter = LinksAdapter(viewModel.training.links)
+        recyclerViewLinksAdapter = LinksAdapter(viewModel.training.links, this)
         recyclerViewLinks.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerViewLinks.adapter = recyclerViewLinksAdapter
 
 
 
         val recyclerView = binding.exerciseLinksRecyclerView
-        val recyclerViewAdapter = ExcercisesAdapter(viewModel.training.exercises)
+        recyclerViewAdapter = ExercisesAdapter(viewModel.training.exercises, this)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = recyclerViewAdapter
+
+
+        binding.deleteTrainingButton.setOnClickListener{
+            TemporaryDatabase.deleteTraining(viewModel.training)
+            Toast.makeText(activity, "Training deleted", Toast.LENGTH_SHORT).show()
+            findNavController().navigateUp()
+        }
+
+
+        binding.editTrainingButton.setOnClickListener {
+            findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToCreateTraining2(viewModel.training))
+        }
+
 
 
         return binding.root
@@ -101,5 +115,26 @@ class TrainingDetails : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
+    override fun onClick(link: Link) {
+        val success = viewModel.training.links.remove(link)
+        if (!success) {
+            viewModel.training.exercises
+        }
+        recyclerViewLinksAdapter.notifyDataSetChanged()
+    }
+
+    override fun onClickExerciseLinkDelete(exercise: Exercise, link: Link) {
+        val index = viewModel.training.exercises.indexOf(exercise)
+
+        viewModel.training.exercises[index].links.remove(link)
+        recyclerViewAdapter.notifyDataSetChanged()
+
+    }
+
+    override fun onClickDeleteExercise(exercise: Exercise) {
+        viewModel.training.exercises.remove(exercise)
+        recyclerViewAdapter.notifyDataSetChanged()
     }
 }

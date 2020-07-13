@@ -1,6 +1,7 @@
 package com.example.streetapp.fragments
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -8,9 +9,12 @@ import com.example.streetapp.R
 import com.example.streetapp.databinding.LinksItemBinding
 import com.example.streetapp.models.Link
 
-class LinksAdapter(val links: ArrayList<Link>) : RecyclerView.Adapter<LinksAdapter.LinksHolder>() {
+class LinksAdapter(val links: ArrayList<Link>, val onClearClickListener: OnClearClickListener) : RecyclerView.Adapter<LinksAdapter.LinksHolder>() {
 
 
+    interface OnClearClickListener {
+        fun onClick(link: Link)
+    }
 
 
 
@@ -19,7 +23,13 @@ class LinksAdapter(val links: ArrayList<Link>) : RecyclerView.Adapter<LinksAdapt
         fun bind(link: Link) {
             binding.linkTitle.text = link.title
             binding.urlAddress.text = link.url
+
+            binding.clearImageView.setOnClickListener {
+                onClearClickListener.onClick(link)
+            }
         }
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LinksHolder {
