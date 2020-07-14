@@ -9,7 +9,7 @@ import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
 
-@Database(entities = [Training::class, Exercise::class, Link::class], version = 1)
+@Database(entities = [Training::class, Exercise::class, Link::class], version = 8)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun trainingDao(): TrainingDao
@@ -26,7 +26,9 @@ abstract class AppDatabase : RoomDatabase() {
             }
             synchronized(LOCK){
                 val instance = Room.databaseBuilder(context.applicationContext,
-                AppDatabase::class.java, "street_workout_database").build()
+                AppDatabase::class.java, "street_workout_database")
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 return instance
             }

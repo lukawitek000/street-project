@@ -75,14 +75,14 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
 
         val linksLayoutManager = LinearLayoutManager(holder.exerciseLinksRecyclerView.context)
         holder.exerciseLinksRecyclerView.layoutManager = linksLayoutManager
-        holder.exerciseLinksRecyclerView.adapter = LinksAdapter(currentExercise.links, this)
+        //holder.exerciseLinksRecyclerView.adapter = LinksAdapter(currentExercise.links, this)
 
     }
 
     override fun onDeleteLinkClick(link: Link) {
         Log.i("ExercisesAdapter", "onclick $link current Exercise")
 
-        val e = exercises.filter {
+       /* val e = exercises.filter {
             ex -> for (clink in ex.links) {
                 if(clink == link) {
                     return@filter true
@@ -93,7 +93,7 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
 
         val index = exercises.indexOf(e[0])
 
-        onClickExerciseListener.onClickExerciseLinkDelete(exercises[index], link)
+        onClickExerciseListener.onClickExerciseLinkDelete(exercises[index], link)*/
     }
 
     override fun onClickLink(link: Link) {

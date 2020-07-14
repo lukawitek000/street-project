@@ -100,8 +100,8 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
             trainingDescriptionInput.text = training?.description?.toEditable()
             trainingTimeInput.text = training?.timeInMinutes?.toString()?.toEditable()
             trainingTypeInput.text = training?.type?.toEditable()
-            viewModel.exercisesCreating = training?.exercises!!
-            viewModel.trainingLinksCreating = training.links
+            //viewModel.exercisesCreating = training?.exercises!!
+           // viewModel.trainingLinksCreating = training.links
             //exercisesRecyclerViewAdapter.notifyDataSetChanged()
         }
     }
@@ -154,8 +154,10 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         val trainingLinks: ArrayList<Link> = viewModel.trainingLinksCreating
         val exercises: ArrayList<Exercise> = viewModel.exercisesCreating
 
-        val newTraining = Training(trainingName, trainingType, trainingTime, trainingDescription,
-            Date(1900, 12, 12), trainingLinks, exercises)
+      //  val newTraining = Training(trainingName, trainingType, trainingTime, trainingDescription,
+       //     Date(1900, 12, 12), trainingLinks, exercises)
+
+        val newTraining = Training()
 
         Log.i(TAG, "inputs: $newTraining")
         return newTraining
@@ -165,7 +167,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         binding.trainingLinkAddButton.setOnClickListener {
             val trainingLinkTitle = binding.linkTitleInput.text.toString()
             val trainingLinkUrl = binding.linkUrlInput.text.toString()
-            val newLink = Link(trainingLinkTitle, trainingLinkUrl)
+            val newLink = Link(1, 1, 1, trainingLinkTitle, trainingLinkUrl)
             Log.i(TAG, "newLink = $newLink")
             viewModel.addLink(newLink)
             linksRecyclerViewAdapter.notifyDataSetChanged()
@@ -230,7 +232,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
         Log.i(TAG, "onClickExerciseLinkDelete")
         val index = viewModel.exercisesCreating.indexOf(exercise)
-        viewModel.exercisesCreating[index].links.remove(link)
+        //viewModel.exercisesCreating[index].links.remove(link)
         exercisesRecyclerViewAdapter.notifyDataSetChanged()
 
     }

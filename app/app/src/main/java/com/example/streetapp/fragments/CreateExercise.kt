@@ -74,8 +74,8 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
             binding.exerciseRepetitionInput.text = viewModel.exercise!!.numberOfRepetitions.toString().toEditable()
             binding.exerciseTimeInput.text = viewModel.exercise!!.time.toString().toEditable()
 
-            exerciseLinksRecyclerViewAdapter.links = viewModel.exercise!!.links
-            viewModel.populateExerciseLinks(viewModel.exercise!!.links)
+            // exerciseLinksRecyclerViewAdapter.links = viewModel.exercise!!.links
+            // viewModel.populateExerciseLinks(viewModel.exercise!!.links)
 
             binding.exerciseAddButton.text = "Update"
         } else {
@@ -89,7 +89,7 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
             Log.i(TAG, "add new link to exercise")
             val linkTitle = binding.exerciseLinkTitleInput.text.toString()
             val linkUrl = binding.exerciseLinkUrlInput.text.toString()
-            val newLink = Link(linkTitle, linkUrl)
+            val newLink = Link(1, 1, 1, linkTitle, linkUrl)
             viewModel.addExerciseLink(newLink)
             binding.exerciseLinkTitleInput.text?.clear()
             binding.exerciseLinkUrlInput.text?.clear()
@@ -129,11 +129,12 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
         }
         val exerciseDescription = binding.exerciseDescriptionInput.text.toString()
         val exerciseLinks = viewModel.exerciseLinks.value
-        val newExercise = exerciseLinks?.let { it1 ->
-            Exercise(exerciseName, exerciseTime, exerciseRepetitions, exerciseDescription,
-                it1
-            )
-        }
+        //val newExercise = exerciseLinks?.let { it1 ->
+        //    Exercise(exerciseName, exerciseTime, exerciseRepetitions, exerciseDescription,
+        //        it1
+        //    )
+       // }
+        val newExercise = Exercise()
         Log.i(TAG, "print new exercise $newExercise")
         return newExercise!!
     }

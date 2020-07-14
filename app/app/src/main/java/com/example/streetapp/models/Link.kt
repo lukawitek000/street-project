@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Link(
-    @PrimaryKey(autoGenerate = true) val linkId: Long,
+    @PrimaryKey(autoGenerate = true) var linkId: Long = 0L,
+    var linksTrainingOwnerId: Long = 0L,
+    var linksExerciseOwnerId: Long = 0L,
     val title: String,
     val url: String)
