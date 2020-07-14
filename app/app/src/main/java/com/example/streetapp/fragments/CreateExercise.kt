@@ -2,6 +2,7 @@ package com.example.streetapp.fragments
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -32,7 +33,6 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
         val TAG = CreateExercise::class.java.simpleName
     }
 
-    //private lateinit var viewModel: CreateTrainingViewModel
     private val viewModel by navGraphViewModels<CreateTrainingViewModel>(R.id.create_training_graph)
     private lateinit var binding: CreateExerciseFragmentBinding
 
@@ -45,14 +45,12 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.create_exercise_fragment, container, false)
-        //viewModel = activity?.run {
-       //     ViewModelProvider(this)[CreateTrainingViewModel::class.java]
-       // } ?: throw Exception("Invalid Activity")
 
         val exerciseLinksRecyclerView : RecyclerView = binding.exerciseLinksRecyclerView
         exerciseLinksRecyclerViewAdapter  = LinksAdapter(viewModel.exerciseLinks.value, this)
         exerciseLinksRecyclerView.adapter = exerciseLinksRecyclerViewAdapter
         exerciseLinksRecyclerView.layoutManager = LinearLayoutManager(activity)
+
 
 
 
@@ -64,51 +62,32 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
         viewModel.exerciseLinks.observe(viewLifecycleOwner, linksObserver)
 
 
+        getDataToUpdate()
+
         addNewLinkToExerciseButtonListener()
         createExerciseButtonListener()
 
         return binding.root
     }
 
-    private fun createExerciseButtonListener() {
-        binding.exerciseAddButton.setOnClickListener {
-            val newExercise = buildNewExerciseObject()
+    private fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 
-            viewModel.deleteAllExerciseLinks()
+    private fun getDataToUpdate() {
+        if (viewModel.exercise != null) {
+            binding.exerciseDescriptionInput.text = viewModel.exercise!!.descritption.toEditable()
+            binding.exerciseNameInput.text = viewModel.exercise!!.name.toEditable()
 
-            val action = CreateExerciseDirections.actionCreateExerciseToCreateTraining2(exercise = newExercise)
-            findNavController().navigate(action)
+            binding.exerciseRepetitionInput.text = viewModel.exercise!!.numberOfRepetitions.toString().toEditable()
+            binding.exerciseTimeInput.text = viewModel.exercise!!.time.toString().toEditable()
 
+            exerciseLinksRecyclerViewAdapter.links = viewModel.exercise!!.links
+            viewModel.populateExerciseLinks(viewModel.exercise!!.links)
+
+            binding.exerciseAddButton.text = "Update"
+        } else {
+            binding.exerciseAddButton.text = "Create"
         }
     }
-
-    private fun buildNewExerciseObject() : Exercise {
-        val exerciseName = binding.exerciseNameInput.text.toString()
-
-        val exerciseTime : Int = try {
-            binding.exerciseTimeInput.text.toString().toInt()
-        } catch (e: NumberFormatException) {
-            0
-        }
-        val exerciseRepetitions: Int = try {
-            binding.exerciseRepetitionInput.text.toString().toInt()
-        } catch (e: NumberFormatException) {
-            0
-        }
-        val exerciseDescription = binding.exerciseDescriptionInput.text.toString()
-
-        val exerciseLinks = viewModel.exerciseLinks.value
-
-        val newExercise = exerciseLinks?.let { it1 ->
-            Exercise(exerciseName, exerciseTime, exerciseRepetitions, exerciseDescription,
-                it1
-            )
-        }
-        Log.i(TAG, "print new exercise $newExercise")
-        return newExercise!!
-    }
-
-
 
 
     private fun addNewLinkToExerciseButtonListener() {
@@ -123,7 +102,50 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
         }
     }
 
-    override fun onClick(link: Link) {
+
+
+
+    private fun createExerciseButtonListener() {
+        binding.exerciseAddButton.setOnClickListener {
+            val newExercise = buildNewExerciseObject()
+            if (binding.exerciseAddButton.text == "Create") {
+                viewModel.addExercise(newExercise)
+            } else {
+                viewModel.updateExercise(newExercise)
+                viewModel.exercise = null
+            }
+
+
+            viewModel.deleteAllExerciseLinks()
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun buildNewExerciseObject() : Exercise {
+        val exerciseName = binding.exerciseNameInput.text.toString()
+        val exerciseTime : Int = try {
+            binding.exerciseTimeInput.text.toString().toInt()
+        } catch (e: NumberFormatException) {
+            0
+        }
+        val exerciseRepetitions: Int = try {
+            binding.exerciseRepetitionInput.text.toString().toInt()
+        } catch (e: NumberFormatException) {
+            0
+        }
+        val exerciseDescription = binding.exerciseDescriptionInput.text.toString()
+        val exerciseLinks = viewModel.exerciseLinks.value
+        val newExercise = exerciseLinks?.let { it1 ->
+            Exercise(exerciseName, exerciseTime, exerciseRepetitions, exerciseDescription,
+                it1
+            )
+        }
+        Log.i(TAG, "print new exercise $newExercise")
+        return newExercise!!
+    }
+
+
+    override fun onDeleteLinkClick(link: Link) {
         viewModel.deleteExerciseLink(link)
     }
 

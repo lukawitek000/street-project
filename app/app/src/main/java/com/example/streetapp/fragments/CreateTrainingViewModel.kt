@@ -17,13 +17,12 @@ class CreateTrainingViewModel : ViewModel() {
 
     var training = Training()
 
-   // val exerciseCreatingLinks: ArrayList<Link> = ArrayList()
 
     private val _exerciseLinks = MutableLiveData<ArrayList<Link>>()
     val exerciseLinks: LiveData<ArrayList<Link>>
         get() = _exerciseLinks
 
-    val exercise = Exercise()
+    var exercise: Exercise? = null
 
 
     init {
@@ -33,6 +32,9 @@ class CreateTrainingViewModel : ViewModel() {
 
 
 
+    fun populateExerciseLinks(links: ArrayList<Link>){
+        _exerciseLinks.value = links
+    }
 
 
     fun addExerciseLink(link: Link) {
@@ -62,12 +64,16 @@ class CreateTrainingViewModel : ViewModel() {
     }
 
 
-    fun clearExerciseLinks() {
-      //  exerciseCreatingLinks.clear()
-    }
-
     fun deleteAllExerciseLinks() {
         _exerciseLinks.value = ArrayList<Link>()
+    }
+
+    fun updateExercise(newExercise: Exercise) {
+        val index = exercisesCreating.indexOf(exercise)
+
+        exercisesCreating[index] = newExercise
+
+
     }
 
 

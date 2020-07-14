@@ -1,7 +1,5 @@
 package com.example.streetapp.fragments
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,7 +26,7 @@ import java.text.SimpleDateFormat
  * Use the [TrainingDetails.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, ExercisesAdapter.OnClearExerciseLinkListener {
+class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, ExercisesAdapter.OnClickExerciseListener {
 
 
     private lateinit var viewModel: TrainingDetailsViewModel
@@ -120,7 +118,7 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
-    override fun onClick(link: Link) {
+    override fun onDeleteLinkClick(link: Link) {
         val success = viewModel.training.links.remove(link)
         if (!success) {
             viewModel.training.exercises
@@ -155,5 +153,9 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
     override fun onClickDeleteExercise(exercise: Exercise) {
         viewModel.training.exercises.remove(exercise)
         recyclerViewAdapter.notifyDataSetChanged()
+    }
+
+    override fun onClickEditExercise(exercise: Exercise) {
+        TODO("Not yet implemented")
     }
 }

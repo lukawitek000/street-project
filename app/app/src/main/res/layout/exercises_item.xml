@@ -75,8 +75,20 @@
                 android:text="Delete"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/exercise_links"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/edit_exercise_button"
                 app:layout_constraintTop_toBottomOf="@+id/exercise_links" />
+
+            <Button
+                android:id="@+id/edit_exercise_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                app:layout_constraintBottom_toBottomOf="@+id/deleteExerciseButton"
+                app:layout_constraintEnd_toStartOf="@+id/deleteExerciseButton"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/deleteExerciseButton" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

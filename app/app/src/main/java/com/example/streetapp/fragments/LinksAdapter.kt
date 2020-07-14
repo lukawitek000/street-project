@@ -2,7 +2,6 @@ package com.example.streetapp.fragments
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +13,7 @@ class LinksAdapter(var links: ArrayList<Link>?, val onClearClickListener: OnClea
 
 
     interface OnClearClickListener {
-        fun onClick(link: Link)
+        fun onDeleteLinkClick(link: Link)
         fun onClickLink(link: Link)
     }
 
@@ -27,7 +26,7 @@ class LinksAdapter(var links: ArrayList<Link>?, val onClearClickListener: OnClea
             binding.urlAddress.text = link.url
 
             binding.clearImageView.setOnClickListener {
-                onClearClickListener.onClick(link)
+                onClearClickListener.onDeleteLinkClick(link)
             }
 
             binding.root.setOnClickListener {
@@ -54,10 +53,6 @@ class LinksAdapter(var links: ArrayList<Link>?, val onClearClickListener: OnClea
         if (link != null) {
             holder.bind(link)
         }
-    }
-
-    fun addLink(link: Link){
-        links?.add(link)
     }
 
 }

@@ -1,17 +1,13 @@
 package com.example.streetapp.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
-import android.text.Selection
 import android.util.Log
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +24,7 @@ import java.lang.NumberFormatException
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesAdapter.OnClearExerciseLinkListener{
+class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesAdapter.OnClickExerciseListener{
 
     companion object {
         fun newInstance() = CreateTraining()
@@ -42,10 +38,6 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
     private lateinit var exercisesRecyclerViewAdapter: ExercisesAdapter
 
-    private lateinit var exerciseLinksRecyclerViewAdapter: LinksAdapter
-
-    private fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
-
     private lateinit var previousTraining: Training
 
     override fun onCreateView(
@@ -56,13 +48,6 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         binding = DataBindingUtil.inflate(inflater, R.layout.create_training_fragment, container, false)
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        //(activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
-       /* viewModel = activity?.run {
-            ViewModelProvider(this)[CreateTrainingViewModel::class.java]
-        } ?: throw Exception("Invalid Activity")
-*/
-
-
 
 
         val exercisesRecyclerView : RecyclerView = binding.exercisesRecyclerView
@@ -72,9 +57,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
 
 
-        Log.i(TAG, "create training exercisese creating = ${viewModel.exercisesCreating}")
-
-        if(!arguments?.isEmpty!!) {
+        /*if(!arguments?.isEmpty!!) {
             Log.i(TAG, "arguments: $arguments")
             if(arguments?.get("training") != null) {
                 previousTraining = arguments?.get("training") as Training
@@ -83,16 +66,9 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
             } else {
                 binding.createButton.text = "Create"
             }
-            if (arguments?.get("exercise") != null) {
-                val newExercise = arguments?.get("exercise") as Exercise
-                viewModel.exercisesCreating.add(newExercise)
-                exercisesRecyclerViewAdapter.notifyDataSetChanged()
-            }
         } else {
             Log.i(TAG, "empty arguments $arguments")
-        }
-        Log.i(TAG, "arguments $arguments")
-        Log.i(TAG, "after argumentss create training exercisese creating = ${viewModel.exercisesCreating}")
+        } */
 
 
         val linksRecyclerView : RecyclerView = binding.linksRecyclerView
@@ -101,22 +77,15 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         linksRecyclerView.adapter = linksRecyclerViewAdapter
 
 
-
+        fillInputFields()
 
         createButtonListener()
         trainingLinksAddButtonListener()
         exercisesAddButtonListener()
 
-        fillInputFields()
+
 
         return binding.root
-    }
-
-    private fun fillInputFields() {
-        binding.trainingNameInput.text = viewModel.training.name.toEditable()
-        binding.trainingDescriptionInput.text = viewModel.training.description.toEditable()
-        binding.trainingTimeInput.text = viewModel.training.timeInMinutes.toString().toEditable()
-        binding.trainingTypeInput.text = viewModel.training.type.toEditable()
     }
 
     private fun setValuesFromArguments(training: Training?) {
@@ -127,73 +96,82 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
             trainingTypeInput.text = training?.type?.toEditable()
             viewModel.exercisesCreating = training?.exercises!!
             viewModel.trainingLinksCreating = training.links
-            //linksRecyclerViewAdapter.notifyDataSetChanged()
-            //exercisesRecyclerViewAdapter.notifyDataSetChanged()
         }
     }
-/*
-    private fun addNewLinkToExerciseButtonListener() {
-        binding.addNewLinksToExercise.setOnClickListener {
-            val linkTitle = binding.exerciseLinkTitleInput.text.toString()
-            val linkUrl = binding.exerciseLinkUrlInput.text.toString()
-            val newLink = Link(linkTitle, linkUrl)
-            viewModel.addExerciseLink(newLink)
-            exerciseLinksRecyclerViewAdapter.notifyDataSetChanged()
-            binding.exerciseLinkTitleInput.text?.clear()
-            binding.exerciseLinkUrlInput.text?.clear()
+
+
+
+
+    private fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
+
+    private fun fillInputFields() {
+        binding.trainingNameInput.text = viewModel.training.name.toEditable()
+        binding.trainingDescriptionInput.text = viewModel.training.description.toEditable()
+        binding.trainingTimeInput.text = viewModel.training.timeInMinutes.toString().toEditable()
+        binding.trainingTypeInput.text = viewModel.training.type.toEditable()
+    }
+
+    private fun createButtonListener() {
+        binding.createButton.setOnClickListener {
+            val newTraining = createNewTraining()
+            if(binding.createButton.text == "Create") {
+                TemporaryDatabase.insert(newTraining)
+                Toast.makeText(context, "Training created", Toast.LENGTH_SHORT).show()
+            } else {
+                TemporaryDatabase.updateTraining(previousTraining, newTraining)
+                Toast.makeText(context, "Training updated", Toast.LENGTH_SHORT).show()
+            }
+
+            findNavController().navigateUp()
+
+            (activity as MainActivity).hideKeyboard()
+
         }
-    }*/
+    }
+
+    private fun createNewTraining() : Training {
+        val trainingName = binding.trainingNameInput.text.toString()
+        val trainingDescription = binding.trainingDescriptionInput.text.toString()
+        var trainingTime: Int
+        try {
+            trainingTime = binding.trainingTimeInput.text.toString().toInt()
+        } catch (exception: NumberFormatException) {
+            trainingTime = 0
+        }
+        val trainingType = binding.trainingTypeInput.text.toString()
+        val trainingLinks: ArrayList<Link> = viewModel.trainingLinksCreating
+        val exercises: ArrayList<Exercise> = viewModel.exercisesCreating
+
+        val newTraining = Training(trainingName, trainingType, trainingTime, trainingDescription,
+            Date(1900, 12, 12), trainingLinks, exercises)
+
+        Log.i(TAG, "inputs: $newTraining")
+        return newTraining
+    }
+
+    private fun trainingLinksAddButtonListener() {
+        binding.trainingLinkAddButton.setOnClickListener {
+            val trainingLinkTitle = binding.linkTitleInput.text.toString()
+            val trainingLinkUrl = binding.linkUrlInput.text.toString()
+            val newLink = Link(trainingLinkTitle, trainingLinkUrl)
+            Log.i(TAG, "newLink = $newLink")
+            viewModel.addLink(newLink)
+            linksRecyclerViewAdapter.notifyDataSetChanged()
+            binding.apply {
+                linkTitleInput.text?.clear()
+                linkUrlInput.text?.clear()
+            }
+        }
+    }
+
+
+
 
     private fun exercisesAddButtonListener() {
         binding.addNewExerciseButton.setOnClickListener {
             saveInputs()
             findNavController().navigate(R.id.action_createTraining2_to_createExercise)
         }
-
-
-        /*
-        binding.exerciseAddButton.setOnClickListener {
-            val exerciseName = binding.exerciseNameInput.text.toString()
-            var exerciseTime : Int
-            try {
-                exerciseTime = binding.exerciseTimeInput.text.toString().toInt()
-            }catch (exception: NumberFormatException) {
-                exerciseTime = 0
-            }
-            var numberOfRepetitions : Int
-            try {
-                numberOfRepetitions = binding.exerciseRepetitionInput.text.toString().toInt()
-            }catch (exception: NumberFormatException) {
-                numberOfRepetitions = 0
-            }
-            val exerciseDescription = binding.exerciseDescriptionInput.text.toString()
-
-            val exerciseLinks : ArrayList<Link> = ArrayList()
-            exerciseLinks.addAll(viewModel.exerciseCreatingLinks)
-
-            val newExercise = Exercise(exerciseName, exerciseTime, numberOfRepetitions,
-                exerciseDescription, exerciseLinks)
-
-            Log.i(TAG, "newExercise = $newExercise")
-            viewModel.addExercise(newExercise)
-            exercisesRecyclerViewAdapter.notifyDataSetChanged()
-
-            viewModel.clearExerciseLinks()
-            exerciseLinksRecyclerViewAdapter.notifyDataSetChanged()
-
-
-            Log.i(TAG, "newExercise = $newExercise")
-
-            binding.apply {
-                exerciseNameInput.text?.clear()
-                exerciseTimeInput.text?.clear()
-                exerciseRepetitionInput.text?.clear()
-                exerciseDescriptionInput.text?.clear()
-            }
-
-
-
-        }*/
     }
 
     private fun saveInputs() {
@@ -209,64 +187,9 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
     }
 
 
-    private fun trainingLinksAddButtonListener() {
-        binding.trainingLinkAddButton.setOnClickListener {
-            val trainingLinkTitle = binding.linkTitleInput.text.toString()
-            val trainingLinkUrl = binding.linkUrlInput.text.toString()
-            val newLink = Link(trainingLinkTitle, trainingLinkUrl)
-            Log.i(TAG, "newLink = $newLink")
-            viewModel.addLink(newLink)
-            // linksRecyclerViewAdapter.addLink(newLink)
-            linksRecyclerViewAdapter.notifyDataSetChanged()
-            binding.apply {
-                linkTitleInput.text?.clear()
-                linkUrlInput.text?.clear()
-            }
-        }
-    }
 
-    private fun createButtonListener() {
-        binding.createButton.setOnClickListener {
-            val trainingName = binding.trainingNameInput.text.toString()
-            val trainingDescription = binding.trainingDescriptionInput.text.toString()
-            var trainingTime: Int
-            try {
-                 trainingTime = binding.trainingTimeInput.text.toString().toInt()
-            } catch (exception: NumberFormatException) {
-                 trainingTime = 0
-            }
-            val trainingType = binding.trainingTypeInput.text.toString()
-            val trainingLinks: ArrayList<Link> = viewModel.trainingLinksCreating
-            val exercises: ArrayList<Exercise> = viewModel.exercisesCreating
 
-            val newTraining = Training(trainingName, trainingType, trainingTime, trainingDescription,
-            Date(1900, 12, 12), trainingLinks, exercises)
 
-            Log.i(TAG, "inputs: $newTraining")
-            if(binding.createButton.text.equals("Create")) {
-                TemporaryDatabase.insert(newTraining)
-                Toast.makeText(context, "Training created", Toast.LENGTH_SHORT).show()
-            } else {
-                TemporaryDatabase.updateTraining(previousTraining, newTraining)
-                Toast.makeText(context, "Training updated", Toast.LENGTH_SHORT).show()
-            }
-
-            findNavController().navigate(R.id.action_createTraining2_to_user_trainings)
-
-            (activity as MainActivity).hideKeyboard()
-
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-       // viewModel = ViewModelProvider(this).get(CreateTrainingViewModel::class.java)
-       /* viewModel.addLink(Link("First link", "urlFirst.com"))
-        viewModel.addLink(Link("Second Link", "urlSecond.com"))
-        viewModel.addExercise(Exercise("name",
-            123, 4, "some description",
-            arrayListOf(Link("link1", "url.com"), Link("link2", "url2.com"))))*/
-    }
 
 
     override fun onDestroy() {
@@ -274,14 +197,9 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
-    override fun onClick(link: Link) {
-        val success = viewModel.trainingLinksCreating.remove(link)
-        if (!success) {
-            //viewModel.exerciseCreatingLinks.remove(link)
-            viewModel.deleteExerciseLink(link)
-            exerciseLinksRecyclerViewAdapter.notifyDataSetChanged()
-            return
-        }
+    override fun onDeleteLinkClick(link: Link) {
+        viewModel.trainingLinksCreating.remove(link)
+        Log.i(TAG, "onDeleteLinkClick in Create Training")
         linksRecyclerViewAdapter.notifyDataSetChanged()
     }
 
@@ -290,11 +208,6 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
     }
 
     override fun onClickExerciseLinkDelete(exercise: Exercise, link: Link) {
-        // val index = viewModel.training.exercises.indexOf(exercise)
-
-        //viewModel.exerciseCreatingLinks.remove(link)
-        viewModel.deleteExerciseLink(link)
-
         /*val e = viewModel.exerciseCreatingLinks.filter {
                 clink ->
                 if(clink == link) {
@@ -303,17 +216,21 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
             false
         }*/
 
-        Log.i(TAG, "ex")
-
+        Log.i(TAG, "onClickExerciseLinkDelete")
         val index = viewModel.exercisesCreating.indexOf(exercise)
         viewModel.exercisesCreating[index].links.remove(link)
-        exerciseLinksRecyclerViewAdapter.notifyDataSetChanged()
+        exercisesRecyclerViewAdapter.notifyDataSetChanged()
 
     }
 
     override fun onClickDeleteExercise(exercise: Exercise) {
         viewModel.exercisesCreating.remove(exercise)
         exercisesRecyclerViewAdapter.notifyDataSetChanged()
+    }
+
+    override fun onClickEditExercise(exercise: Exercise) {
+        viewModel.exercise = exercise
+        findNavController().navigate(R.id.action_createTraining2_to_createExercise)
     }
 
 
