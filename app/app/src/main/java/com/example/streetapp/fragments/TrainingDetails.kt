@@ -1,6 +1,7 @@
 package com.example.streetapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,10 +48,13 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_training_details, container, false)
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        //(activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+
 
 
         val training : Training = arguments?.get("training") as Training
+        Log.i(TAG, "training from arguments $training , arguments $arguments")
+
 
         viewModelFactory = TrainingDetailsViewModelFactory(training)
         viewModel = ViewModelProvider(this, viewModelFactory).get(TrainingDetailsViewModel::class.java)
@@ -99,7 +103,7 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
 
 
         binding.editTrainingButton.setOnClickListener {
-            findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToCreateTraining2())
+            findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToCreateTraining2(training))
         }
 
 
@@ -156,6 +160,6 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
     }
 
     override fun onClickEditExercise(exercise: Exercise) {
-        TODO("Not yet implemented")
+        // findNavController().navigate(R.id.action_trainingDetails_to_createExercise2)
     }
 }

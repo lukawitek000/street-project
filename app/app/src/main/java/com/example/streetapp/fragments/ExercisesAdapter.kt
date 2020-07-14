@@ -1,7 +1,9 @@
 package com.example.streetapp.fragments
 
+import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +38,11 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
             binding.exerciseRepetition.text = exercise.numberOfRepetitions.toString()
             binding.exerciseTime.text = exercise.time.toString()
             Log.i("ExercisesAdapter", "bind $exercise")
+
+            if(onClickExerciseListener is TrainingDetails) {
+                binding.editExerciseButton.visibility = View.GONE
+            }
+
 
             binding.deleteExerciseButton.setOnClickListener{
                 onClickExerciseListener.onClickDeleteExercise(exercise)

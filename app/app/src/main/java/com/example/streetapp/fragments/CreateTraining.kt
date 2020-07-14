@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,7 +50,25 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         binding = DataBindingUtil.inflate(inflater, R.layout.create_training_fragment, container, false)
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
 
+
+
+
+
+
+
+
+        fillInputFields()
+        Log.i(TAG, "arguments: $arguments")
+        if(arguments?.get("training") != null) {
+            Log.i(TAG, "get training from arguments")
+            previousTraining = arguments?.get("training") as Training
+            setValuesFromArguments(previousTraining)
+            binding.createButton.text = "Update"
+        } else {
+            binding.createButton.text = "Create"
+        }
 
         val exercisesRecyclerView : RecyclerView = binding.exercisesRecyclerView
         exercisesRecyclerViewAdapter = ExercisesAdapter(viewModel.exercisesCreating, this, activity as MainActivity)
@@ -57,18 +77,6 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
 
 
-        /*if(!arguments?.isEmpty!!) {
-            Log.i(TAG, "arguments: $arguments")
-            if(arguments?.get("training") != null) {
-                previousTraining = arguments?.get("training") as Training
-                setValuesFromArguments(previousTraining)
-                binding.createButton.text = "Update"
-            } else {
-                binding.createButton.text = "Create"
-            }
-        } else {
-            Log.i(TAG, "empty arguments $arguments")
-        } */
 
 
         val linksRecyclerView : RecyclerView = binding.linksRecyclerView
@@ -76,8 +84,6 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         linksRecyclerView.layoutManager = LinearLayoutManager(activity)
         linksRecyclerView.adapter = linksRecyclerViewAdapter
 
-
-        fillInputFields()
 
         createButtonListener()
         trainingLinksAddButtonListener()
@@ -96,6 +102,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
             trainingTypeInput.text = training?.type?.toEditable()
             viewModel.exercisesCreating = training?.exercises!!
             viewModel.trainingLinksCreating = training.links
+            //exercisesRecyclerViewAdapter.notifyDataSetChanged()
         }
     }
 
@@ -117,12 +124,17 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
             if(binding.createButton.text == "Create") {
                 TemporaryDatabase.insert(newTraining)
                 Toast.makeText(context, "Training created", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
             } else {
                 TemporaryDatabase.updateTraining(previousTraining, newTraining)
                 Toast.makeText(context, "Training updated", Toast.LENGTH_SHORT).show()
+                val action = CreateTrainingDirections.actionCreateTraining2ToTrainingDetails(newTraining)
+                findNavController().navigate(action)
             }
 
-            findNavController().navigateUp()
+            // Log.i(TAG, " back stack ${findNavController().popBackStack()}")
+
+
 
             (activity as MainActivity).hideKeyboard()
 

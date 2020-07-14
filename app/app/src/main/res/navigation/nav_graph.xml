@@ -20,7 +20,13 @@
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_user_trainings_to_trainingDetails"
-            app:destination="@id/trainingDetails" />
+            app:destination="@id/trainingDetails" >
+            <argument
+                android:name="training"
+                app:argType="com.example.streetapp.models.Training"
+                app:nullable="true"
+                android:defaultValue="@null" />
+        </action>
 
     </fragment>
     <fragment
@@ -37,14 +43,16 @@
 
         android:name="com.example.streetapp.fragments.TrainingDetails"
         android:label="TrainingDetails" >
-        <argument
-            android:name="training"
-            app:argType="com.example.streetapp.models.Training"
-            app:nullable="true"
-            android:defaultValue="@null" />
+
         <action
             android:id="@+id/action_trainingDetails_to_createTraining2"
-            app:destination="@id/create_training_graph" />
+            app:destination="@id/create_training_graph">
+            <argument
+                android:name="training"
+                app:argType="com.example.streetapp.models.Training"
+                app:nullable="true"
+                android:defaultValue="@null" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/favourite_trainings"
@@ -58,17 +66,22 @@
             android:name="com.example.streetapp.fragments.CreateTraining"
             android:label="create_training_fragment"
             tools:layout="@layout/create_training_fragment">
-            <argument
-                android:name="exercise"
-                android:defaultValue="@null"
-                app:argType="com.example.streetapp.models.Exercise"
-                app:nullable="true" />
             <action
                 android:id="@+id/action_createTraining2_to_user_trainings"
                 app:destination="@id/user_trainings" />
             <action
                 android:id="@+id/action_createTraining2_to_createExercise"
                 app:destination="@id/createExercise" />
+            <action
+                android:id="@+id/action_createTraining2_to_trainingDetails"
+                app:destination="@+id/trainingDetails"
+                app:popUpTo="@id/user_trainings">
+                <argument
+                    android:name="training"
+                    android:defaultValue="@null"
+                    app:argType="com.example.streetapp.models.Training"
+                    app:nullable="true" />
+            </action>
         </fragment>
         <fragment
             android:id="@+id/createExercise"
