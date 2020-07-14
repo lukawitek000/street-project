@@ -50,16 +50,21 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
     ): View? {
 
         val view = inflater.inflate(R.layout.user_trainings_fragment, container, false)
-        val viewModelFactory = UserTrainingsViewModelFactory(activity as AppCompatActivity)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(UserTrainingsViewModel::class.java)
 
-        viewModel.trainings = TemporaryDatabase.getAll()
-        viewModel.allTrainings = TemporaryDatabase.getAll()
+
+        //viewModel.trainings = TemporaryDatabase.getAll()
+        //viewModel.allTrainings = TemporaryDatabase.getAll()
+        viewModel.allTrainings.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            viewModel.trainings = it
+            recyclerViewAdapter.trainings = it
+            recyclerViewAdapter.notifyDataSetChanged()
+            Log.i(TAG, "in observer of alltrainings")
+        })
 
         val spanCount = activity?.windowManager?.defaultDisplay?.width
         Log.i("UserTrainings", "spanCount = $spanCount")
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        recyclerViewAdapter = UserTrainingsAdapter(this.requireActivity(), viewModel.trainings, this)
+        recyclerViewAdapter = UserTrainingsAdapter(this.requireActivity(), viewModel.allTrainings.value!!, this)
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 2)
         recyclerView.adapter = recyclerViewAdapter
 
@@ -106,9 +111,9 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int){
                 Log.i(TAG , "ontextChanged $p0")
-                val filterList = viewModel.allTrainings.filter {
+                val filterList = viewModel.allTrainings.value?.filter {
                     if (it.name.contains(p0!!, true) || it.type.contains(p0!!, true)
-                        || it.description.contains(p0!!, true)){
+                        || it.description.contains(p0, true)){
                         return@filter true
                     }
                     false
@@ -129,12 +134,11 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
         return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(UserTrainingsViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val viewModelFactory = UserTrainingsViewModelFactory(activity as AppCompatActivity)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(UserTrainingsViewModel::class.java)
     }
-
 
     private fun sortTrainings(position: Int) {
         if ( position == 0) {

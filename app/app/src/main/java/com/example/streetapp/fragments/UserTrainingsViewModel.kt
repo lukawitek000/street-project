@@ -2,6 +2,8 @@ package com.example.streetapp.fragments
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.streetapp.database.AppDatabase
 import com.example.streetapp.models.*
@@ -11,7 +13,16 @@ import kotlin.collections.ArrayList
 
 class UserTrainingsViewModel(val activity: AppCompatActivity) : ViewModel() {
     var trainings = ArrayList<Training>()
-    var allTrainings = ArrayList<Training>()
+
+    private val _allTrainings = MutableLiveData<ArrayList<Training>>()
+
+    val allTrainings: LiveData<ArrayList<Training>>
+        get() = _allTrainings
+
+    private val _justForObservation = MutableLiveData<Int>()
+
+    val justForObservation : LiveData<Int>
+     get() = _justForObservation
 
 
     private var viewModelJob = Job()
@@ -26,30 +37,28 @@ class UserTrainingsViewModel(val activity: AppCompatActivity) : ViewModel() {
 
 
     init {
+        _allTrainings.value = ArrayList()
         Log.i("UserTrainingsViewModel", "database test $database")
 
         uiScope.launch {
-            val data = getDataFromDatabase()
-            insertFakeData(1)
-            insertFakeData(2)
-            insertFakeData(3)
-            Log.i("UserTrainingsViewModel", "database test get alll $data")
 
-            val insertedData = getDataFromDatabase()
-            Log.i("UserTrainingsViewModel", "inserted data 1 ${insertedData[0]}")
-            Log.i("UserTrainingsViewModel", "inserted data 2 ${insertedData[1]}")
-            Log.i("UserTrainingsViewModel", "inserted data 3 ${insertedData[2]}")
+            _allTrainings.value = getAllTrainings()
+            //trainings = getAllTrainings()
+            _justForObservation.value = 0
 
-            val allExercises = getAllExercises()
-            for(exercise in allExercises) {
-                Log.i("UserTrainingsViewModel", "all exercises $exercise")
-            }
-
-            val allLinks = getAllLinks()
-            Log.i("UserTrainingsViewModel", "get all links $allLinks")
         }
+
+
         //Log.i("UserTrainingsViewModel", "database test get all ${database.trainingDao().getAll()}")
     }
+
+    private suspend fun getAllTrainings(): ArrayList<Training> {
+        return withContext(Dispatchers.IO) {
+            database.trainingDao().getAllTrainings()
+        }
+
+    }
+
 
     private suspend fun getAllExercises(): List<ExerciseWithLinks> {
         return withContext(Dispatchers.IO){
@@ -58,7 +67,7 @@ class UserTrainingsViewModel(val activity: AppCompatActivity) : ViewModel() {
 
     }
 
-    private suspend fun getAllLinks(): Any {
+    private suspend fun getAllLinks(): List<Link> {
         return withContext(Dispatchers.IO) {
             database.trainingDao().getAllLinks()
         }

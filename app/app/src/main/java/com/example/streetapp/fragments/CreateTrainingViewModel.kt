@@ -1,14 +1,17 @@
 package com.example.streetapp.fragments
 
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.streetapp.database.AppDatabase
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
+import kotlinx.coroutines.*
 
-class CreateTrainingViewModel : ViewModel() {
+class CreateTrainingViewModel(val activity: AppCompatActivity) : ViewModel() {
 
 
     var trainingLinksCreating = ArrayList<Link>()
@@ -24,12 +27,30 @@ class CreateTrainingViewModel : ViewModel() {
 
     var exercise: Exercise? = null
 
+    private val database = AppDatabase.getDatabase(activity)
+
+    private val job = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + job)
+
 
     init {
         _exerciseLinks.value = ArrayList()
     }
 
 
+    fun insertNewTraining(training: Training){
+        uiScope.launch {
+            insertTraining(training)
+        }
+    }
+
+    private suspend fun insertTraining(insertTraining: Training) {
+        return withContext(Dispatchers.IO){
+            Log.i("CreateTrainingViewModel", "my training to insert $insertTraining")
+            //return@withContext
+            database.trainingDao().insertTrainingWithAllInfo(insertTraining)
+        }
+    }
 
 
     fun populateExerciseLinks(links: ArrayList<Link>){

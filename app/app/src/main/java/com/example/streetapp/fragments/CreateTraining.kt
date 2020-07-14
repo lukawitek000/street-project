@@ -33,7 +33,8 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         val TAG = CreateTraining::class.java.simpleName
     }
 
-    private val viewModel by navGraphViewModels<CreateTrainingViewModel>(R.id.create_training_graph)
+    private val viewModel by navGraphViewModels<CreateTrainingViewModel>(R.id.create_training_graph
+    ) { CreateTrainingViewModelFactory(activity as AppCompatActivity) }
     private lateinit var binding: CreateTrainingFragmentBinding
 
     private lateinit var linksRecyclerViewAdapter: LinksAdapter
@@ -100,8 +101,8 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
             trainingDescriptionInput.text = training?.description?.toEditable()
             trainingTimeInput.text = training?.timeInMinutes?.toString()?.toEditable()
             trainingTypeInput.text = training?.type?.toEditable()
-            //viewModel.exercisesCreating = training?.exercises!!
-           // viewModel.trainingLinksCreating = training.links
+            viewModel.exercisesCreating = training?.exercises!!
+            viewModel.trainingLinksCreating = training.links
             //exercisesRecyclerViewAdapter.notifyDataSetChanged()
         }
     }
@@ -124,6 +125,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
             if(binding.createButton.text == "Create") {
                 TemporaryDatabase.insert(newTraining)
                 Toast.makeText(context, "Training created", Toast.LENGTH_SHORT).show()
+                viewModel.insertNewTraining(newTraining)
                 findNavController().navigateUp()
             } else {
                 TemporaryDatabase.updateTraining(previousTraining, newTraining)
@@ -132,7 +134,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
                 findNavController().navigate(action)
             }
 
-            // Log.i(TAG, " back stack ${findNavController().popBackStack()}")
+
 
 
 
@@ -154,10 +156,9 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         val trainingLinks: ArrayList<Link> = viewModel.trainingLinksCreating
         val exercises: ArrayList<Exercise> = viewModel.exercisesCreating
 
-      //  val newTraining = Training(trainingName, trainingType, trainingTime, trainingDescription,
-       //     Date(1900, 12, 12), trainingLinks, exercises)
-
-        val newTraining = Training()
+        val newTraining = Training(name = trainingName, type = trainingType,timeInMinutes =  trainingTime,
+            description = trainingDescription,
+            creatingDate = Date(1900, 12, 12), links = trainingLinks,exercises =  exercises)
 
         Log.i(TAG, "inputs: $newTraining")
         return newTraining
@@ -167,7 +168,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         binding.trainingLinkAddButton.setOnClickListener {
             val trainingLinkTitle = binding.linkTitleInput.text.toString()
             val trainingLinkUrl = binding.linkUrlInput.text.toString()
-            val newLink = Link(1, 1, 1, trainingLinkTitle, trainingLinkUrl)
+            val newLink = Link(title = trainingLinkTitle,url =  trainingLinkUrl)
             Log.i(TAG, "newLink = $newLink")
             viewModel.addLink(newLink)
             linksRecyclerViewAdapter.notifyDataSetChanged()
@@ -232,7 +233,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
         Log.i(TAG, "onClickExerciseLinkDelete")
         val index = viewModel.exercisesCreating.indexOf(exercise)
-        //viewModel.exercisesCreating[index].links.remove(link)
+        viewModel.exercisesCreating[index].links.remove(link)
         exercisesRecyclerViewAdapter.notifyDataSetChanged()
 
     }

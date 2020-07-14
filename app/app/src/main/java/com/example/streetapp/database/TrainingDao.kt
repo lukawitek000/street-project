@@ -32,6 +32,32 @@ abstract class TrainingDao {
     abstract fun getAllLinks(): List<Link>
 
 
+    fun getAllTrainings(): ArrayList<Training> {
+        val trainings = ArrayList<Training>()
+
+        val insertedData = getAll()
+        val allLinks = getAllLinks()
+
+        for (data in insertedData) {
+            val trainingCreated = data.training
+
+            trainingCreated.exercises = data.exercises as ArrayList<Exercise>
+            trainingCreated.links = data.links as ArrayList<Link>
+
+            for(exLinks in trainingCreated.exercises) {
+                val links = allLinks.filter { link -> link.linksExerciseOwnerId == exLinks.exerciseId }
+                exLinks.links.addAll(links)
+            }
+
+
+            trainings.add(trainingCreated)
+            Log.i("UserTrainingsViewModel", "created training $trainingCreated")
+        }
+
+        return trainings
+    }
+
+
     fun insertTrainingWithAllInfo(training: Training) {
         val trainingLinks = training.links
         training.trainingId = insert(training)
@@ -61,5 +87,7 @@ abstract class TrainingDao {
         //insert(training)
 
     }
+
+
 
 }

@@ -21,7 +21,7 @@ data class Training(
                     @Ignore
                     var links: ArrayList<Link>,
                      @Ignore
-                     val exercises: ArrayList<Exercise>
+ var exercises: ArrayList<Exercise>
                     ) : Serializable {
  constructor() : this(1, "", "", 0, "", Date(), ArrayList<Link>(), ArrayList<Exercise>())
 }

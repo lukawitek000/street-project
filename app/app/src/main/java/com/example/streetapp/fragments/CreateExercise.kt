@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -27,7 +28,8 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
         val TAG = CreateExercise::class.java.simpleName
     }
 
-    private val viewModel by navGraphViewModels<CreateTrainingViewModel>(R.id.create_training_graph)
+    private val viewModel by navGraphViewModels<CreateTrainingViewModel>(R.id.create_training_graph
+    ) { CreateTrainingViewModelFactory(activity as AppCompatActivity) }
     private lateinit var binding: CreateExerciseFragmentBinding
 
     private lateinit var exerciseLinksRecyclerViewAdapter : LinksAdapter

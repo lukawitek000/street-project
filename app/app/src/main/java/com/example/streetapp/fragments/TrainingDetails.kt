@@ -48,7 +48,7 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_training_details, container, false)
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+        //(activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
 
 
 
@@ -83,17 +83,14 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
         binding.durationTime.text = viewModel.training.timeInMinutes.toString()
 
         val recyclerViewLinks = binding.trainingLinks
-        recyclerViewLinksAdapter = LinksAdapter(ArrayList(), this)
-       // recyclerViewLinksAdapter = LinksAdapter(viewModel.training.links, this)
+        recyclerViewLinksAdapter = LinksAdapter(viewModel.training.links, this)
         recyclerViewLinks.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerViewLinks.adapter = recyclerViewLinksAdapter
 
 
 
         val recyclerView = binding.exerciseLinksRecyclerView
-
-        recyclerViewAdapter = ExercisesAdapter(ArrayList(), this, activity as MainActivity)
-        //recyclerViewAdapter = ExercisesAdapter(viewModel.training.exercises, this, activity as MainActivity)
+        recyclerViewAdapter = ExercisesAdapter(viewModel.training.exercises, this, activity as MainActivity)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = recyclerViewAdapter
 
@@ -126,10 +123,10 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
     }
 
     override fun onDeleteLinkClick(link: Link) {
-        //val success = viewModel.training.links.remove(link)
-       // if (!success) {
-            //viewModel.training.exercises
-       // }
+        val success = viewModel.training.links.remove(link)
+        if (!success) {
+            viewModel.training.exercises
+        }
         recyclerViewLinksAdapter.notifyDataSetChanged()
     }
 
@@ -150,15 +147,15 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
     }
 
     override fun onClickExerciseLinkDelete(exercise: Exercise, link: Link) {
-        //val index = viewModel.training.exercises.indexOf(exercise)
+        val index = viewModel.training.exercises.indexOf(exercise)
 
-       // viewModel.training.exercises[index].links.remove(link)
+        viewModel.training.exercises[index].links.remove(link)
         recyclerViewAdapter.notifyDataSetChanged()
 
     }
 
     override fun onClickDeleteExercise(exercise: Exercise) {
-       // viewModel.training.exercises.remove(exercise)
+        viewModel.training.exercises.remove(exercise)
         recyclerViewAdapter.notifyDataSetChanged()
     }
 
