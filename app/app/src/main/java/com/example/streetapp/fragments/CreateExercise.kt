@@ -1,6 +1,5 @@
 package com.example.streetapp.fragments
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -9,10 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,8 +18,6 @@ import com.example.streetapp.R
 import com.example.streetapp.databinding.CreateExerciseFragmentBinding
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
-import kotlinx.android.synthetic.main.create_exercise_fragment.*
-import java.lang.Exception
 import java.lang.NumberFormatException
 
 class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
@@ -74,7 +68,7 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
 
     private fun getDataToUpdate() {
         if (viewModel.exercise != null) {
-            binding.exerciseDescriptionInput.text = viewModel.exercise!!.descritption.toEditable()
+            binding.exerciseDescriptionInput.text = viewModel.exercise!!.description.toEditable()
             binding.exerciseNameInput.text = viewModel.exercise!!.name.toEditable()
 
             binding.exerciseRepetitionInput.text = viewModel.exercise!!.numberOfRepetitions.toString().toEditable()

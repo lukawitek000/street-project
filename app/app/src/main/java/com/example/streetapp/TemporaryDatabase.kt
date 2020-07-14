@@ -19,13 +19,13 @@ object TemporaryDatabase {
             var month = (1..12).random()
             var year = Random.nextInt(2010, 2020)
             var time = Random.nextInt(10, 200)
-            trainingsList.add(Training("name $i", "Handstand", time, "random $random",
-                Date(year -1900, month, day), arrayListOf(Link("some link $random", "https://www.youtube.com/watch?v=l59bF4h1BXQ")),
+            trainingsList.add(Training(1, "name $i", "Handstand", time, "random $random",
+                Date(year -1900, month, day), arrayListOf(Link(1, "some link $random", "https://www.youtube.com/watch?v=l59bF4h1BXQ")),
                 arrayListOf(
-                    Exercise("exervise name", 12, 12, "some descritpion",
-                    arrayListOf(Link("some link exercise", "urlexercise.com"))),
-                    Exercise("exervise name 20000000", 10, 12, "some descritpion",
-                        arrayListOf(Link("some link exercise", "https://kurawear.pl/produkt/koszulka-street-workout-v2/")))
+                    Exercise(1, "exervise name", 12, 12, "some descritpion",
+                    arrayListOf(Link(1, "some link exercise", "urlexercise.com"))),
+                    Exercise(1, "exervise name 20000000", 10, 12, "some descritpion",
+                        arrayListOf(Link(1, "some link exercise", "https://kurawear.pl/produkt/koszulka-street-workout-v2/")))
                 )))
         }
         return trainingsList

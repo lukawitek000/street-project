@@ -1,6 +1,5 @@
 package com.example.streetapp.fragments
 
-import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +33,7 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
 
         fun bind(exercise: Exercise){
             binding.exerciseName.text = exercise.name
-            binding.exerciseDescription.text = exercise.descritption
+            binding.exerciseDescription.text = exercise.description
             binding.exerciseRepetition.text = exercise.numberOfRepetitions.toString()
             binding.exerciseTime.text = exercise.time.toString()
             Log.i("ExercisesAdapter", "bind $exercise")

@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -49,7 +50,8 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
     ): View? {
 
         val view = inflater.inflate(R.layout.user_trainings_fragment, container, false)
-        viewModel = ViewModelProvider(this).get(UserTrainingsViewModel::class.java)
+        val viewModelFactory = UserTrainingsViewModelFactory(activity as AppCompatActivity)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(UserTrainingsViewModel::class.java)
 
         viewModel.trainings = TemporaryDatabase.getAll()
         viewModel.allTrainings = TemporaryDatabase.getAll()
