@@ -103,6 +103,8 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
         }
 
 
+        binding.editTrainingButton.visibility = View.GONE
+
         binding.editTrainingButton.setOnClickListener {
             findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToCreateTraining2(training))
         }

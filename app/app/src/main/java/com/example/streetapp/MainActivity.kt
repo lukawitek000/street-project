@@ -52,19 +52,19 @@ class MainActivity : AppCompatActivity() {
        /* bottomNav.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.user_trainings -> {
-                    Toast.makeText(this, "user trainings", Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(this, "user trainings", Toast.LENGTH_SHORT).show()
                     val frag = UserTrainings.newInstance()
                     replaceFragment(frag, UserTrainings.TAG)
                     true
                 }
                 R.id.global_trainings -> {
-                    Toast.makeText(this, "global trainings", Toast.LENGTH_SHORT).show()
+                   // Toast.makeText(this, "global trainings", Toast.LENGTH_SHORT).show()
                     val frag = GlobalTrainings.newInstance()
                     replaceFragment(frag, GlobalTrainings.TAG)
                     true
                 }
                 R.id.favourite_trainings -> {
-                    Toast.makeText(this, "favourite trainings", Toast.LENGTH_SHORT).show()
+                  //  Toast.makeText(this, "favourite trainings", Toast.LENGTH_SHORT).show()
                     val frag = FavouritesTrainings.newInstance()
                     replaceFragment(frag, FavouritesTrainings.TAG)
                     true
@@ -88,11 +88,11 @@ class MainActivity : AppCompatActivity() {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.user_trainings -> {
-                    Toast.makeText(this, "user trainings", Toast.LENGTH_SHORT).show()
+                 //   Toast.makeText(this, "user trainings", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.global_trainings -> {
-                    Toast.makeText(this, "global trainings", Toast.LENGTH_SHORT).show()
+                  //  Toast.makeText(this, "global trainings", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
@@ -132,14 +132,14 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.settings -> {
-                Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show()
+              //  Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show()
                 fragmentTransaction = supportFragmentManager.beginTransaction()
                 fragmentTransaction.replace(R.id.fragment_container, SettingsFragment())
                 fragmentTransaction.commit()
                 return true
             }
             else -> {
-                Toast.makeText(this, "nothing", Toast.LENGTH_SHORT).show()
+              //  Toast.makeText(this, "nothing", Toast.LENGTH_SHORT).show()
                 return false
             }
         }

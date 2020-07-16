@@ -39,12 +39,30 @@ class UserTrainingsViewModel(val activity: AppCompatActivity) : ViewModel() {
     init {
         _allTrainings.value = ArrayList()
         Log.i("UserTrainingsViewModel", "database test $database")
-
+/*
         uiScope.launch {
-
+            Log.i("UserTrainingsViewModel", "inside uiScope")
             _allTrainings.value = getAllTrainings()
             //trainings = getAllTrainings()
-            delay(1000)
+            //delay(1000)
+            for (i in 0 until _allTrainings.value!!.size) {
+
+                Log.i("UserTrainingsViewModel", "all trainings $i -> ${_allTrainings.value!![i]}")
+            }
+            _justForObservation.value = 0
+
+        }*/
+
+
+        //Log.i("UserTrainingsViewModel", "database test get all ${database.trainingDao().getAll()}")
+    }
+
+    fun getAllData() {
+        uiScope.launch {
+            Log.i("UserTrainingsViewModel", "inside uiScope")
+            _allTrainings.value = getAllTrainings()
+            //trainings = getAllTrainings()
+            //delay(1000)
             for (i in 0 until _allTrainings.value!!.size) {
 
                 Log.i("UserTrainingsViewModel", "all trainings $i -> ${_allTrainings.value!![i]}")
@@ -52,10 +70,8 @@ class UserTrainingsViewModel(val activity: AppCompatActivity) : ViewModel() {
             _justForObservation.value = 0
 
         }
-
-
-        //Log.i("UserTrainingsViewModel", "database test get all ${database.trainingDao().getAll()}")
     }
+
 
     private suspend fun getAllTrainings(): ArrayList<Training> {
         return withContext(Dispatchers.IO) {

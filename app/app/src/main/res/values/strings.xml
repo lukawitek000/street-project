@@ -2,7 +2,7 @@
     <string name="app_name">streetApp</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <string name="preferences">Preferences</string>
 
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>

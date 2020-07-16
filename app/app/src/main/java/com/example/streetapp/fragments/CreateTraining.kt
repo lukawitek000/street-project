@@ -126,7 +126,17 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
                 //TemporaryDatabase.insert(newTraining)
                 Toast.makeText(context, "Training created", Toast.LENGTH_SHORT).show()
                 viewModel.insertNewTraining(newTraining)
-                findNavController().navigateUp()
+
+                Log.i(TAG, "inserted training $newTraining")
+
+                viewModel.status.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                    if(it == "end") {
+                        findNavController().navigateUp()
+                    }
+                    Log.i(TAG, "status observe ${viewModel.status.value}")
+                })
+
+               // findNavController().navigateUp()
             } else {
                 TemporaryDatabase.updateTraining(previousTraining, newTraining)
                 Toast.makeText(context, "Training updated", Toast.LENGTH_SHORT).show()
@@ -158,9 +168,19 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
         Log.i("TrainingDao", "exercises in new training $exercises")
 
+
+
+
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+
+
         val newTraining = Training(name = trainingName, type = trainingType,timeInMinutes =  trainingTime,
             description = trainingDescription,
-            creatingDate = Date(1900, 12, 12), links = trainingLinks,exercises =  exercises)
+            creatingDate = Date(year - 1900, month, day), links = trainingLinks,exercises =  exercises)
 
         Log.i(TAG, "inputs: $newTraining")
         return newTraining

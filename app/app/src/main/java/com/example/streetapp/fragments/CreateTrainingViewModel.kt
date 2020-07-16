@@ -35,20 +35,27 @@ class CreateTrainingViewModel(val activity: AppCompatActivity) : ViewModel() {
 
     init {
         _exerciseLinks.value = ArrayList()
+        Log.i("CreateTrainingViewModel", "init view model createtraining")
     }
 
 
+    var status = MutableLiveData<String>()
+
     fun insertNewTraining(training: Training){
+        Log.i("CreateTrainingViewModel", "insert new Training outside uiScope $training")
         uiScope.launch {
-            insertTraining(training)
+            Log.i("CreateTrainingViewModel", "insert new Training $training")
+            status.value = "loading"
+            status.value = insertTraining(training)
+            Log.i("CreateTrainingViewModel", "after inserting ")
         }
     }
 
-    private suspend fun insertTraining(insertTraining: Training) {
+    private suspend fun insertTraining(insertTraining: Training): String {
         return withContext(Dispatchers.IO){
             Log.i("CreateTrainingViewModel", "my training to insert $insertTraining")
-            //return@withContext
             database.trainingDao().insertTrainingWithAllInfo(insertTraining)
+            "end"
         }
     }
 

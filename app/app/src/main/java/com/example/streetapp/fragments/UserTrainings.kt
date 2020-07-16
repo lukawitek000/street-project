@@ -52,6 +52,10 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
         val view = inflater.inflate(R.layout.user_trainings_fragment, container, false)
 
 
+        val viewModelFactory = UserTrainingsViewModelFactory(activity as AppCompatActivity)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(UserTrainingsViewModel::class.java)
+        Log.i("test", "onCreateView")
+        viewModel.getAllData()
         //viewModel.trainings = TemporaryDatabase.getAll()
         //viewModel.allTrainings = TemporaryDatabase.getAll()
         viewModel.allTrainings.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
@@ -70,7 +74,7 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
 
         val button: View = view.findViewById(R.id.floatingButton)
         button.setOnClickListener{
-            Toast.makeText(context, "click nice", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(context, "click nice", Toast.LENGTH_SHORT).show()
             // (activity as MainActivity).replaceFragment(CreateTraining.newInstance(), CreateTraining.TAG)
             val navController = findNavController()
             navController.navigate(R.id.action_user_trainings_to_createTraining2)
@@ -86,7 +90,7 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                Toast.makeText(context, "what was clicked ${dropdownItems[p2]} ", Toast.LENGTH_SHORT).show()
+              //  Toast.makeText(context, "what was clicked ${dropdownItems[p2]} ", Toast.LENGTH_SHORT).show()
 
                 sortTrainings(p2)
 
@@ -136,8 +140,8 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModelFactory = UserTrainingsViewModelFactory(activity as AppCompatActivity)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(UserTrainingsViewModel::class.java)
+
+        Log.i("test", "onCreate")
     }
 
     private fun sortTrainings(position: Int) {
@@ -161,7 +165,7 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
 
 
     override fun onClick(training: Training) {
-        Toast.makeText(activity, "click on ${training.name}", Toast.LENGTH_SHORT).show()
+       // Toast.makeText(activity, "click on ${training.name}", Toast.LENGTH_SHORT).show()
         findNavController().navigate(UserTrainingsDirections.actionUserTrainingsToTrainingDetails(training))
         /*
         val frag = TrainingDetails.newInstance()
@@ -179,13 +183,13 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId){
             R.id.settings -> {
-                Toast.makeText(activity, "settings", Toast.LENGTH_SHORT).show()
+             //   Toast.makeText(activity, "settings", Toast.LENGTH_SHORT).show()
                 val navController = findNavController()
                 navController.navigate(R.id.action_user_trainings_to_settingsFragment)
                 true
             }
             else -> {
-                Toast.makeText(activity, "nothing", Toast.LENGTH_SHORT).show()
+              //  Toast.makeText(activity, "nothing", Toast.LENGTH_SHORT).show()
                 false
             }
         }
