@@ -44,6 +44,11 @@ class UserTrainingsViewModel(val activity: AppCompatActivity) : ViewModel() {
 
             _allTrainings.value = getAllTrainings()
             //trainings = getAllTrainings()
+            delay(1000)
+            for (i in 0 until _allTrainings.value!!.size) {
+
+                Log.i("UserTrainingsViewModel", "all trainings $i -> ${_allTrainings.value!![i]}")
+            }
             _justForObservation.value = 0
 
         }

@@ -105,7 +105,9 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
         binding.exerciseAddButton.setOnClickListener {
             val newExercise = buildNewExerciseObject()
             if (binding.exerciseAddButton.text == "Create") {
+                Log.i("TrainingDao", "exercise to add $newExercise")
                 viewModel.addExercise(newExercise)
+
             } else {
                 viewModel.updateExercise(newExercise)
                 viewModel.exercise = null
@@ -131,12 +133,13 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
         }
         val exerciseDescription = binding.exerciseDescriptionInput.text.toString()
         val exerciseLinks = viewModel.exerciseLinks.value
-        //val newExercise = exerciseLinks?.let { it1 ->
-        //    Exercise(exerciseName, exerciseTime, exerciseRepetitions, exerciseDescription,
-        //        it1
-        //    )
-       // }
-        val newExercise = Exercise()
+        val newExercise = exerciseLinks?.let { it1 ->
+            Exercise(name = exerciseName, time = exerciseTime, numberOfRepetitions = exerciseRepetitions,
+                description = exerciseDescription,
+                links = it1
+            )
+        }
+       // val newExercise = Exercise()
         Log.i(TAG, "print new exercise $newExercise")
         return newExercise!!
     }

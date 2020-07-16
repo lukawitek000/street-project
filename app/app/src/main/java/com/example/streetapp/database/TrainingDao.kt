@@ -59,8 +59,10 @@ abstract class TrainingDao {
 
 
     fun insertTrainingWithAllInfo(training: Training) {
+        Log.i("TrainingDao", "insert new training $training")
         val trainingLinks = training.links
         training.trainingId = insert(training)
+
         for( i in 0 until trainingLinks.size) {
             Log.i("UserTrainingsViewModel", "w forze $i linksOwner before ${trainingLinks[i].linksTrainingOwnerId}, traninid = ${training.trainingId}")
             trainingLinks[i].linksTrainingOwnerId = training.trainingId

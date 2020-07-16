@@ -80,8 +80,8 @@ class CreateTrainingViewModel(val activity: AppCompatActivity) : ViewModel() {
 
 
 
-    fun addExercise(exercise: Exercise) {
-        exercisesCreating.add(exercise)
+    fun addExercise(newExercise: Exercise) {
+        exercisesCreating.add(newExercise)
     }
 
 

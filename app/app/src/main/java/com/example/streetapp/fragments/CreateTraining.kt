@@ -123,7 +123,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         binding.createButton.setOnClickListener {
             val newTraining = createNewTraining()
             if(binding.createButton.text == "Create") {
-                TemporaryDatabase.insert(newTraining)
+                //TemporaryDatabase.insert(newTraining)
                 Toast.makeText(context, "Training created", Toast.LENGTH_SHORT).show()
                 viewModel.insertNewTraining(newTraining)
                 findNavController().navigateUp()
@@ -155,6 +155,8 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         val trainingType = binding.trainingTypeInput.text.toString()
         val trainingLinks: ArrayList<Link> = viewModel.trainingLinksCreating
         val exercises: ArrayList<Exercise> = viewModel.exercisesCreating
+
+        Log.i("TrainingDao", "exercises in new training $exercises")
 
         val newTraining = Training(name = trainingName, type = trainingType,timeInMinutes =  trainingTime,
             description = trainingDescription,
