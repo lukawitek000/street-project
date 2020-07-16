@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         hideKeyboard()
-        Toast.makeText(this, "onsupport navigation", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "onsupport navigation", Toast.LENGTH_SHORT).show()
         return findNavController(R.id.fragment_container).navigateUp()
     }
 

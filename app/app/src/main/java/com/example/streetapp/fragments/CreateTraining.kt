@@ -170,7 +170,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         binding.trainingLinkAddButton.setOnClickListener {
             val trainingLinkTitle = binding.linkTitleInput.text.toString()
             val trainingLinkUrl = binding.linkUrlInput.text.toString()
-            val newLink = Link(title = trainingLinkTitle,url =  trainingLinkUrl)
+            val newLink = Link(linksTrainingOwnerId = viewModel.trainingLinksCreating.size.toLong(), title = trainingLinkTitle,url =  trainingLinkUrl)
             Log.i(TAG, "newLink = $newLink")
             viewModel.addLink(newLink)
             linksRecyclerViewAdapter.notifyDataSetChanged()
@@ -243,6 +243,9 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
     override fun onClickDeleteExercise(exercise: Exercise) {
         viewModel.exercisesCreating.remove(exercise)
         exercisesRecyclerViewAdapter.notifyDataSetChanged()
+        if(binding.createButton.text == "Update") {
+            viewModel.deleteExercise(exercise)
+        }
     }
 
     override fun onClickEditExercise(exercise: Exercise) {

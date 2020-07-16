@@ -56,12 +56,12 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
         Log.i(TAG, "training from arguments $training , arguments $arguments")
 
 
-        viewModelFactory = TrainingDetailsViewModelFactory(training)
+        viewModelFactory = TrainingDetailsViewModelFactory(training, activity = activity as AppCompatActivity)
         viewModel = ViewModelProvider(this, viewModelFactory).get(TrainingDetailsViewModel::class.java)
 
 
 
-        Toast.makeText(context, "training ${training.name}", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, "training ${training.name}", Toast.LENGTH_SHORT).show()
         binding.name.text = viewModel.training.name
         //binding.date.text = viewModel.training.creatingDate.toString()
 
@@ -98,6 +98,7 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
         binding.deleteTrainingButton.setOnClickListener{
             TemporaryDatabase.deleteTraining(viewModel.training)
             Toast.makeText(activity, "Training deleted", Toast.LENGTH_SHORT).show()
+            viewModel.deleteTraining()
             findNavController().navigateUp()
         }
 
@@ -127,6 +128,7 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
         if (!success) {
             viewModel.training.exercises
         }
+        viewModel.deleteLink(link)
         recyclerViewLinksAdapter.notifyDataSetChanged()
     }
 
@@ -150,6 +152,7 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
         val index = viewModel.training.exercises.indexOf(exercise)
 
         viewModel.training.exercises[index].links.remove(link)
+        viewModel.deleteLink(link)
         recyclerViewAdapter.notifyDataSetChanged()
 
     }
@@ -157,6 +160,7 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
     override fun onClickDeleteExercise(exercise: Exercise) {
         viewModel.training.exercises.remove(exercise)
         recyclerViewAdapter.notifyDataSetChanged()
+        viewModel.deleteExercise(exercise)
     }
 
     override fun onClickEditExercise(exercise: Exercise) {

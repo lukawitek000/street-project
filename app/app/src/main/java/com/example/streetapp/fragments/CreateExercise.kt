@@ -91,7 +91,7 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
             Log.i(TAG, "add new link to exercise")
             val linkTitle = binding.exerciseLinkTitleInput.text.toString()
             val linkUrl = binding.exerciseLinkUrlInput.text.toString()
-            val newLink = Link(1, 1, 1, linkTitle, linkUrl)
+            val newLink = Link(viewModel.exerciseLinks.value?.size?.toLong() ?: 0, viewModel.exercisesCreating.size.toLong(), 1, linkTitle, linkUrl)
             viewModel.addExerciseLink(newLink)
             binding.exerciseLinkTitleInput.text?.clear()
             binding.exerciseLinkUrlInput.text?.clear()

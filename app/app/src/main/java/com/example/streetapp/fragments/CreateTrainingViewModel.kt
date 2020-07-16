@@ -52,6 +52,18 @@ class CreateTrainingViewModel(val activity: AppCompatActivity) : ViewModel() {
         }
     }
 
+    fun deleteExercise(exercise: Exercise) {
+        uiScope.launch {
+            withContext(Dispatchers.IO){
+                database.trainingDao().deleteExercise(exercise)
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
+    }
 
     fun populateExerciseLinks(links: ArrayList<Link>){
         _exerciseLinks.value = links
@@ -95,6 +107,13 @@ class CreateTrainingViewModel(val activity: AppCompatActivity) : ViewModel() {
         exercisesCreating[index] = newExercise
 
 
+    }
+
+
+    fun updateTraining(training: Training){
+        uiScope.launch {
+            database.trainingDao().updateTraining(training)
+        }
     }
 
 

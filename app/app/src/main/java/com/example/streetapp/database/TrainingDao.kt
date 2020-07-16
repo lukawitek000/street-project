@@ -17,6 +17,18 @@ abstract class TrainingDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertExercises(exercises: List<Exercise>) : List<Long>
 
+    @Delete
+    abstract fun deleteExercise(exercises: Exercise)
+
+    @Delete
+    abstract fun deleteTraining(training: Training)
+
+    @Delete
+    abstract fun deleteLink(link: Link)
+
+    @Update
+    abstract fun updateTraining(training: Training)
+
 
     @Transaction
     @Query("SELECT * from training")
@@ -30,6 +42,9 @@ abstract class TrainingDao {
 
     @Query("SELECT * from link")
     abstract fun getAllLinks(): List<Link>
+
+
+
 
 
     fun getAllTrainings(): ArrayList<Training> {
