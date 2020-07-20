@@ -3,7 +3,6 @@ package com.example.streetapp
 import android.content.Context
 import android.util.Log
 import com.example.streetapp.database.AppDatabase
-import com.example.streetapp.fragments.createTraining.CreateTrainingViewModel
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
@@ -37,15 +36,15 @@ class MainRepository {
 
     suspend fun getAll(): List<TrainingWithExercisesAndLinks> {
         return withContext(Dispatchers.IO){
-            database!!.trainingDao().getAll()
+            database.trainingDao().getAll()
         }
     }
 
     suspend fun getAllTrainings(): ArrayList<Training>{
         return withContext(Dispatchers.IO){
             val trainings = ArrayList<Training>()
-            val insertedData = database?.trainingDao()?.getAll()
-            val allLinks = database?.linkDao()?.getAllLinks()
+            val insertedData = database.trainingDao().getAll()
+            val allLinks = database.linkDao().getAllLinks()
             for (data in insertedData) {
                 val trainingCreated = data.training
                 trainingCreated.exercises = data.exercises as ArrayList<Exercise>
@@ -63,13 +62,13 @@ class MainRepository {
 
 
 
-    suspend fun insertTrainingWithAllInfo(training: Training): CreateTrainingViewModel.Status{
+    suspend fun insertTrainingWithAllInfo(training: Training): Status{
         return withContext(Dispatchers.IO){
             training.trainingId = database.trainingDao().insertTraining(training)
             insertTrainingLinks(training)
             val exercisesIds = insertListOfExercises(training)
             insertLinksOfExercises(training, exercisesIds)
-            CreateTrainingViewModel.Status.INSERTED
+            Status.INSERTED
         }
     }
 
@@ -113,12 +112,12 @@ class MainRepository {
 
 
 
-    suspend fun updateTraining(training: Training) : CreateTrainingViewModel.Status {
+    suspend fun updateTraining(training: Training) : Status {
         return withContext(Dispatchers.IO){
             database.trainingDao().updateTraining(training)
             updateTrainingLinks(training)
             updateTrainingsExercises(training)
-            CreateTrainingViewModel.Status.UPDATED
+            Status.UPDATED
         }
     }
 
@@ -208,7 +207,5 @@ class MainRepository {
             }
         }
     }
-
-
 
 }

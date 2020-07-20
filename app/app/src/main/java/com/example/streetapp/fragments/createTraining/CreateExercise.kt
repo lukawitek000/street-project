@@ -66,8 +66,8 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
         return binding.root
     }
 
-    private fun blockExerciseLinkWithoutUrl() {
-        binding.exerciseAddButton.isEnabled = false
+    private fun blockExerciseWithoutName() {
+        binding.exerciseAddButton.isEnabled = binding.exerciseAddButton.text != CREATE
         binding.exerciseNameInput.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
                 binding.exerciseAddButton.isEnabled = !p0.isNullOrEmpty()
@@ -82,8 +82,8 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
 
     }
 
-    private fun blockExerciseWithoutName() {
-        binding.addNewLinksToExercise.isEnabled = binding.exerciseAddButton.text != CREATE
+    private fun blockExerciseLinkWithoutUrl() {
+        binding.addNewLinksToExercise.isEnabled = false
         binding.exerciseLinkUrlInput.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
                 binding.addNewLinksToExercise.isEnabled = !p0.isNullOrEmpty()

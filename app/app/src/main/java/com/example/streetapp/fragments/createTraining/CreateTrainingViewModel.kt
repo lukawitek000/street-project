@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.streetapp.MainRepository
+import com.example.streetapp.Status
 import com.example.streetapp.database.AppDatabase
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
@@ -34,9 +35,7 @@ class CreateTrainingViewModel(val context: Context) : ViewModel() {
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
-    enum class Status{
-        LOADING, INSERTED, UPDATED, FAILURE
-    }
+
 
 
     private val _status = MutableLiveData<Status>()

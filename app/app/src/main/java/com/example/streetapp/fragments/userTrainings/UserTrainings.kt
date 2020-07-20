@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.streetapp.R
+import com.example.streetapp.Status
 import com.example.streetapp.databinding.UserTrainingsFragmentBinding
 import com.example.streetapp.fragments.adapters.TrainingsAdapter
 import com.example.streetapp.models.Training
@@ -103,9 +104,9 @@ class UserTrainings : Fragment(), TrainingsAdapter.OnClickTrainingHandler {
 
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
-            if(it == UserTrainingsViewModel.Status.SUCCESS) {
+            if(it == Status.SUCCESS) {
                 viewModel.filterTrainings(binding.filterTextInput.text.toString(), binding.sortBySpinner.selectedItemPosition)
-            } else if (it == UserTrainingsViewModel.Status.FAILURE) {
+            } else if (it == Status.FAILURE) {
                 Toast.makeText(context, "Fail to connect to database", Toast.LENGTH_SHORT).show()
             }
         })

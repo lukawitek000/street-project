@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.MainActivity
 import com.example.streetapp.R
+import com.example.streetapp.Status
 import com.example.streetapp.databinding.CreateTrainingFragmentBinding
 import com.example.streetapp.fragments.adapters.ExercisesAdapter
 import com.example.streetapp.fragments.adapters.LinksAdapter
@@ -105,9 +106,9 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
     private fun observeStatus() {
         viewModel.status.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            if(it == CreateTrainingViewModel.Status.INSERTED) {
+            if(it == Status.INSERTED) {
                 findNavController().navigateUp()
-            }else if(it == CreateTrainingViewModel.Status.UPDATED) {
+            }else if(it == Status.UPDATED) {
                 findNavController().navigate(R.id.action_createTraining2_to_user_trainings)
             }
         })
