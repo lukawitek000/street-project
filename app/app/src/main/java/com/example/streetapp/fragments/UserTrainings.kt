@@ -56,16 +56,11 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
         val viewModelFactory = UserTrainingsViewModelFactory(activity as AppCompatActivity)
         viewModel = ViewModelProvider(this, viewModelFactory).get(UserTrainingsViewModel::class.java)
         Log.i("test", "onCreateView")
-        viewModel.getAllData()
+
         //viewModel.trainings = TemporaryDatabase.getAll()
         //viewModel.allTrainings = TemporaryDatabase.getAll()
-        viewModel.allTrainings.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            viewModel.trainings = it
-            recyclerViewAdapter.trainings = it
-            recyclerViewAdapter.notifyDataSetChanged()
-            Log.i(TAG, "in observer of alltrainings")
-        })
 
+        viewModel.getAllData()
         val spanCount = activity?.windowManager?.defaultDisplay?.width
         Log.i("UserTrainings", "spanCount = $spanCount")
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
@@ -92,12 +87,7 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
               //  Toast.makeText(context, "what was clicked ${dropdownItems[p2]} ", Toast.LENGTH_SHORT).show()
-
                 sortTrainings(p2)
-
-
-
-
             }
 
         }
@@ -105,16 +95,16 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
         searchEditText = view.findViewById<EditText>(R.id.filterTextInput)
         searchEditText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                Log.i(TAG, "After text changed $p0")
+              //  Log.i(TAG, "After text changed $p0")
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-                Log.i(TAG, "Before text vhanged $p0")
+              //  Log.i(TAG, "Before text vhanged $p0")
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int){
-                Log.i(TAG , "ontextChanged $p0")
+               // Log.i(TAG , "ontextChanged $p0")
                 val filterList = viewModel.allTrainings.value?.filter {
                     if (it.name.contains(p0!!, true) || it.type.contains(p0!!, true)
                         || it.description.contains(p0, true)){
@@ -128,11 +118,18 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
                 sortTrainings(spinner.selectedItemPosition)
                 recyclerViewAdapter.notifyDataSetChanged()
 
-                Log.i(TAG, "filter list $filterList view model trainings ${viewModel.trainings}, all trainings ${viewModel.allTrainings}")
+               // Log.i(TAG, "filter list $filterList view model trainings ${viewModel.trainings}, all trainings ${viewModel.allTrainings}")
             }
 
         })
 
+        viewModel.allTrainings.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            viewModel.trainings = it
+            recyclerViewAdapter.trainings = it
+            recyclerViewAdapter.notifyDataSetChanged()
+            Log.i(TAG, "in observer of alltrainings")
+            sortTrainings(spinner.selectedItemPosition)
+        })
 
         setHasOptionsMenu(true)
         return view

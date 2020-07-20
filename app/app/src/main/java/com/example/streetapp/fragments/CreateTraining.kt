@@ -25,6 +25,7 @@ import java.lang.Exception
 import java.lang.NumberFormatException
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesAdapter.OnClickExerciseListener{
 
@@ -178,7 +179,8 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
 
         val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
+       // val year = c.get(Calendar.YEAR)
+        val year = Random.nextInt(2000, 2020)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
