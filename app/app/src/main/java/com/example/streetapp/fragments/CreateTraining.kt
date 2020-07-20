@@ -63,8 +63,9 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         fillInputFields()
         Log.i(TAG, "arguments: $arguments")
         if(arguments?.get("training") != null) {
-            Log.i(TAG, "get training from arguments")
+
             previousTraining = arguments?.get("training") as Training
+            Log.i(TAG, "get training from arguments $previousTraining")
             setValuesFromArguments(previousTraining)
             binding.createButton.text = "Update"
         } else {
@@ -120,6 +121,14 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
     }
 
     private fun createButtonListener() {
+        viewModel.status.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            if(it == "end") {
+                findNavController().navigateUp()
+            }else if(it == "updateFinished") {
+                findNavController().navigate(R.id.action_createTraining2_to_user_trainings)
+            }
+            Log.i(TAG, "status observe ${viewModel.status.value}")
+        })
         binding.createButton.setOnClickListener {
             val newTraining = createNewTraining()
             if(binding.createButton.text == "Create") {
@@ -129,19 +138,16 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
                 Log.i(TAG, "inserted training $newTraining")
 
-                viewModel.status.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                    if(it == "end") {
-                        findNavController().navigateUp()
-                    }
-                    Log.i(TAG, "status observe ${viewModel.status.value}")
-                })
+
 
                // findNavController().navigateUp()
             } else {
-                TemporaryDatabase.updateTraining(previousTraining, newTraining)
+               // TemporaryDatabase.updateTraining(previousTraining, newTraining)
                 Toast.makeText(context, "Training updated", Toast.LENGTH_SHORT).show()
+                newTraining.trainingId = previousTraining.trainingId
+                viewModel.updateTraining(newTraining)
                 val action = CreateTrainingDirections.actionCreateTraining2ToTrainingDetails(newTraining)
-                findNavController().navigate(action)
+               // findNavController().navigate(action)
             }
 
 
@@ -238,6 +244,9 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         viewModel.trainingLinksCreating.remove(link)
         Log.i(TAG, "onDeleteLinkClick in Create Training")
         linksRecyclerViewAdapter.notifyDataSetChanged()
+        if(binding.createButton.text == "Update"){
+            viewModel.deleteLink(link)
+        }
     }
 
     override fun onClickLink(link: Link) {
@@ -257,6 +266,9 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         val index = viewModel.exercisesCreating.indexOf(exercise)
         viewModel.exercisesCreating[index].links.remove(link)
         exercisesRecyclerViewAdapter.notifyDataSetChanged()
+        if(binding.createButton.text == "Update"){
+            viewModel.deleteLink(link)
+        }
 
     }
 

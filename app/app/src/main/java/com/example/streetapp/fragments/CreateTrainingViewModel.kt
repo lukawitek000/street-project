@@ -116,10 +116,27 @@ class CreateTrainingViewModel(val activity: AppCompatActivity) : ViewModel() {
 
     }
 
+    fun deleteLink(link: Link){
+        uiScope.launch {
+            withContext(Dispatchers.IO){
+                database.trainingDao().deleteLink(link)
+            }
+        }
+    }
+
 
     fun updateTraining(training: Training){
         uiScope.launch {
-            database.trainingDao().updateTraining(training)
+            Log.i("CreateTrainingViewModel", "training to update $training")
+            status.value = "loading"
+            status.value = updateTrainingInDatabase(training)
+        }
+    }
+
+    private suspend fun updateTrainingInDatabase(training: Training) : String {
+        return withContext(Dispatchers.IO){
+            database.trainingDao().updateWholeTraining(training)
+            "updateFinished"
         }
     }
 

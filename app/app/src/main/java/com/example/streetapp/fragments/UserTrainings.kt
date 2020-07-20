@@ -43,6 +43,7 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
 
     private lateinit var recyclerViewAdapter: UserTrainingsAdapter
 
+    private var searchEditText: EditText? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -101,11 +102,10 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
 
         }
 
-        val searchEditText = view.findViewById<EditText>(R.id.filterTextInput)
-        searchEditText.addTextChangedListener(object : TextWatcher {
+        searchEditText = view.findViewById<EditText>(R.id.filterTextInput)
+        searchEditText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 Log.i(TAG, "After text changed $p0")
-
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -136,6 +136,11 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
 
         setHasOptionsMenu(true)
         return view
+    }
+
+    override fun onStart() {
+        super.onStart()
+        searchEditText?.text?.clear()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -76,8 +76,9 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
             binding.exerciseRepetitionInput.text = viewModel.exercise!!.numberOfRepetitions.toString().toEditable()
             binding.exerciseTimeInput.text = viewModel.exercise!!.time.toString().toEditable()
 
-            // exerciseLinksRecyclerViewAdapter.links = viewModel.exercise!!.links
-            // viewModel.populateExerciseLinks(viewModel.exercise!!.links)
+            exerciseLinksRecyclerViewAdapter.links = viewModel.exercise!!.links
+            viewModel.populateExerciseLinks(viewModel.exercise!!.links)
+           // exerciseLinksRecyclerViewAdapter.notifyDataSetChanged()
 
             binding.exerciseAddButton.text = "Update"
         } else {
@@ -109,6 +110,8 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
                 viewModel.addExercise(newExercise)
 
             } else {
+                newExercise.exerciseId = viewModel.exercise?.exerciseId!!
+                newExercise.parentTrainingId = viewModel.exercise!!.parentTrainingId
                 viewModel.updateExercise(newExercise)
                 viewModel.exercise = null
             }
@@ -147,6 +150,9 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
 
     override fun onDeleteLinkClick(link: Link) {
         viewModel.deleteExerciseLink(link)
+        if(binding.exerciseAddButton.text == "Update"){
+            viewModel.deleteLink(link)
+        }
     }
 
     override fun onClickLink(link: Link) {
