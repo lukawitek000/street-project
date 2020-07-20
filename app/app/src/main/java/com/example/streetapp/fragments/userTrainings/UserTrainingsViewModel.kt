@@ -1,5 +1,6 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.userTrainings
 
+import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
@@ -8,74 +9,54 @@ import androidx.lifecycle.ViewModel
 import com.example.streetapp.database.AppDatabase
 import com.example.streetapp.models.*
 import kotlinx.coroutines.*
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
-class UserTrainingsViewModel(val activity: AppCompatActivity) : ViewModel() {
-    var trainings = ArrayList<Training>()
+class UserTrainingsViewModel(val context: Context) : ViewModel() {
 
-    private val _allTrainings = MutableLiveData<ArrayList<Training>>()
+    private val _trainings = MutableLiveData<List<Training>>()
+    val trainings: LiveData<List<Training>>
+        get() = _trainings
 
-    val allTrainings: LiveData<ArrayList<Training>>
-        get() = _allTrainings
-
-    private val _justForObservation = MutableLiveData<Int>()
-
-    val justForObservation : LiveData<Int>
-     get() = _justForObservation
-
+    var allTrainings = ArrayList<Training>()
 
     private var viewModelJob = Job()
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
-
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    private val database = AppDatabase.getDatabase(activity)
+    private val database = AppDatabase.getDatabase(context)
 
-
-    init {
-        _allTrainings.value = ArrayList()
-        Log.i("UserTrainingsViewModel", "database test $database")
-/*
-        uiScope.launch {
-            Log.i("UserTrainingsViewModel", "inside uiScope")
-            _allTrainings.value = getAllTrainings()
-            //trainings = getAllTrainings()
-            //delay(1000)
-            for (i in 0 until _allTrainings.value!!.size) {
-
-                Log.i("UserTrainingsViewModel", "all trainings $i -> ${_allTrainings.value!![i]}")
-            }
-            _justForObservation.value = 0
-
-        }*/
-
-
-        //Log.i("UserTrainingsViewModel", "database test get all ${database.trainingDao().getAll()}")
+    enum class Status {
+        LOADING, SUCCESS, FAILURE
     }
+
+    private val _status = MutableLiveData<Status>()
+    val status: LiveData<Status>
+        get() = _status
+
 
     fun getAllData() {
         uiScope.launch {
             Log.i("UserTrainingsViewModel", "inside uiScope")
-            _allTrainings.value = getAllTrainings()
-            //trainings = getAllTrainings()
-            //delay(1000)
-            for (i in 0 until _allTrainings.value!!.size) {
+            _status.value = Status.LOADING
+            try {
+                allTrainings = getAllTrainings()
+                _status.value = Status.SUCCESS
+            }catch (e: Exception){
+                _status.value = Status.FAILURE
+            }
 
+            /*
+            for (i in 0 until _allTrainings.value!!.size) {
                 Log.i("UserTrainingsViewModel", "all trainings $i -> ${_allTrainings.value!![i]}")
             }
-            _justForObservation.value = 0
 
             Log.i("AllLinks", getAllLinks().toString())
             Log.i("AllLinks", _allTrainings.value.toString())
             Log.i("AllLinks", getAllExercises().toString())
             Log.i("AllLinks", getDataFromDatabase().toString())
+            */
+
             //activity.deleteDatabase("street_workout_database")
-
-
         }
     }
 
@@ -87,14 +68,15 @@ class UserTrainingsViewModel(val activity: AppCompatActivity) : ViewModel() {
 
     }
 
-
+/*
     private suspend fun getAllExercises(): List<ExerciseWithLinks> {
         return withContext(Dispatchers.IO){
             database.trainingDao().getAllExercises()
         }
 
     }
-
+*/
+    /*
     private suspend fun getAllLinks(): List<Link> {
         return withContext(Dispatchers.IO) {
             database.trainingDao().getAllLinks()
@@ -102,6 +84,8 @@ class UserTrainingsViewModel(val activity: AppCompatActivity) : ViewModel() {
 
     }
 
+     */
+/*
     private suspend fun insertFakeData(index: Int) {
         return withContext(Dispatchers.IO) {
             val insertTraining = Training(name="Some name $index", type = "Handstand",timeInMinutes =  11, description = "descritpion super hiper",
@@ -116,11 +100,50 @@ class UserTrainingsViewModel(val activity: AppCompatActivity) : ViewModel() {
             ))))
             database.trainingDao().insertTrainingWithAllInfo(training = insertTraining)
         }
-    }
-
+    }*/
+/*
     private suspend fun getDataFromDatabase(): List<TrainingWithExercisesAndLinks> {
         return withContext(Dispatchers.IO){
             database.trainingDao().getAll()
         }
     }
+*/
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
+
+    fun sortTrainings(position: Int) {
+        Log.i("UserTrainingsViewModel", "sort trainings ${_trainings.value}")
+        if (position == 0) {
+            sortByLatest()
+        } else {
+            sortByName()
+        }
+    }
+
+    private fun sortByName() {
+        _trainings.value = _trainings.value?.sortedWith(compareBy {it.name})
+    }
+
+    private fun sortByLatest() {
+        _trainings.value = _trainings.value?.sortedWith(compareByDescending{it.creatingDate})
+    }
+
+
+    fun filterTrainings(phrase: CharSequence, sortingPosition: Int) {
+        val filterList = allTrainings.filter {
+            if (it.name.contains(phrase, true) || it.type.contains(phrase, true)
+                || it.description.contains(phrase, true)){
+                return@filter true
+            }
+            false
+        }
+        _trainings.value = filterList
+        sortTrainings(sortingPosition)
+    }
+
+
 }

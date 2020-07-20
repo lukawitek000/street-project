@@ -1,11 +1,9 @@
 package com.example.streetapp.fragments
 
 import android.app.Activity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.R
@@ -13,14 +11,14 @@ import com.example.streetapp.databinding.UserTrainingsItemBinding
 import com.example.streetapp.models.Training
 import java.text.SimpleDateFormat
 
-class UserTrainingsAdapter(val context: Activity,  var trainings: ArrayList<Training>,  var onClickTrainingHandler: OnClickTrainingHandler) :
-    RecyclerView.Adapter<UserTrainingsAdapter.UserTrainingsHolder>() {
+class TrainingsAdapter(val context: Activity,  var onClickTrainingHandler: OnClickTrainingHandler,
+        var trainings: List<Training>?) :
+    RecyclerView.Adapter<TrainingsAdapter.UserTrainingsHolder>() {
 
 
     interface OnClickTrainingHandler {
-        fun onClick(training: Training)
+        fun onTrainingClick(training: Training)
     }
-
 
 
 
@@ -52,18 +50,20 @@ class UserTrainingsAdapter(val context: Activity,  var trainings: ArrayList<Trai
         }
 
         override fun onClick(p0: View?) {
-            onClickTrainingHandler.onClick(trainings[adapterPosition])
+            trainings?.get(adapterPosition)?.let { onClickTrainingHandler.onTrainingClick(it) }
         }
 
     }
 
     override fun getItemCount(): Int {
-        return trainings.size
+        return trainings?.size ?: 0
     }
 
     override fun onBindViewHolder(holder: UserTrainingsHolder, position: Int) {
-        val training = trainings[position]
-        holder.bind(training)
+        val training = trainings?.get(position)
+        if (training != null) {
+            holder.bind(training)
+        }
         /*holder.name.text = training.name
         holder.type.text = training.type
         val time = training.timeInMinutes.toString() + "min"

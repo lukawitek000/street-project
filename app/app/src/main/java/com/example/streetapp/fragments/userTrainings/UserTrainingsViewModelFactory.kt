@@ -1,15 +1,16 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.userTrainings
 
+import android.app.Activity
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.streetapp.models.Training
 import java.lang.IllegalArgumentException
 
-class UserTrainingsViewModelFactory(private val activity: AppCompatActivity) : ViewModelProvider.Factory{
+class UserTrainingsViewModelFactory(private val context: Context) : ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(UserTrainingsViewModel::class.java)) {
-            return UserTrainingsViewModel(activity) as T
+            return UserTrainingsViewModel(context) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

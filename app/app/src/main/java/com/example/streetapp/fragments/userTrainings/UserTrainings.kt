@@ -1,6 +1,5 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.userTrainings
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,31 +7,22 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.streetapp.MainActivity
 import com.example.streetapp.R
-import com.example.streetapp.TemporaryDatabase
-import com.example.streetapp.models.Exercise
-import com.example.streetapp.models.Link
+import com.example.streetapp.databinding.UserTrainingsFragmentBinding
+import com.example.streetapp.fragments.TrainingsAdapter
 import com.example.streetapp.models.Training
-import java.sql.Time
-import java.time.Duration
-import java.time.LocalDateTime
-import java.time.Month
-import java.time.temporal.TemporalAdjusters.next
-import java.util.*
-import java.util.EnumSet.of
 import kotlin.collections.ArrayList
-import kotlin.random.Random
-import kotlin.random.Random.Default.nextInt
 
-class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
+class UserTrainings : Fragment(), TrainingsAdapter.OnClickTrainingHandler {
 
     companion object {
         fun newInstance() = UserTrainings()
@@ -41,7 +31,9 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
 
     private lateinit var viewModel: UserTrainingsViewModel
 
-    private lateinit var recyclerViewAdapter: UserTrainingsAdapter
+    private lateinit var binding: UserTrainingsFragmentBinding
+
+    private lateinit var recyclerViewAdapter: TrainingsAdapter
 
     private var searchEditText: EditText? = null
 
@@ -49,132 +41,82 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.user_trainings_fragment, container, false)
 
-        val view = inflater.inflate(R.layout.user_trainings_fragment, container, false)
 
-
-        val viewModelFactory = UserTrainingsViewModelFactory(activity as AppCompatActivity)
+        val viewModelFactory = UserTrainingsViewModelFactory(requireContext())
         viewModel = ViewModelProvider(this, viewModelFactory).get(UserTrainingsViewModel::class.java)
         Log.i("test", "onCreateView")
 
-        //viewModel.trainings = TemporaryDatabase.getAll()
-        //viewModel.allTrainings = TemporaryDatabase.getAll()
-
         viewModel.getAllData()
-        val spanCount = activity?.windowManager?.defaultDisplay?.width
-        Log.i("UserTrainings", "spanCount = $spanCount")
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        recyclerViewAdapter = UserTrainingsAdapter(this.requireActivity(), viewModel.allTrainings.value!!, this)
+
+        val recyclerView = binding.recyclerView
+        recyclerViewAdapter = TrainingsAdapter(this.requireActivity(), this, viewModel.trainings.value)
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 2)
         recyclerView.adapter = recyclerViewAdapter
 
-        val button: View = view.findViewById(R.id.floatingButton)
-        button.setOnClickListener{
-           // Toast.makeText(context, "click nice", Toast.LENGTH_SHORT).show()
-            // (activity as MainActivity).replaceFragment(CreateTraining.newInstance(), CreateTraining.TAG)
+
+        binding.floatingButton.setOnClickListener{
             val navController = findNavController()
             navController.navigate(R.id.action_user_trainings_to_createTraining2)
         }
 
-        val spinner: Spinner = view.findViewById(R.id.sortBySpinner)
-        val dropdownItems = arrayOf("Latest", "Alphabetically")
-        spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, dropdownItems)
-        spinner.setSelection(0)
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
+
+
+        binding.sortBySpinner.adapter = ArrayAdapter(requireContext(),
+            android.R.layout.simple_spinner_dropdown_item, arrayOf("Latest", "Alphabetically"))
+
+        binding.sortBySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-              //  Toast.makeText(context, "what was clicked ${dropdownItems[p2]} ", Toast.LENGTH_SHORT).show()
-                sortTrainings(p2)
+                Log.i(TAG, "onItemSelected $p2")
+                if(viewModel.trainings.value != null) {
+                    viewModel.sortTrainings(p2)
+                }
             }
 
         }
 
-        searchEditText = view.findViewById<EditText>(R.id.filterTextInput)
+        searchEditText = binding.filterTextInput
         searchEditText?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-              //  Log.i(TAG, "After text changed $p0")
-            }
+            override fun afterTextChanged(p0: Editable?) {}
 
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-              //  Log.i(TAG, "Before text vhanged $p0")
-            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int){
-               // Log.i(TAG , "ontextChanged $p0")
-                val filterList = viewModel.allTrainings.value?.filter {
-                    if (it.name.contains(p0!!, true) || it.type.contains(p0!!, true)
-                        || it.description.contains(p0, true)){
-                        return@filter true
-                    }
-                    false
-                }
-
-                viewModel.trainings = ArrayList(filterList)
-                recyclerViewAdapter.trainings = viewModel.trainings
-                sortTrainings(spinner.selectedItemPosition)
-                recyclerViewAdapter.notifyDataSetChanged()
-
-               // Log.i(TAG, "filter list $filterList view model trainings ${viewModel.trainings}, all trainings ${viewModel.allTrainings}")
+                Log.i(TAG , "on text Changed")
+                viewModel.filterTrainings(p0!!, binding.sortBySpinner.selectedItemPosition)
             }
 
         })
 
-        viewModel.allTrainings.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            viewModel.trainings = it
+        viewModel.trainings.observe(viewLifecycleOwner, Observer {
             recyclerViewAdapter.trainings = it
             recyclerViewAdapter.notifyDataSetChanged()
-            Log.i(TAG, "in observer of alltrainings")
-            sortTrainings(spinner.selectedItemPosition)
+            Log.i(TAG, "trainings observer")
         })
 
+
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            if(it == UserTrainingsViewModel.Status.SUCCESS) {
+                viewModel.filterTrainings(binding.filterTextInput.text.toString(), binding.sortBySpinner.selectedItemPosition)
+            } else if (it == UserTrainingsViewModel.Status.FAILURE) {
+                Toast.makeText(context, "Fail to connect to database", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
+
         setHasOptionsMenu(true)
-        return view
-    }
-
-    override fun onStart() {
-        super.onStart()
-        searchEditText?.text?.clear()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        Log.i("test", "onCreate")
-    }
-
-    private fun sortTrainings(position: Int) {
-        if ( position == 0) {
-            sortByLatest()
-        } else {
-            sortByName()
-        }
-    }
-
-    private fun sortByName() {
-        viewModel.trainings.sortWith(compareBy {it.name})
-        recyclerViewAdapter.notifyDataSetChanged()
-    }
-
-    private fun sortByLatest() {
-        viewModel.trainings.sortWith(compareByDescending{it.creatingDate})
-        recyclerViewAdapter.notifyDataSetChanged()
+        return binding.root
     }
 
 
-
-    override fun onClick(training: Training) {
-       // Toast.makeText(activity, "click on ${training.name}", Toast.LENGTH_SHORT).show()
-        findNavController().navigate(UserTrainingsDirections.actionUserTrainingsToTrainingDetails(training))
-        /*
-        val frag = TrainingDetails.newInstance()
-        val bundle = Bundle()
-        bundle.putSerializable("training", training)
-        frag.arguments = bundle
-        (activity as MainActivity).replaceFragment(frag, TrainingDetails.TAG)*/
+    override fun onTrainingClick(training: Training) {
+        findNavController().navigate(
+            UserTrainingsDirections.actionUserTrainingsToTrainingDetails(training)
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -185,13 +127,11 @@ class UserTrainings : Fragment() , UserTrainingsAdapter.OnClickTrainingHandler{
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId){
             R.id.settings -> {
-             //   Toast.makeText(activity, "settings", Toast.LENGTH_SHORT).show()
                 val navController = findNavController()
                 navController.navigate(R.id.action_user_trainings_to_settingsFragment)
                 true
             }
             else -> {
-              //  Toast.makeText(activity, "nothing", Toast.LENGTH_SHORT).show()
                 false
             }
         }
