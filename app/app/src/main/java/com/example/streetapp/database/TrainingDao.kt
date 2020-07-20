@@ -7,7 +7,7 @@ import com.example.streetapp.models.*
 @Dao
 abstract class TrainingDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(training: Training) : Long
+    abstract fun insertTraining(training: Training) : Long
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -15,7 +15,7 @@ abstract class TrainingDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertExercises(exercises: List<Exercise>) : List<Long>
+    abstract fun insertExercisesList(exercises: List<Exercise>) : List<Long>
 
     @Delete
     abstract fun deleteExercise(exercises: Exercise)
@@ -34,7 +34,7 @@ abstract class TrainingDao {
 
     @Transaction
     @Query("SELECT * from Exercise")
-    abstract fun getAllExercises(): List<ExerciseWithLinks>
+    abstract fun getAllExercisesWithLinks(): List<ExerciseWithLinks>
 
 
     @Query("SELECT * from link")
@@ -65,19 +65,43 @@ abstract class TrainingDao {
 
 
     fun updateWholeTraining(training: Training){
-
         updateTraining(training)
+        updateTrainingsExercises(training)
+        updateTrainingLinks(training)
+    }
+
+    private fun updateTrainingLinks(training: Training) {
+        val oldLinks = getLinksOfTrainingByID(training.trainingId)
+        val trainingLinks = training.links
+        val newTrainingLinks = ArrayList<Link>()
+        for (link in trainingLinks) {
+            if(!oldLinks.contains(link)){
+                link.linkId = 0
+                link.linksExerciseOwnerId = 0
+                link.linksTrainingOwnerId = training.trainingId
+                newTrainingLinks.add(link)
+            }
+
+        }
+
+        for(oldLink in oldLinks) {
+            if(!trainingLinks.contains(oldLink)){
+                deleteLink(oldLink)
+                Log.i("update", "Link to delete $oldLink")
+            }
+        }
+        Log.i("update", "links to insert $newTrainingLinks")
+        insertLinksList(newTrainingLinks)
+    }
 
 
-
+    private fun updateTrainingsExercises(training: Training) {
         val oldExercises = getExercisesOfTrainingByID(training.trainingId)
 
         var trainingExercises = training.exercises
 
         for (oldExercise in oldExercises) {
             val exerciseToUpdate = training.exercises.filter { exercise -> exercise.exerciseId == oldExercise.exerciseId }
-
-
 
             if(exerciseToUpdate.isNotEmpty()) {
                 updateExercise(exerciseToUpdate[0])
@@ -94,17 +118,12 @@ abstract class TrainingDao {
                     }
                 }
                 insertLinksList(exerciseLinks)
-
-
-
             }
-
-
         }
 
         if(trainingExercises.isNotEmpty()) {
             trainingExercises.forEach { exercise -> exercise.parentTrainingId = training.trainingId }
-            val newExercisesIds = insertExercises(trainingExercises)
+            val newExercisesIds = insertExercisesList(trainingExercises)
 
             for(i in 0 until trainingExercises.size){
                 val newExerciseLinks = ArrayList<Link>()
@@ -117,106 +136,39 @@ abstract class TrainingDao {
                 insertLinksList(newExerciseLinks)
             }
 
-
             Log.i("update", "exercise to insert $trainingExercises")
         }
-
-
-        val oldLinks = getLinksOfTrainingByID(training.trainingId)
-        val trainingLinks = training.links
-        val newTrainingLinks = ArrayList<Link>()
-        for (link in trainingLinks) {
-            if(!oldLinks.contains(link)){
-                link.linkId = 0
-                link.linksExerciseOwnerId = 0
-                link.linksTrainingOwnerId = training.trainingId
-                newTrainingLinks.add(link)
-            }
-
-        }
-
-        for(oldLink in oldLinks) {
-            if(!trainingLinks.contains(oldLink)){
-               deleteLink(oldLink)
-                Log.i("update", "Link to delete $oldLink")
-            }
-        }
-        Log.i("update", "links to insert $newTrainingLinks")
-        insertLinksList(newTrainingLinks)
-
-
-        Log.i("update", "oldExercises $oldExercises")
-
-        Log.i("update", "oldLinks training $oldLinks")
-
-/*
-        for(exercise in oldExercises) {
-            val oldExerciseLinks: List<Link> = getLinksOfExerciseByID(exercise.exerciseId)
-            Log.i("update", "oldExercises links $oldExerciseLinks")
-
-            for (trainingExercise in training.exercises) {
-                for(exerciseLink in trainingExercise.links)
-                if(!oldExerciseLinks.contains(exerciseLink)){
-                    exerciseLink.linksExerciseOwnerId = trainingExercise.exerciseId
-                    Log.i("update", "exercise link to insert $exerciseLink")
-
-                }
-
-
-
-            }
-
-
-        }*/
-
-
-
-
-
     }
-
-
-
-
-
 
 
     fun getAllTrainings(): ArrayList<Training> {
         val trainings = ArrayList<Training>()
-
         val insertedData = getAll()
         val allLinks = getAllLinks()
-
         for (data in insertedData) {
             val trainingCreated = data.training
-
             trainingCreated.exercises = data.exercises as ArrayList<Exercise>
             trainingCreated.links = data.links as ArrayList<Link>
-
-            for(exLinks in trainingCreated.exercises) {
-                val links = allLinks.filter { link -> link.linksExerciseOwnerId == exLinks.exerciseId }
-                exLinks.links.addAll(links)
+            for(exerciseLinks in trainingCreated.exercises) {
+                val links = allLinks.filter { link -> link.linksExerciseOwnerId == exerciseLinks.exerciseId }
+                exerciseLinks.links.addAll(links)
             }
-
-
             trainings.add(trainingCreated)
             Log.i("UserTrainingsViewModel", "created training $trainingCreated")
         }
-
         return trainings
     }
 
 
     fun insertTrainingWithAllInfo(training: Training) {
         Log.i("inserting", "insert new training $training")
-        val trainingLinks = training.links
-        training.trainingId = insert(training)
+        training.trainingId = insertTraining(training)
+        insertTrainingLinks(training)
+        val exercisesIds = insertListOfExercises(training)
+        insertLinksOfExercises(training, exercisesIds)
+    }
 
-        for( i in 0 until trainingLinks.size) {
-            Log.i("inserting", "w forze $i linksOwner before ${trainingLinks[i].linksTrainingOwnerId}, traninid = ${training.trainingId}")
-            trainingLinks[i].linksTrainingOwnerId = training.trainingId
-        }
-
+    private fun insertLinksOfExercises(training: Training, exercisesIds: List<Long>) {
         for(exercise in training.exercises){
             for (link in exercise.links){
                 link.linkId = 0
@@ -225,30 +177,33 @@ abstract class TrainingDao {
             }
         }
 
-        val trainingExercises = training.exercises
-        Log.i("inserting", "trainingExercises $trainingExercises")
-        for (i in 0 until trainingExercises.size) {
-            trainingExercises[i].parentTrainingId = training.trainingId
-        }
-
-        val exercisesIds = insertExercises(trainingExercises)
-        Log.i("inserting", "exercisesIds $exercisesIds")
-
-        for (i in 0 until trainingExercises.size) {
-            for(j in 0 until trainingExercises[i].links.size) {
-                trainingExercises[i].links[j].linksExerciseOwnerId = exercisesIds[i]
+        for (i in 0 until training.exercises.size) {
+            for(j in 0 until training.exercises[i].links.size) {
+                training.exercises[i].links[j].linksExerciseOwnerId = exercisesIds[i]
             }
-            Log.i("inserting", "trainingExercises[$i].links ${trainingExercises[i].links}")
-            insertLinksList(trainingExercises[i].links)
+            Log.i("inserting", "trainingExercises[$i].links ${training.exercises[i].links}")
+            insertLinksList(training.exercises[i].links)
         }
-
-
-        Log.i("inserting", "trainingLinks $trainingLinks")
-        insertLinksList(trainingLinks)
-        //insert(training)
-
     }
 
+    private fun insertListOfExercises(training: Training): List<Long> {
+        Log.i("inserting", "trainingExercises $training.exercises")
+        for (i in 0 until training.exercises.size) {
+            training.exercises[i].parentTrainingId = training.trainingId
+        }
 
+        val exercisesIds = insertExercisesList(training.exercises)
+        Log.i("inserting", "exercisesIds $exercisesIds")
+        return exercisesIds
+    }
+
+    private fun insertTrainingLinks(training: Training) {
+        val trainingLinks = training.links
+        for(link in trainingLinks){
+            link.linksTrainingOwnerId = training.trainingId
+        }
+        Log.i("inserting", "trainingLinks $trainingLinks")
+        insertLinksList(trainingLinks)
+    }
 
 }

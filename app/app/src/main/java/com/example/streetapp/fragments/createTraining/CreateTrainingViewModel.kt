@@ -2,7 +2,6 @@ package com.example.streetapp.fragments.createTraining
 
 import android.content.Context
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +10,7 @@ import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
 import kotlinx.coroutines.*
+import java.lang.Exception
 
 class CreateTrainingViewModel(val context: Context) : ViewModel() {
 
@@ -33,30 +33,36 @@ class CreateTrainingViewModel(val context: Context) : ViewModel() {
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
+    enum class Status{
+        LOADING, INSERTED, UPDATED, FAILURE
+    }
+
+
+    private val _status = MutableLiveData<Status>()
+    val status: LiveData<Status>
+        get() = _status
 
     init {
         _exerciseLinks.value = ArrayList()
-        Log.i("CreateTrainingViewModel", "init view model createtraining")
     }
 
 
-    var status = MutableLiveData<String>()
 
     fun insertNewTraining(training: Training){
-        Log.i("CreateTrainingViewModel", "insert new Training outside uiScope $training")
         uiScope.launch {
-            Log.i("CreateTrainingViewModel", "insert new Training $training")
-            status.value = "loading"
-            status.value = insertTraining(training)
-            Log.i("CreateTrainingViewModel", "after inserting ")
+            try {
+                _status.value = Status.LOADING
+                _status.value = insertTraining(training)
+            }catch (e: Exception){
+                _status.value = Status.FAILURE
+            }
         }
     }
 
-    private suspend fun insertTraining(insertTraining: Training): String {
+    private suspend fun insertTraining(insertTraining: Training): Status {
         return withContext(Dispatchers.IO){
-            Log.i("CreateTrainingViewModel", "my training to insert $insertTraining")
             database.trainingDao().insertTrainingWithAllInfo(insertTraining)
-            "end"
+            Status.INSERTED
         }
     }
 
@@ -68,28 +74,25 @@ class CreateTrainingViewModel(val context: Context) : ViewModel() {
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
-    }
 
     fun populateExerciseLinks(links: ArrayList<Link>){
         _exerciseLinks.value = links
     }
+    // use in create exercise
 
 
     fun addExerciseLink(link: Link) {
         _exerciseLinks.value?.add(link)
-        notifyChangeInLiveData()
+        notifyChangeInExerciseLinksLiveData()
     }
 
     fun deleteExerciseLink(link: Link) {
         _exerciseLinks.value?.remove(link)
-        notifyChangeInLiveData()
+        notifyChangeInExerciseLinksLiveData()
     }
 
 
-    private fun notifyChangeInLiveData() {
+    private fun notifyChangeInExerciseLinksLiveData() {
         _exerciseLinks.value = _exerciseLinks.value
     }
 
@@ -111,10 +114,7 @@ class CreateTrainingViewModel(val context: Context) : ViewModel() {
 
     fun updateExercise(newExercise: Exercise) {
         val index = exercisesCreating.indexOf(exercise)
-
         exercisesCreating[index] = newExercise
-
-
     }
 
     fun deleteLink(link: Link){
@@ -128,17 +128,21 @@ class CreateTrainingViewModel(val context: Context) : ViewModel() {
 
     fun updateTraining(training: Training){
         uiScope.launch {
-            Log.i("CreateTrainingViewModel", "training to update $training")
-            status.value = "loading"
-            status.value = updateTrainingInDatabase(training)
+            _status.value = Status.LOADING
+            _status.value = updateTrainingInDatabase(training)
         }
     }
 
-    private suspend fun updateTrainingInDatabase(training: Training) : String {
+    private suspend fun updateTrainingInDatabase(training: Training) : Status {
         return withContext(Dispatchers.IO){
             database.trainingDao().updateWholeTraining(training)
-            "updateFinished"
+            Status.UPDATED
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
     }
 
 
