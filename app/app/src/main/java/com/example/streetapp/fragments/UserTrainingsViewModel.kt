@@ -69,6 +69,13 @@ class UserTrainingsViewModel(val activity: AppCompatActivity) : ViewModel() {
             }
             _justForObservation.value = 0
 
+            Log.i("AllLinks", getAllLinks().toString())
+            Log.i("AllLinks", _allTrainings.value.toString())
+            Log.i("AllLinks", getAllExercises().toString())
+            Log.i("AllLinks", getDataFromDatabase().toString())
+            //activity.deleteDatabase("street_workout_database")
+
+
         }
     }
 

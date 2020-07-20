@@ -17,5 +17,5 @@ data class Exercise(
                     var links: ArrayList<Link>
     )
      : Serializable {
-    constructor() : this(0, 0,  "", 0, 0, "", ArrayList())
+    constructor() : this( name="", time = 0, numberOfRepetitions = 0, description = "", links=ArrayList())
 }

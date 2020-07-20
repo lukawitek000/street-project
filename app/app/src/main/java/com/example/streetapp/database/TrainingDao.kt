@@ -74,32 +74,42 @@ abstract class TrainingDao {
 
 
     fun insertTrainingWithAllInfo(training: Training) {
-        Log.i("TrainingDao", "insert new training $training")
+        Log.i("inserting", "insert new training $training")
         val trainingLinks = training.links
         training.trainingId = insert(training)
 
         for( i in 0 until trainingLinks.size) {
-            Log.i("UserTrainingsViewModel", "w forze $i linksOwner before ${trainingLinks[i].linksTrainingOwnerId}, traninid = ${training.trainingId}")
+            Log.i("inserting", "w forze $i linksOwner before ${trainingLinks[i].linksTrainingOwnerId}, traninid = ${training.trainingId}")
             trainingLinks[i].linksTrainingOwnerId = training.trainingId
         }
 
+        for(exercise in training.exercises){
+            for (link in exercise.links){
+                link.linkId = 0
+                link.linksExerciseOwnerId = 0
+                link.linksTrainingOwnerId = 0
+            }
+        }
+
         val trainingExercises = training.exercises
+        Log.i("inserting", "trainingExercises $trainingExercises")
         for (i in 0 until trainingExercises.size) {
             trainingExercises[i].parentTrainingId = training.trainingId
         }
 
         val exercisesIds = insertExercises(trainingExercises)
+        Log.i("inserting", "exercisesIds $exercisesIds")
 
         for (i in 0 until trainingExercises.size) {
             for(j in 0 until trainingExercises[i].links.size) {
                 trainingExercises[i].links[j].linksExerciseOwnerId = exercisesIds[i]
             }
-
+            Log.i("inserting", "trainingExercises[$i].links ${trainingExercises[i].links}")
             insertLinksList(trainingExercises[i].links)
         }
 
 
-        Log.i("UserTrainingsViewModel", "trainingLinks $trainingLinks")
+        Log.i("inserting", "trainingLinks $trainingLinks")
         insertLinksList(trainingLinks)
         //insert(training)
 
