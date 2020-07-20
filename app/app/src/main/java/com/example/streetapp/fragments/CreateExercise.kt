@@ -2,6 +2,7 @@ package com.example.streetapp.fragments
 
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.example.streetapp.R
 import com.example.streetapp.databinding.CreateExerciseFragmentBinding
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
+import org.w3c.dom.Text
 import java.lang.NumberFormatException
 
 class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
@@ -62,6 +64,36 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
 
         addNewLinkToExerciseButtonListener()
         createExerciseButtonListener()
+
+        binding.addNewLinksToExercise.isEnabled = false
+        binding.exerciseLinkUrlInput.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                binding.addNewLinksToExercise.isEnabled = !p0.isNullOrEmpty()
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                binding.addNewLinksToExercise.isEnabled = !p0.isNullOrEmpty()
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+
+        binding.exerciseAddButton.isEnabled = false
+        binding.exerciseNameInput.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                binding.exerciseAddButton.isEnabled = !p0.isNullOrEmpty()
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                binding.exerciseAddButton.isEnabled = !p0.isNullOrEmpty()
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+
+
 
         return binding.root
     }

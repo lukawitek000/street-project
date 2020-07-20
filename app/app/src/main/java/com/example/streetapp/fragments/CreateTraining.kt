@@ -2,6 +2,7 @@ package com.example.streetapp.fragments
 
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.Toast
@@ -91,6 +92,41 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         createButtonListener()
         trainingLinksAddButtonListener()
         exercisesAddButtonListener()
+
+        binding.createButton.isEnabled = false
+
+        binding.trainingNameInput.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                binding.createButton.isEnabled = !p0.isNullOrEmpty()
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                binding.createButton.isEnabled = !p0.isNullOrEmpty()
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+        })
+
+        binding.trainingLinkAddButton.isEnabled = false
+        binding.linkUrlInput.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                binding.trainingLinkAddButton.isEnabled = !p0.isNullOrEmpty()
+                //binding.trainingLinkAddButton
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                binding.trainingLinkAddButton.isEnabled = !p0.isNullOrEmpty()
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+        })
+
+
 
 
 
