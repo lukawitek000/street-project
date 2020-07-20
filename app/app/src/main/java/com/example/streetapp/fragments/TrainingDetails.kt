@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.streetapp.MainActivity
 import com.example.streetapp.R
-import com.example.streetapp.TemporaryDatabase
 import com.example.streetapp.databinding.FragmentTrainingDetailsBinding
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
@@ -96,7 +95,6 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener, Exercises
 
 
         binding.deleteTrainingButton.setOnClickListener{
-            TemporaryDatabase.deleteTraining(viewModel.training)
             Toast.makeText(activity, "Training deleted", Toast.LENGTH_SHORT).show()
             viewModel.deleteTraining()
             findNavController().navigateUp()

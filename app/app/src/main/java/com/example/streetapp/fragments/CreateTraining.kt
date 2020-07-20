@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.MainActivity
 import com.example.streetapp.R
-import com.example.streetapp.TemporaryDatabase
 import com.example.streetapp.databinding.CreateTrainingFragmentBinding
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link

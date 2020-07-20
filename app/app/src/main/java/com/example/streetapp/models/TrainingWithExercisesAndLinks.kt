@@ -11,7 +11,6 @@ data class TrainingWithExercisesAndLinks(
         entity = Exercise::class
     )
     val exercises: List<Exercise>,
-
     @Relation(
         parentColumn = "trainingId",
         entityColumn = "linksTrainingOwnerId",

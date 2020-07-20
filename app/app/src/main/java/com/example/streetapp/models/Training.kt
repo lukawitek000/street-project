@@ -12,16 +12,16 @@ import kotlin.collections.ArrayList
 
 @Entity
 data class Training(
- @PrimaryKey(autoGenerate = true) var trainingId: Long = 0L,
-                   var name: String,
-                   var type: String,
-                    var timeInMinutes: Int,
-                    var description: String,
-                    var creatingDate: Date,
-                    @Ignore
-                    var links: ArrayList<Link>,
-                     @Ignore
- var exercises: ArrayList<Exercise>
-                    ) : Serializable {
- constructor() : this(1, "", "", 0, "", Date(), ArrayList<Link>(), ArrayList<Exercise>())
+    @PrimaryKey(autoGenerate = true)
+    var trainingId: Long = 0L,
+    var name: String,
+    var type: String,
+    var timeInMinutes: Int,
+    var description: String,
+    var creatingDate: Date,
+    @Ignore
+    var links: ArrayList<Link>,
+    @Ignore
+    var exercises: ArrayList<Exercise>) : Serializable {
+ constructor() : this(0, "", "", 0, "", Date(), ArrayList<Link>(), ArrayList<Exercise>())
 }
