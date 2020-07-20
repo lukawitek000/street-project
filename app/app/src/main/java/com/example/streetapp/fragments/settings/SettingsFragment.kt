@@ -1,4 +1,4 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,7 +22,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         savedInstanceState: Bundle?
     ): View? {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        //(activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         val languagePreference = findPreference<ListPreference>("language")
         languagePreference?.summary = languagePreference?.value.toString()
 

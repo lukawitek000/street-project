@@ -1,4 +1,4 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.adapters
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -11,8 +11,8 @@ import com.example.streetapp.databinding.UserTrainingsItemBinding
 import com.example.streetapp.models.Training
 import java.text.SimpleDateFormat
 
-class TrainingsAdapter(val context: Activity,  var onClickTrainingHandler: OnClickTrainingHandler,
-        var trainings: List<Training>?) :
+class TrainingsAdapter(val context: Activity, var onClickTrainingHandler: OnClickTrainingHandler,
+                       var trainings: List<Training>?) :
     RecyclerView.Adapter<TrainingsAdapter.UserTrainingsHolder>() {
 
 
@@ -23,7 +23,6 @@ class TrainingsAdapter(val context: Activity,  var onClickTrainingHandler: OnCli
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserTrainingsHolder {
-        //val rootView = LayoutInflater.from(context).inflate(R.layout.user_trainings_item, parent, false)
         val inflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate<UserTrainingsItemBinding>(inflater, R.layout.user_trainings_item, parent, false)
         return UserTrainingsHolder(binding)
@@ -40,10 +39,6 @@ class TrainingsAdapter(val context: Activity,  var onClickTrainingHandler: OnCli
 
             val time = training.timeInMinutes.toString() + "min"
             binding.timeTextView.text = time
-            /*var name: TextView = itemView.findViewById<TextView>(R.id.training_name)
-            var type = itemView.findViewById<TextView>(R.id.training_type)
-            var createDate = itemView.findViewById<TextView>(R.id.training_date)
-            var timeInMinutes = itemView.findViewById<TextView>(R.id.timeTextView)*/
         }
         init {
             itemView.setOnClickListener(this)
@@ -64,16 +59,5 @@ class TrainingsAdapter(val context: Activity,  var onClickTrainingHandler: OnCli
         if (training != null) {
             holder.bind(training)
         }
-        /*holder.name.text = training.name
-        holder.type.text = training.type
-        val time = training.timeInMinutes.toString() + "min"
-        holder.timeInMinutes.text = time
-
-
-        val pattern = "yyyy/MM/dd"
-        val simpleDateFormat = SimpleDateFormat(pattern)
-        val date: String = simpleDateFormat.format(training.creatingDate)
-        holder.createDate.text = date*/
-
     }
 }

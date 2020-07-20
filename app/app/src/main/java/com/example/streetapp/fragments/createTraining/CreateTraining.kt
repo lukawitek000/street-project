@@ -1,4 +1,4 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.createTraining
 
 import android.os.Bundle
 import android.text.Editable
@@ -9,8 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.MainActivity
 import com.example.streetapp.R
 import com.example.streetapp.databinding.CreateTrainingFragmentBinding
+import com.example.streetapp.fragments.adapters.ExercisesAdapter
+import com.example.streetapp.fragments.adapters.LinksAdapter
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
@@ -30,12 +30,17 @@ import kotlin.random.Random
 class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesAdapter.OnClickExerciseListener{
 
     companion object {
-        fun newInstance() = CreateTraining()
-        val TAG = CreateTraining::class.java.simpleName
+        fun newInstance() =
+            CreateTraining()
+        val TAG: String = CreateTraining::class.java.simpleName
+        const val UPDATE: String = "Update"
+        const val CREATE: String = "Create"
     }
 
     private val viewModel by navGraphViewModels<CreateTrainingViewModel>(R.id.create_training_graph
-    ) { CreateTrainingViewModelFactory(activity as AppCompatActivity) }
+    ) {
+        CreateTrainingViewModelFactory(requireContext())
+    }
     private lateinit var binding: CreateTrainingFragmentBinding
 
     private lateinit var linksRecyclerViewAdapter: LinksAdapter
@@ -55,27 +60,28 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
 
 
-
-
-
-
-
-
         fillInputFields()
+
+
         Log.i(TAG, "arguments: $arguments")
         if(arguments?.get("training") != null) {
 
             previousTraining = arguments?.get("training") as Training
             Log.i(TAG, "get training from arguments $previousTraining")
             setValuesFromArguments(previousTraining)
-            binding.createButton.text = "Update"
+            binding.createButton.text = UPDATE
         } else {
-            binding.createButton.text = "Create"
+            binding.createButton.text = CREATE
         }
 
         val exercisesRecyclerView : RecyclerView = binding.exercisesRecyclerView
-        exercisesRecyclerViewAdapter = ExercisesAdapter(viewModel.exercisesCreating, this, activity as MainActivity)
-        exercisesRecyclerView.layoutManager = LinearLayoutManager(activity)
+        exercisesRecyclerViewAdapter =
+            ExercisesAdapter(
+                viewModel.exercisesCreating,
+                this,
+                activity as MainActivity
+            )
+        exercisesRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         exercisesRecyclerView.adapter = exercisesRecyclerViewAdapter
 
 
@@ -83,7 +89,11 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
 
         val linksRecyclerView : RecyclerView = binding.linksRecyclerView
-        linksRecyclerViewAdapter = LinksAdapter(viewModel.trainingLinksCreating, this)
+        linksRecyclerViewAdapter =
+            LinksAdapter(
+                viewModel.trainingLinksCreating,
+                this
+            )
         linksRecyclerView.layoutManager = LinearLayoutManager(activity)
         linksRecyclerView.adapter = linksRecyclerViewAdapter
 
@@ -92,8 +102,42 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         trainingLinksAddButtonListener()
         exercisesAddButtonListener()
 
-        binding.createButton.isEnabled = false
+        blockTrainingWithoutName()
+        blockLinkWithoutUrl()
 
+        return binding.root
+    }
+
+
+    private fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
+
+    private fun fillInputFields() {
+        binding.trainingNameInput.text = viewModel.training.name.toEditable()
+        binding.trainingDescriptionInput.text = viewModel.training.description.toEditable()
+        binding.trainingTimeInput.text = viewModel.training.timeInMinutes.toString().toEditable()
+        binding.trainingTypeInput.text = viewModel.training.type.toEditable()
+    }
+
+
+    private fun blockLinkWithoutUrl() {
+        binding.trainingLinkAddButton.isEnabled = false
+        binding.linkUrlInput.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                binding.trainingLinkAddButton.isEnabled = !p0.isNullOrEmpty()
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                binding.trainingLinkAddButton.isEnabled = !p0.isNullOrEmpty()
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+        })
+    }
+
+    private fun blockTrainingWithoutName() {
+        binding.createButton.isEnabled = binding.createButton.text != CREATE
         binding.trainingNameInput.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
                 binding.createButton.isEnabled = !p0.isNullOrEmpty()
@@ -103,33 +147,8 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
                 binding.createButton.isEnabled = !p0.isNullOrEmpty()
             }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
-
-        binding.trainingLinkAddButton.isEnabled = false
-        binding.linkUrlInput.addTextChangedListener(object : TextWatcher{
-            override fun afterTextChanged(p0: Editable?) {
-                binding.trainingLinkAddButton.isEnabled = !p0.isNullOrEmpty()
-                //binding.trainingLinkAddButton
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                binding.trainingLinkAddButton.isEnabled = !p0.isNullOrEmpty()
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-        })
-
-
-
-
-
-        return binding.root
     }
 
     private fun setValuesFromArguments(training: Training?) {
@@ -144,17 +163,6 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         }
     }
 
-
-
-
-    private fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
-
-    private fun fillInputFields() {
-        binding.trainingNameInput.text = viewModel.training.name.toEditable()
-        binding.trainingDescriptionInput.text = viewModel.training.description.toEditable()
-        binding.trainingTimeInput.text = viewModel.training.timeInMinutes.toString().toEditable()
-        binding.trainingTypeInput.text = viewModel.training.type.toEditable()
-    }
 
     private fun createButtonListener() {
         viewModel.status.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
@@ -182,7 +190,10 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
                 Toast.makeText(context, "Training updated", Toast.LENGTH_SHORT).show()
                 newTraining.trainingId = previousTraining.trainingId
                 viewModel.updateTraining(newTraining)
-                val action = CreateTrainingDirections.actionCreateTraining2ToTrainingDetails(newTraining)
+                val action =
+                    CreateTrainingDirections.actionCreateTraining2ToTrainingDetails(
+                        newTraining
+                    )
                // findNavController().navigate(action)
             }
 
@@ -274,7 +285,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
     override fun onDestroy() {
         super.onDestroy()
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+       // (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     override fun onDeleteLinkClick(link: Link) {

@@ -1,4 +1,4 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,15 +9,14 @@ import com.example.streetapp.R
 import com.example.streetapp.databinding.LinksItemBinding
 import com.example.streetapp.models.Link
 
-class LinksAdapter(var links: ArrayList<Link>?, val onClearClickListener: OnClearClickListener) : RecyclerView.Adapter<LinksAdapter.LinksHolder>() {
+class LinksAdapter(var links: ArrayList<Link>?, val onClearClickListener: OnClearClickListener)
+    : RecyclerView.Adapter<LinksAdapter.LinksHolder>() {
 
 
     interface OnClearClickListener {
         fun onDeleteLinkClick(link: Link)
         fun onClickLink(link: Link)
     }
-
-
 
 
     inner class LinksHolder(val binding: LinksItemBinding) : RecyclerView.ViewHolder(binding.root) {

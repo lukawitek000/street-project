@@ -12,15 +12,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.R
 import com.example.streetapp.databinding.UserTrainingsFragmentBinding
-import com.example.streetapp.fragments.TrainingsAdapter
+import com.example.streetapp.fragments.adapters.TrainingsAdapter
 import com.example.streetapp.models.Training
-import kotlin.collections.ArrayList
 
 class UserTrainings : Fragment(), TrainingsAdapter.OnClickTrainingHandler {
 
@@ -43,6 +40,8 @@ class UserTrainings : Fragment(), TrainingsAdapter.OnClickTrainingHandler {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.user_trainings_fragment, container, false)
 
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(false)
 
         val viewModelFactory = UserTrainingsViewModelFactory(requireContext())
         viewModel = ViewModelProvider(this, viewModelFactory).get(UserTrainingsViewModel::class.java)
@@ -51,7 +50,12 @@ class UserTrainings : Fragment(), TrainingsAdapter.OnClickTrainingHandler {
         viewModel.getAllData()
 
         val recyclerView = binding.recyclerView
-        recyclerViewAdapter = TrainingsAdapter(this.requireActivity(), this, viewModel.trainings.value)
+        recyclerViewAdapter =
+            TrainingsAdapter(
+                this.requireActivity(),
+                this,
+                viewModel.trainings.value
+            )
         recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 2)
         recyclerView.adapter = recyclerViewAdapter
 

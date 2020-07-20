@@ -1,4 +1,4 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.createTraining
 
 import android.os.Bundle
 import android.text.Editable
@@ -18,20 +18,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.MainActivity
 import com.example.streetapp.R
 import com.example.streetapp.databinding.CreateExerciseFragmentBinding
+import com.example.streetapp.fragments.adapters.LinksAdapter
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
-import org.w3c.dom.Text
 import java.lang.NumberFormatException
 
 class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
 
     companion object {
-        fun newInstance() = CreateExercise()
+        fun newInstance() =
+            CreateExercise()
         val TAG = CreateExercise::class.java.simpleName
     }
 
     private val viewModel by navGraphViewModels<CreateTrainingViewModel>(R.id.create_training_graph
-    ) { CreateTrainingViewModelFactory(activity as AppCompatActivity) }
+    ) {
+        CreateTrainingViewModelFactory(
+            activity as AppCompatActivity
+        )
+    }
     private lateinit var binding: CreateExerciseFragmentBinding
 
     private lateinit var exerciseLinksRecyclerViewAdapter : LinksAdapter
@@ -45,7 +50,11 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.create_exercise_fragment, container, false)
 
         val exerciseLinksRecyclerView : RecyclerView = binding.exerciseLinksRecyclerView
-        exerciseLinksRecyclerViewAdapter  = LinksAdapter(viewModel.exerciseLinks.value, this)
+        exerciseLinksRecyclerViewAdapter  =
+            LinksAdapter(
+                viewModel.exerciseLinks.value,
+                this
+            )
         exerciseLinksRecyclerView.adapter = exerciseLinksRecyclerViewAdapter
         exerciseLinksRecyclerView.layoutManager = LinearLayoutManager(activity)
 

@@ -1,5 +1,6 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.createTraining
 
+import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
@@ -11,7 +12,7 @@ import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
 import kotlinx.coroutines.*
 
-class CreateTrainingViewModel(val activity: AppCompatActivity) : ViewModel() {
+class CreateTrainingViewModel(val context: Context) : ViewModel() {
 
 
     var trainingLinksCreating = ArrayList<Link>()
@@ -27,7 +28,7 @@ class CreateTrainingViewModel(val activity: AppCompatActivity) : ViewModel() {
 
     var exercise: Exercise? = null
 
-    private val database = AppDatabase.getDatabase(activity)
+    private val database = AppDatabase.getDatabase(context)
 
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)

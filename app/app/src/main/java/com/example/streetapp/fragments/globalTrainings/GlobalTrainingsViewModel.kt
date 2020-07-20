@@ -1,4 +1,4 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.globalTrainings
 
 import androidx.lifecycle.ViewModel
 

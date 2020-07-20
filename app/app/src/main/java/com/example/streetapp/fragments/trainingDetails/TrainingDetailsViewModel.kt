@@ -1,5 +1,6 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.trainingDetails
 
+import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
@@ -9,15 +10,14 @@ import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
 import kotlinx.coroutines.*
 
-class TrainingDetailsViewModel(var training: Training, private val activity: AppCompatActivity) : ViewModel() {
+class TrainingDetailsViewModel(var training: Training, private val context: Context) : ViewModel() {
 
     companion object {
         val TAG = TrainingDetailsViewModel::class.java.simpleName
     }
 
 
-    private val database = AppDatabase.getDatabase(activity)
-
+    private val database = AppDatabase.getDatabase(context)
 
 
     private val job = Job()
@@ -28,9 +28,6 @@ class TrainingDetailsViewModel(var training: Training, private val activity: App
         job.cancel()
     }
 
-    init {
-        Log.i(TAG, "view model training details")
-    }
 
 
     fun deleteTraining() {
