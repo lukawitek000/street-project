@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import com.example.streetapp.MainRepository
 import com.example.streetapp.database.AppDatabase
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
@@ -17,9 +18,6 @@ class TrainingDetailsViewModel(var training: Training, private val context: Cont
     }
 
 
-    private val database = AppDatabase.getDatabase(context)
-
-
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
@@ -29,29 +27,25 @@ class TrainingDetailsViewModel(var training: Training, private val context: Cont
     }
 
 
+    private val repository = MainRepository.getInstance(context)
+
 
     fun deleteTraining() {
         uiScope.launch {
-            withContext(Dispatchers.IO) {
-                database.trainingDao().deleteTraining(training)
-            }
+            repository.deleteTraining(training)
 
         }
     }
 
     fun deleteExercise(exercise: Exercise) {
         uiScope.launch {
-            withContext(Dispatchers.IO) {
-                database.trainingDao().deleteExercise(exercise)
-            }
+            repository.deleteExercise(exercise)
         }
     }
 
     fun deleteLink(link: Link) {
         uiScope.launch {
-            withContext(Dispatchers.IO) {
-                database.trainingDao().deleteLink(link)
-            }
+            repository.deleteLink(link)
         }
     }
 

@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.streetapp.MainRepository
 import com.example.streetapp.database.AppDatabase
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
@@ -28,7 +29,7 @@ class CreateTrainingViewModel(val context: Context) : ViewModel() {
 
     var exercise: Exercise? = null
 
-    private val database = AppDatabase.getDatabase(context)
+
 
     private val job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
@@ -42,6 +43,8 @@ class CreateTrainingViewModel(val context: Context) : ViewModel() {
     val status: LiveData<Status>
         get() = _status
 
+    private val repository = MainRepository.getInstance(context)
+
     init {
         _exerciseLinks.value = ArrayList()
     }
@@ -52,25 +55,18 @@ class CreateTrainingViewModel(val context: Context) : ViewModel() {
         uiScope.launch {
             try {
                 _status.value = Status.LOADING
-                _status.value = insertTraining(training)
+                _status.value = repository.insertTrainingWithAllInfo(training)
             }catch (e: Exception){
                 _status.value = Status.FAILURE
             }
         }
     }
 
-    private suspend fun insertTraining(insertTraining: Training): Status {
-        return withContext(Dispatchers.IO){
-            database.trainingDao().insertTrainingWithAllInfo(insertTraining)
-            Status.INSERTED
-        }
-    }
+
 
     fun deleteExercise(exercise: Exercise) {
         uiScope.launch {
-            withContext(Dispatchers.IO){
-                database.trainingDao().deleteExercise(exercise)
-            }
+            repository.deleteExercise(exercise)
         }
     }
 
@@ -119,9 +115,7 @@ class CreateTrainingViewModel(val context: Context) : ViewModel() {
 
     fun deleteLink(link: Link){
         uiScope.launch {
-            withContext(Dispatchers.IO){
-                database.trainingDao().deleteLink(link)
-            }
+            repository.deleteLink(link)
         }
     }
 
@@ -129,14 +123,7 @@ class CreateTrainingViewModel(val context: Context) : ViewModel() {
     fun updateTraining(training: Training){
         uiScope.launch {
             _status.value = Status.LOADING
-            _status.value = updateTrainingInDatabase(training)
-        }
-    }
-
-    private suspend fun updateTrainingInDatabase(training: Training) : Status {
-        return withContext(Dispatchers.IO){
-            database.trainingDao().updateWholeTraining(training)
-            Status.UPDATED
+            _status.value = repository.updateTraining(training)
         }
     }
 

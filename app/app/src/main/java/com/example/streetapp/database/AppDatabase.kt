@@ -13,6 +13,8 @@ import com.example.streetapp.models.Training
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun trainingDao(): TrainingDao
+    abstract fun exerciseDao(): ExerciseDao
+    abstract fun linkDao(): LinkDao
 
     companion object {
         @Volatile
