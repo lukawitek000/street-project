@@ -32,7 +32,7 @@ class TrainingsAdapter(val context: Activity, var onClickTrainingHandler: OnClic
         fun bind(training: Training) {
             binding.trainingName.text = training.name
             binding.trainingType.text = training.type
-            val pattern = "yyyy/MM/dd"
+            val pattern = "dd-MM-yyyy"
             val simpleDateFormat = SimpleDateFormat(pattern)
             val date: String = simpleDateFormat.format(training.creatingDate)
             binding.trainingDate.text = date
