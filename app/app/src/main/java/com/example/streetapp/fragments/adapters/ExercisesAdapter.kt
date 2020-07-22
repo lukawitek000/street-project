@@ -1,6 +1,5 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.adapters
 
-import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.MainActivity
 import com.example.streetapp.R
 import com.example.streetapp.databinding.ExercisesItemBinding
+import com.example.streetapp.fragments.trainingDetails.TrainingDetails
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
 
 class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
-                       private val onClickExerciseListener: ExercisesAdapter.OnClickExerciseListener,
+                       private val onClickExerciseListener: OnClickExerciseListener,
                        private val activity: MainActivity)
-    : RecyclerView.Adapter<ExercisesAdapter.ExercisesHolder>(), LinksAdapter.OnClearClickListener{
+    : RecyclerView.Adapter<ExercisesAdapter.ExercisesHolder>(),
+    LinksAdapter.OnClearClickListener {
 
 
     interface OnClickExerciseListener {
@@ -29,15 +30,13 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
 
     inner class ExercisesHolder(val binding : ExercisesItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        val exerciseLinksRecyclerView: RecyclerView = binding.root.findViewById<RecyclerView>(R.id.exercise_links)
-
+        val exerciseLinksRecyclerView: RecyclerView = binding.exerciseLinks
 
         fun bind(exercise: Exercise){
             binding.exerciseName.text = exercise.name
-            binding.exerciseDescription.text = exercise.descritption
+            binding.exerciseDescription.text = exercise.description
             binding.exerciseRepetition.text = exercise.numberOfRepetitions.toString()
             binding.exerciseTime.text = exercise.time.toString()
-            Log.i("ExercisesAdapter", "bind $exercise")
 
             if(onClickExerciseListener is TrainingDetails) {
                 binding.editExerciseButton.visibility = View.GONE
@@ -64,6 +63,7 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
         return ExercisesHolder(binding)
     }
 
+
     override fun getItemCount(): Int {
         return exercises.size
     }
@@ -71,29 +71,32 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
 
     override fun onBindViewHolder(holder: ExercisesHolder, position: Int) {
         val currentExercise = exercises[position]
-        Log.i("ExercisesAdapter", "onBindViewHolder")
         holder.bind(currentExercise)
 
         val linksLayoutManager = LinearLayoutManager(holder.exerciseLinksRecyclerView.context)
         holder.exerciseLinksRecyclerView.layoutManager = linksLayoutManager
-        holder.exerciseLinksRecyclerView.adapter = LinksAdapter(currentExercise.links, this)
+        holder.exerciseLinksRecyclerView.adapter =
+            LinksAdapter(
+                currentExercise.links,
+                this
+            )
 
     }
 
     override fun onDeleteLinkClick(link: Link) {
-        Log.i("ExercisesAdapter", "onclick $link current Exercise")
-
-        val e = exercises.filter {
-            ex -> for (clink in ex.links) {
-                if(clink == link) {
+        val exercisesWithGivenLink = exercises.filter {
+            exercise -> for (currentLink in exercise.links) {
+                if(currentLink == link) {
                     return@filter true
                 }
             }
             false
         }
 
-        val index = exercises.indexOf(e[0])
-
+        if (exercisesWithGivenLink.isNullOrEmpty()){
+            return
+        }
+        val index = exercises.indexOf(exercisesWithGivenLink[0])
         onClickExerciseListener.onClickExerciseLinkDelete(exercises[index], link)
     }
 

@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.CreateTraining">
+        tools:context=".fragments.createTraining.CreateTraining">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_field"

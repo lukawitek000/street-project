@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/user_trainings"
-        android:name="com.example.streetapp.fragments.UserTrainings"
+        android:name="com.example.streetapp.fragments.userTrainings.UserTrainings"
         android:label="user_trainings_fragment"
         tools:layout="@layout/user_trainings_fragment" >
         <action
@@ -31,17 +31,17 @@
     </fragment>
     <fragment
         android:id="@+id/global_trainings"
-        android:name="com.example.streetapp.fragments.GlobalTrainings"
+        android:name="com.example.streetapp.fragments.globalTrainings.GlobalTrainings"
         android:label="global_trainings_fragment"
         tools:layout="@layout/global_trainings_fragment" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.streetapp.fragments.SettingsFragment"
+        android:name="com.example.streetapp.fragments.settings.SettingsFragment"
         android:label="SettingsFragment" />
     <fragment
         android:id="@+id/trainingDetails"
 
-        android:name="com.example.streetapp.fragments.TrainingDetails"
+        android:name="com.example.streetapp.fragments.trainingDetails.TrainingDetails"
         android:label="TrainingDetails" >
 
         <action
@@ -56,14 +56,14 @@
     </fragment>
     <fragment
         android:id="@+id/favourite_trainings"
-        android:name="com.example.streetapp.fragments.FavouritesTrainings"
+        android:name="com.example.streetapp.fragments.favouriteTrainings.FavouritesTrainings"
         android:label="favourites_trainings_fragment"
         tools:layout="@layout/favourites_trainings_fragment" />
     <navigation android:id="@+id/create_training_graph"
         app:startDestination="@id/createTraining2">
         <fragment
             android:id="@+id/createTraining2"
-            android:name="com.example.streetapp.fragments.CreateTraining"
+            android:name="com.example.streetapp.fragments.createTraining.CreateTraining"
             android:label="create_training_fragment"
             tools:layout="@layout/create_training_fragment">
             <action
@@ -85,7 +85,7 @@
         </fragment>
         <fragment
             android:id="@+id/createExercise"
-            android:name="com.example.streetapp.fragments.CreateExercise"
+            android:name="com.example.streetapp.fragments.createTraining.CreateExercise"
             android:label="create_exercise_fragment"
             tools:layout="@layout/create_exercise_fragment">
             <action

@@ -1,10 +1,12 @@
-package com.example.streetapp.fragments
+package com.example.streetapp.fragments.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.ListPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.example.streetapp.R
 
@@ -20,9 +22,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
         savedInstanceState: Bundle?
     ): View? {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        //(activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+        val languagePreference = findPreference<ListPreference>("language")
+        languagePreference?.summary = languagePreference?.value.toString()
+
+        languagePreference?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
+            preference?.summary = newValue.toString()
+            true
+        }
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
+
 
 
     override fun onDestroy() {
