@@ -4,7 +4,7 @@
 
         <ListPreference
             app:key="language"
-            app:title="Language"
+            app:title="@string/language"
             app:summary=""
             app:defaultValue="en"
             app:entries="@array/languages"
@@ -12,9 +12,9 @@
 
         <SwitchPreferenceCompat
             app:key="theme"
-            app:title="Black Theme"
-            app:summaryOn="On"
-            app:summaryOff="Off"/>
+            app:title="@string/black_theme"
+            app:summaryOn="@string/on"
+            app:summaryOff="@string/off"/>
 
     </PreferenceCategory>
 

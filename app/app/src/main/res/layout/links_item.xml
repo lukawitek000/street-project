@@ -16,7 +16,8 @@
             android:src="@drawable/ic_baseline_link_24"
             app:layout_constraintBottom_toBottomOf="@+id/url_address"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/link_title" />
+            app:layout_constraintTop_toTopOf="@+id/link_title"
+            android:contentDescription="@string/link_icon" />
 
         <TextView
             android:id="@+id/link_title"
@@ -25,7 +26,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="LinkTitle"
+            tools:text="LinkTitle"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/clear_imageView"
             app:layout_constraintHorizontal_bias="0.0"
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="TextView"
+            tools:text="TextView"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/link_title"
@@ -51,7 +52,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_clear_24" />
+            app:srcCompat="@drawable/ic_baseline_clear_24"
+            android:contentDescription="@string/cross_for_deleting_link" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

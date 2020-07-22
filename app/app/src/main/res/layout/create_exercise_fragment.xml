@@ -15,13 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/exercises_recycler_view"
-        android:background="#FFDDFF">
+        android:layout_margin="8dp">
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add exercise to training" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/exercise_name_layout"
@@ -29,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
-            android:hint="Exercise title">
+            android:hint="@string/name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exercise_name_input"
@@ -43,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
-            android:hint="Time">
+            android:hint="@string/time">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exercise_time_input"
@@ -57,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
-            android:hint="Number of repetition">
+            android:hint="@string/number_of_repetition">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exercise_repetition_input"
@@ -71,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
-            android:hint="Description">
+            android:hint="@string/description">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exercise_description_input"
@@ -83,7 +78,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/exercise_links_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -92,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
-            android:hint="Link title">
+            android:hint="@string/link_title">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exercise_link_title_input"
@@ -106,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
-            android:hint="Link">
+            android:hint="@string/link">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exercise_link_url_input"
@@ -115,17 +111,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/add_new_links_to_exercise"
-            android:text="add link"
+            android:text="@string/add_link"
             android:gravity="center"/>
 
         <Button
             android:id="@+id/exercise_add_button"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Add" />
+            android:layout_height="wrap_content"
+            android:text="@string/add" />
 
 
     </LinearLayout>

@@ -34,8 +34,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         fun newInstance() =
             CreateTraining()
         val TAG: String = CreateTraining::class.java.simpleName
-        const val UPDATE: String = "Update"
-        const val CREATE: String = "Create"
+
     }
 
     private val viewModel by navGraphViewModels<CreateTrainingViewModel>(R.id.create_training_graph
@@ -50,10 +49,16 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
     private lateinit var previousTraining: Training
 
+    private lateinit var UPDATE: String
+    private lateinit var  CREATE: String
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        CREATE = resources.getString(R.string.create)
+        UPDATE = resources.getString(R.string.update)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.create_training_fragment, container, false)
 
@@ -68,9 +73,15 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
             Log.i(TAG, "get training from arguments $previousTraining")
             setValuesFromArguments(previousTraining)
             binding.createButton.text = UPDATE
+            (activity as AppCompatActivity).supportActionBar?.title = resources.getString(R.string.update_training)
         } else {
             binding.createButton.text = CREATE
+            (activity as AppCompatActivity).supportActionBar?.title = resources.getString(R.string.create_training)
         }
+
+
+
+
 
         val exercisesRecyclerView : RecyclerView = binding.exercisesRecyclerView
         exercisesRecyclerViewAdapter =
@@ -199,8 +210,8 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         val exercises: ArrayList<Exercise> = viewModel.exercisesCreating
 
         val c = Calendar.getInstance()
-       // val year = c.get(Calendar.YEAR)
-        val year = Random.nextInt(2000, 2020)
+        val year = c.get(Calendar.YEAR)
+        //val year = Random.nextInt(2000, 2020)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 

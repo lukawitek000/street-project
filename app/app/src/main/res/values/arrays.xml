@@ -7,6 +7,6 @@
 
     <string-array name="languages">
         <item name="english">English</item>
-        <item name="polish">Polish</item>
+        <item name="polish">Polski</item>
     </string-array>
 </resources>

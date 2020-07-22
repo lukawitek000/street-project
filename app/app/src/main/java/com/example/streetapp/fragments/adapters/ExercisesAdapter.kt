@@ -51,6 +51,22 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
                 onClickExerciseListener.onClickEditExercise(exercise)
             }
 
+            if(exercise.description.isEmpty()){
+                binding.exerciseDescription.visibility = View.GONE
+                binding.exerciseDescriptionLabel.visibility = View.GONE
+            }
+
+            if(exercise.numberOfRepetitions == 0){
+                binding.exerciseRepetition.visibility = View.GONE
+                binding.exerciseRepetitionLabel.visibility = View.GONE
+            }
+
+            if(exercise.time == 0){
+                binding.exerciseTime.visibility = View.GONE
+            }
+
+
+
         }
 
 

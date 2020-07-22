@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.streetapp.R
 import com.example.streetapp.Status
 import com.example.streetapp.databinding.UserTrainingsFragmentBinding
@@ -44,6 +45,9 @@ class UserTrainings : Fragment(), TrainingsAdapter.OnClickTrainingHandler {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(false)
 
+        (activity as AppCompatActivity).supportActionBar?.title = resources.getString(R.string.user_trainings)
+
+
         val viewModelFactory = UserTrainingsViewModelFactory(requireContext())
         viewModel = ViewModelProvider(this, viewModelFactory).get(UserTrainingsViewModel::class.java)
         Log.i("test", "onCreateView")
@@ -57,7 +61,8 @@ class UserTrainings : Fragment(), TrainingsAdapter.OnClickTrainingHandler {
                 this,
                 viewModel.trainings.value
             )
-        recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 2)
+        //recyclerView.layoutManager = GridLayoutManager(this.requireContext(), 2)
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.adapter = recyclerViewAdapter
 
 
@@ -69,7 +74,8 @@ class UserTrainings : Fragment(), TrainingsAdapter.OnClickTrainingHandler {
 
 
         binding.sortBySpinner.adapter = ArrayAdapter(requireContext(),
-            android.R.layout.simple_spinner_dropdown_item, arrayOf("Latest", "Alphabetically"))
+            android.R.layout.simple_spinner_dropdown_item, arrayOf(resources.getString(R.string.latest),
+                                                            resources.getString(R.string.alphabetically)))
 
         binding.sortBySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}

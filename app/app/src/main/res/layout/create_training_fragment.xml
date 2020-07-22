@@ -5,6 +5,7 @@
 <androidx.core.widget.NestedScrollView
     android:layout_height="wrap_content"
      android:layout_width="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,7 +19,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:hint="Name"
+            android:hint="@string/name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -32,11 +33,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/training_description_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Description"
+            android:hint="@string/description"
             app:layout_constraintEnd_toEndOf="@+id/name_field"
             app:layout_constraintStart_toStartOf="@+id/name_field"
             app:layout_constraintTop_toBottomOf="@+id/name_field">
@@ -51,11 +52,10 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/training_time_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
+            android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Time"
-            app:layout_constraintEnd_toStartOf="@+id/textView"
+            android:hint="@string/time"
             app:layout_constraintStart_toStartOf="@+id/training_description_layout"
             app:layout_constraintTop_toBottomOf="@+id/training_description_layout">
 
@@ -68,11 +68,12 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="136dp"
             android:layout_height="wrap_content"
-            android:text="min"
+            android:layout_marginStart="8dp"
+            android:text="@string/min"
             app:layout_constraintBottom_toBottomOf="@+id/training_time_layout"
-            app:layout_constraintEnd_toEndOf="@+id/training_description_layout"
+            app:layout_constraintStart_toEndOf="@+id/training_time_layout"
             app:layout_constraintTop_toTopOf="@+id/training_time_layout" />
 
         <Button
@@ -81,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Create"
+            android:text="@string/create"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -93,8 +94,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Type"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/type"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/training_time_layout"
             app:layout_constraintTop_toBottomOf="@+id/training_time_layout">
 
@@ -127,16 +129,14 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/links_recycler_view"
-            android:background="#DDFFFF">
+            app:layout_constraintTop_toBottomOf="@+id/links_recycler_view">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/link_title_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:hint="Link title">
+                android:hint="@string/link_title">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/link_title_input"
@@ -152,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
-                android:hint="Link">
+                android:hint="@string/link">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/link_url_input"
@@ -164,7 +164,7 @@
                 android:id="@+id/training_link_add_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Add" />
+                android:text="@string/add_link" />
 
 
         </LinearLayout>
@@ -186,10 +186,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Add new exercise"
+            android:text="@string/add_new_exercise"
             app:layout_constraintEnd_toEndOf="@+id/exercises_recycler_view"
             app:layout_constraintStart_toStartOf="@+id/exercises_recycler_view"
             app:layout_constraintTop_toBottomOf="@+id/exercises_recycler_view" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="136dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/training_time_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/training_time_layout" />
 
         <!-- <LinearLayout
              android:id="@+id/add_new_exercise_layout"

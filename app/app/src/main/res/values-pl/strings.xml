@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">streetApp</string>
+
+    <string name="preferences">Preferencje</string>
+
+    <string name="name">Nazwa</string>
+    <string name="description">Opis</string>
+    <string name="time">Czas</string>
+    <string name="min">min</string>
+    <string name="create">Stwórz</string>
+    <string name="type">Typ</string>
+    <string name="link_title">Opis linku</string>
+    <string name="link">Link</string>
+    <string name="add">Dodaj</string>
+    <string name="add_new_exercise">Dodaj nowe ćwiczenie</string>
+    <string name="number_of_repetition">Liczba powtórzeń</string>
+    <string name="add_link">Dodaj link</string>
+    <string name="search">szukaj</string>
+    <string name="description_label">Opis:</string>
+    <string name="approximate_training_time">Przybliżony czas treningu:</string>
+    <string name="exercises">Ćwiczenia</string>
+    <string name="delete">Usuń</string>
+    <string name="edit">Edytuj</string>
+    <string name="repetitions">powtórzenia</string>
+    <string name="link_icon">ikonka linku</string>
+    <string name="cross_for_deleting_link">przycisk do usuwania linku</string>
+    <string name="language">Język</string>
+    <string name="black_theme">Czarny motyw</string>
+    <string name="user_trainings">Twoje treningi</string>
+    <string name="settings">Ustawienia</string>
+    <string name="latest">Ostatnie</string>
+    <string name="alphabetically">Alfabetycznie</string>
+    <string name="on">Włączony</string>
+    <string name="off">Wyłączony</string>
+    <string name="training_details">Szczegóły treningu</string>
+    <string name="update">Aktualizuj</string>
+    <string name="update_training">Aktualizuj trening</string>
+    <string name="create_training">Stwórz trening</string>
+    <string name="create_exercise">Stwórz ćwiczenie</string>
+    <string name="update_exercise">Aktualizuj ćwiczenie</string>
+</resources>

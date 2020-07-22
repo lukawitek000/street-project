@@ -50,6 +50,9 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
 
+
+        (activity as AppCompatActivity).supportActionBar?.title = resources.getString(R.string.training_details)
+
         val training : Training = arguments?.get("training") as Training
         Log.i(TAG, "training from arguments $training , arguments $arguments")
 
@@ -96,6 +99,25 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
         }
 
 
+        if(binding.description.text.isNullOrEmpty()){
+            binding.description.visibility = View.GONE
+            binding.descriptionLabel.visibility = View.GONE
+        }
+
+        if(binding.durationTime.text.isNullOrEmpty() || binding.durationTime.text == "0"){
+            binding.durationTime.visibility = View.GONE
+            binding.durationTimeLabel.visibility = View.GONE
+        }
+
+        if(binding.type.text.isNullOrEmpty()){
+            binding.type.visibility = View.GONE
+        }
+
+        if(viewModel.training.exercises.isNullOrEmpty()){
+            binding.exerciseLabel.visibility = View.GONE
+        }
+
+
 
         return binding.root
     }
@@ -103,7 +125,7 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
     private fun populateUIWithData() {
         binding.name.text = viewModel.training.name
 
-        val pattern = "yyyy/MM/dd"
+        val pattern = "dd-MM-yyyy"
         val simpleDateFormat =  SimpleDateFormat(pattern)
         val date: String = simpleDateFormat.format(viewModel.training.creatingDate)
         binding.date.text = date

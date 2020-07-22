@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -26,8 +27,7 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
     companion object {
         fun newInstance() = CreateExercise()
         val TAG: String = CreateExercise::class.java.simpleName
-        const val UPDATE: String = "Update"
-        const val CREATE: String = "Create"
+
     }
 
     private val viewModel by navGraphViewModels<CreateTrainingViewModel>(R.id.create_training_graph
@@ -38,13 +38,27 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
 
     private lateinit var exerciseLinksRecyclerViewAdapter : LinksAdapter
 
+    private lateinit var UPDATE: String
+    private lateinit var  CREATE: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        CREATE = resources.getString(R.string.create)
+        UPDATE = resources.getString(R.string.update)
+
         binding = DataBindingUtil.inflate(inflater, R.layout.create_exercise_fragment, container, false)
+
+        if(viewModel.exercise?.name.isNullOrEmpty()) {
+            (activity as AppCompatActivity).supportActionBar?.title = resources.getString(R.string.create_exercise)
+        }else{
+            (activity as AppCompatActivity).supportActionBar?.title = resources.getString(R.string.update_exercise)
+        }
+
+
+
 
         val exerciseLinksRecyclerView : RecyclerView = binding.exerciseLinksRecyclerView
 

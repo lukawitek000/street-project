@@ -17,10 +17,10 @@
 
             <TextView
                 android:id="@+id/exercise_name"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="name"
+                tools:text="name"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="time"
+                tools:text="time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/exercise_name" />
 
@@ -42,16 +42,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="numberOfRepetitions"
+                tools:text="numberOfRepetitions"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/exercise_time" />
+
+            <TextView
+                android:id="@+id/exercise_repetition_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@string/repetitions"
+                app:layout_constraintBottom_toBottomOf="@+id/exercise_repetition"
+                app:layout_constraintStart_toEndOf="@+id/exercise_repetition"
+                app:layout_constraintTop_toTopOf="@+id/exercise_repetition" />
 
             <TextView
                 android:id="@+id/exercise_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                tools:text="Description"
+                app:layout_constraintStart_toStartOf="@+id/exercise_description_label"
+                app:layout_constraintTop_toBottomOf="@+id/exercise_description_label" />
+
+            <TextView
+                android:id="@+id/exercise_description_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Descritption"
+                android:text="@string/description_label"
                 app:layout_constraintStart_toStartOf="@+id/exercise_repetition"
                 app:layout_constraintTop_toBottomOf="@+id/exercise_repetition" />
 
@@ -61,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="links"
+                tools:text="links"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/exercise_description"
                 app:layout_constraintTop_toBottomOf="@+id/exercise_description" />
@@ -72,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="Delete"
+                android:text="@string/delete"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -83,7 +102,7 @@
                 android:id="@+id/edit_exercise_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit"
+                android:text="@string/edit"
                 app:layout_constraintBottom_toBottomOf="@+id/deleteExerciseButton"
                 app:layout_constraintEnd_toStartOf="@+id/deleteExerciseButton"
                 app:layout_constraintHorizontal_bias="0.5"

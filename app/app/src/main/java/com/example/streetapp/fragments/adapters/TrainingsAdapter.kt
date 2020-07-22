@@ -37,8 +37,16 @@ class TrainingsAdapter(val context: Activity, var onClickTrainingHandler: OnClic
             val date: String = simpleDateFormat.format(training.creatingDate)
             binding.trainingDate.text = date
 
-            val time = training.timeInMinutes.toString() + "min"
+            val time = training.timeInMinutes.toString()
             binding.timeTextView.text = time
+
+            if(training.timeInMinutes == 0){
+                binding.timeTextView.visibility = View.GONE
+                binding.timeLabel.visibility = View.GONE
+            }
+
+
+
         }
         init {
             itemView.setOnClickListener(this)

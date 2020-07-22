@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">streetApp</string>
     <!-- Preference Titles -->
@@ -26,7 +27,6 @@
     <string name="cross_for_deleting_link">cross for deleting link</string>
     <string name="language">Language</string>
     <string name="black_theme">Black Theme</string>
-
     <string name="user_trainings">User trainings</string>
     <string name="settings">Settings</string>
     <string name="latest">Latest</string>
