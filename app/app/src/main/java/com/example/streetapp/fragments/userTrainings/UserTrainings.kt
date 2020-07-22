@@ -23,6 +23,8 @@ import com.example.streetapp.models.Training
 
 class UserTrainings : Fragment(), TrainingsAdapter.OnClickTrainingHandler {
 
+
+
     companion object {
         fun newInstance() = UserTrainings()
         val TAG = UserTrainings::class.java.simpleName

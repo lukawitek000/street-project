@@ -13,36 +13,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:contentDescription="@string/link_icon"
             android:src="@drawable/ic_baseline_link_24"
-            app:layout_constraintBottom_toBottomOf="@+id/url_address"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/link_title"
-            android:contentDescription="@string/link_icon" />
+            app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
 
-        <TextView
-            android:id="@+id/link_title"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            tools:text="LinkTitle"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/clear_imageView"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/link_imageView"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/url_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            tools:text="TextView"
-            android:textSize="12sp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/link_title"
-            app:layout_constraintTop_toBottomOf="@+id/link_title" />
+            app:layout_constraintEnd_toStartOf="@+id/clear_imageView"
+            app:layout_constraintStart_toEndOf="@+id/link_imageView"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/link_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                tools:text="LinkTitle" />
+
+            <TextView
+                android:id="@+id/url_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                tools:text="TextView" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/clear_imageView"

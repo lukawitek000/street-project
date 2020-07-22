@@ -18,21 +18,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                tools:text="name"
+                android:textAlignment="center"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/date" />
+                app:layout_constraintTop_toBottomOf="@+id/date"
+                tools:text="name" />
 
             <TextView
                 android:id="@+id/description"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
-                tools:text="description"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description_label" />
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/description_label"
+                app:layout_constraintTop_toBottomOf="@+id/description_label"
+                tools:text="description" />
 
             <TextView
                 android:id="@+id/description_label"
@@ -58,11 +60,15 @@
                 android:id="@+id/type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                tools:text="type"
+                android:layout_marginEnd="16dp"
+                android:textAlignment="center"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name" />
+                app:layout_constraintTop_toBottomOf="@+id/name"
+                tools:text="type" />
 
             <TextView
                 android:id="@+id/durationTime"
@@ -73,6 +79,18 @@
                 app:layout_constraintBottom_toBottomOf="@+id/durationTime_label"
                 app:layout_constraintStart_toEndOf="@+id/durationTime_label"
                 app:layout_constraintTop_toTopOf="@+id/durationTime_label" />
+
+            <TextView
+                android:id="@+id/durationTime_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@string/min"
+                app:layout_constraintBottom_toBottomOf="@+id/durationTime_label"
+                app:layout_constraintStart_toEndOf="@+id/durationTime"
+                app:layout_constraintTop_toTopOf="@+id/durationTime_label"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="min" />
 
             <TextView
                 android:id="@+id/durationTime_label"

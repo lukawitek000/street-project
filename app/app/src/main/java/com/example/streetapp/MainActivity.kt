@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateLanguage(selectedLanguage: String){
-        Toast.makeText(this, "change language $selectedLanguage", Toast.LENGTH_SHORT).show()
+
 
         val selectedLanguageCode = if(selectedLanguage == "Polski"){
             "pl"

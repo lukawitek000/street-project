@@ -39,7 +39,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             preference?.summary = newValue.toString()
 
             (activity as MainActivity).updateLanguage(newValue.toString())
-
+            val infoToast = resources.getString(R.string.language_changed)
+            Toast.makeText(requireContext(), infoToast, Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()
             findNavController().navigate(R.id.action_user_trainings_to_settingsFragment)
             true

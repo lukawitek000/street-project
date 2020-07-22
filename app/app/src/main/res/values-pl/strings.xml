@@ -39,4 +39,5 @@
     <string name="create_training">Stwórz trening</string>
     <string name="create_exercise">Stwórz ćwiczenie</string>
     <string name="update_exercise">Aktualizuj ćwiczenie</string>
+    <string name="language_changed">Język zmieniony</string>
 </resources>

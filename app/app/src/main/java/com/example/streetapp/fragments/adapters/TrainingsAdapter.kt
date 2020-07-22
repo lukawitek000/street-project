@@ -45,6 +45,10 @@ class TrainingsAdapter(val context: Activity, var onClickTrainingHandler: OnClic
                 binding.timeLabel.visibility = View.GONE
             }
 
+            if(training.type.isEmpty()){
+                binding.trainingType.visibility = View.GONE
+            }
+
 
 
         }

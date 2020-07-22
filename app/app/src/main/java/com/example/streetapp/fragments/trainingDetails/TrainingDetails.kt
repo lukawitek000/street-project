@@ -107,6 +107,7 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
         if(binding.durationTime.text.isNullOrEmpty() || binding.durationTime.text == "0"){
             binding.durationTime.visibility = View.GONE
             binding.durationTimeLabel.visibility = View.GONE
+            binding.durationTimeMin.visibility = View.GONE
         }
 
         if(binding.type.text.isNullOrEmpty()){
@@ -116,6 +117,8 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
         if(viewModel.training.exercises.isNullOrEmpty()){
             binding.exerciseLabel.visibility = View.GONE
         }
+
+
 
 
 
