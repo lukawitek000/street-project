@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-        //bottomNav.visibility = View.GONE
+        bottomNav.visibility = View.GONE
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         NavigationUI.setupWithNavController(bottomNav, navHostFragment.navController)
