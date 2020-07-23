@@ -48,36 +48,57 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                tools:text="date"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/training_type" />
+                app:layout_constraintTop_toBottomOf="@+id/training_type"
+                tools:text="date" />
 
             <TextView
-                android:id="@+id/timeTextView"
+                android:id="@+id/timeMinutesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginBottom="8dp"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/time_label"
-                app:layout_constraintTop_toTopOf="@+id/training_date"
+                app:layout_constraintBottom_toBottomOf="@+id/time_hours_label"
+                app:layout_constraintEnd_toStartOf="@+id/time_minutes_label"
+                app:layout_constraintTop_toTopOf="@+id/time_hours_label"
                 app:layout_constraintVertical_bias="0.0"
                 tools:text="20" />
 
             <TextView
-                android:id="@+id/time_label"
+                android:id="@+id/time_minutes_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@string/min"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/timeTextView"
+                app:layout_constraintBottom_toBottomOf="@+id/timeMinutesTextView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/timeTextView"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintTop_toTopOf="@+id/timeMinutesTextView" />
+
+            <TextView
+                android:id="@+id/timeHoursTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/training_date"
+                app:layout_constraintEnd_toStartOf="@+id/time_hours_label"
+                app:layout_constraintTop_toTopOf="@+id/training_date"
+                tools:text="20" />
+
+            <TextView
+                android:id="@+id/time_hours_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:text="@string/hour_abbreviation"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/timeHoursTextView"
+                app:layout_constraintEnd_toStartOf="@+id/timeMinutesTextView"
+                app:layout_constraintTop_toTopOf="@+id/timeHoursTextView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -38,8 +38,10 @@
         android:layout_height="56dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="#E91E63"
-        android:src="@drawable/ic_add_icon"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/ic_add_icon_white"
+        android:tint="@color/white"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/recycler_view"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -57,7 +59,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/filterTextInput_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

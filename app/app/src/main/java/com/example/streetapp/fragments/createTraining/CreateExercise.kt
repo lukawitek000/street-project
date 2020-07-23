@@ -57,6 +57,9 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
             (activity as AppCompatActivity).supportActionBar?.title = resources.getString(R.string.update_exercise)
         }
 
+        binding.numberPickerMinutes.maxValue = 60
+        binding.numberPickerSeconds.maxValue = 59
+
 
 
 
@@ -118,7 +121,16 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
             binding.exerciseDescriptionInput.text = viewModel.exercise!!.description.toEditable()
             binding.exerciseNameInput.text = viewModel.exercise!!.name.toEditable()
             binding.exerciseRepetitionInput.text = viewModel.exercise!!.numberOfRepetitions.toString().toEditable()
-            binding.exerciseTimeInput.text = viewModel.exercise!!.time.toString().toEditable()
+
+            val minutes = viewModel.exercise?.time?.div(60)
+            val seconds = viewModel.exercise?.time?.rem(60)
+            if (seconds != null) {
+                binding.numberPickerSeconds.value = seconds
+            }
+            if (minutes != null) {
+                binding.numberPickerMinutes.value = minutes
+            }
+
             exerciseLinksRecyclerViewAdapter.links = viewModel.exercise!!.links
             viewModel.populateExerciseLinks(viewModel.exercise!!.links)
             binding.exerciseAddButton.text = UPDATE
@@ -162,11 +174,7 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
 
     private fun buildNewExerciseObject() : Exercise {
         val exerciseName = binding.exerciseNameInput.text.toString()
-        val exerciseTime : Int = try {
-            binding.exerciseTimeInput.text.toString().toInt()
-        } catch (e: NumberFormatException) {
-            0
-        }
+        val exerciseTime : Int = (binding.numberPickerMinutes.value * 60) + binding.numberPickerSeconds.value
         val exerciseRepetitions: Int = try {
             binding.exerciseRepetitionInput.text.toString().toInt()
         } catch (e: NumberFormatException) {

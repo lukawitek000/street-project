@@ -22,10 +22,12 @@ import com.example.streetapp.fragments.adapters.LinksAdapter
 import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
+import kotlinx.android.synthetic.main.create_training_fragment.*
 import java.lang.Exception
 import java.lang.NumberFormatException
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.min
 import kotlin.random.Random
 
 class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesAdapter.OnClickExerciseListener{
@@ -64,6 +66,12 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+
+
+        binding.numberPickerHours.minValue = 0
+        binding.numberPickerHours.maxValue = 5
+        binding.numberPickerMinutes.minValue = 0
+        binding.numberPickerMinutes.maxValue = 59
 
         fillInputFields()
 
@@ -112,6 +120,11 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         blockTrainingWithoutName()
         blockLinkWithoutUrl()
 
+
+
+
+
+
         return binding.root
     }
 
@@ -132,7 +145,14 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
     private fun fillInputFields() {
         binding.trainingNameInput.text = viewModel.training.name.toEditable()
         binding.trainingDescriptionInput.text = viewModel.training.description.toEditable()
-        binding.trainingTimeInput.text = viewModel.training.timeInMinutes.toString().toEditable()
+        val minutes = viewModel.training.timeInMinutes % 60
+        val hours = viewModel.training.timeInMinutes / 60
+
+
+        binding.numberPickerHours.value = hours
+        binding.numberPickerMinutes.value = minutes
+
+
         binding.trainingTypeInput.text = viewModel.training.type.toEditable()
     }
 
@@ -173,7 +193,19 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         binding.apply {
             trainingNameInput.text = training?.name?.toEditable()
             trainingDescriptionInput.text = training?.description?.toEditable()
-            trainingTimeInput.text = training?.timeInMinutes?.toString()?.toEditable()
+
+            val minutes = training?.timeInMinutes?.rem(60)
+            val hours = training?.timeInMinutes?.div(60)
+
+            Log.i(TAG, "minutes = $minutes haour = $hours")
+            if (hours != null) {
+                numberPickerHours.value = hours
+            }
+            if (minutes != null) {
+                numberPickerMinutes.value = minutes
+            }
+
+
             trainingTypeInput.text = training?.type?.toEditable()
             viewModel.exercisesCreating = training?.exercises!!
             viewModel.trainingLinksCreating = training.links
@@ -200,11 +232,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
     private fun createNewTraining() : Training {
         val trainingName = binding.trainingNameInput.text.toString()
         val trainingDescription = binding.trainingDescriptionInput.text.toString()
-        val trainingTime: Int = try {
-            binding.trainingTimeInput.text.toString().toInt()
-        } catch (exception: NumberFormatException) {
-            0
-        }
+        val trainingTime = (binding.numberPickerHours.value * 60) + binding.numberPickerMinutes.value
         val trainingType = binding.trainingTypeInput.text.toString()
         val trainingLinks: ArrayList<Link> = viewModel.trainingLinksCreating
         val exercises: ArrayList<Exercise> = viewModel.exercisesCreating
@@ -247,11 +275,7 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         viewModel.training.name = binding.trainingNameInput.text.toString()
         viewModel.training.description = binding.trainingDescriptionInput.text.toString()
 
-        viewModel.training.timeInMinutes = try {
-            binding.trainingTimeInput.text.toString().toInt()
-        } catch (e: Exception) {
-            0
-        }
+        viewModel.training.timeInMinutes = (binding.numberPickerHours.value * 60) + binding.numberPickerMinutes.value
         viewModel.training.type = binding.trainingTypeInput.text.toString()
     }
 

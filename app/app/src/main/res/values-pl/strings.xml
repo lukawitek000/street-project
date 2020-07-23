@@ -40,4 +40,7 @@
     <string name="create_exercise">Stwórz ćwiczenie</string>
     <string name="update_exercise">Aktualizuj ćwiczenie</string>
     <string name="language_changed">Język zmieniony</string>
+    <string name="hour_abbreviation">godz</string>
+    <string name="repetition_time">Czas powtórzenia:</string>
+    <string name="second_abbreviation">s</string>
 </resources>

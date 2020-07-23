@@ -104,11 +104,22 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
             binding.descriptionLabel.visibility = View.GONE
         }
 
-        if(binding.durationTime.text.isNullOrEmpty() || binding.durationTime.text == "0"){
-            binding.durationTime.visibility = View.GONE
-            binding.durationTimeLabel.visibility = View.GONE
-            binding.durationTimeMin.visibility = View.GONE
+        if(binding.durationTimeMinutes.text.isNullOrEmpty() || binding.durationTimeMinutes.text == "0"){
+            binding.durationTimeMinutes.visibility = View.GONE
+            binding.durationTimeMinutesLabel.visibility = View.GONE
         }
+
+        if(binding.durationTimeHours.text.isNullOrEmpty() || binding.durationTimeHours.text == "0"){
+            binding.durationTimeHours.visibility = View.GONE
+            binding.durationTimeHoursLabel.visibility = View.GONE
+        }
+
+        if(binding.durationTimeHours.visibility == View.GONE && binding.durationTimeMinutes.visibility == View.GONE){
+            binding.durationTimeLabel.visibility = View.GONE
+        }
+
+
+
 
         if(binding.type.text.isNullOrEmpty()){
             binding.type.visibility = View.GONE
@@ -135,7 +146,14 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
 
         binding.type.text = viewModel.training.type
         binding.description.text = viewModel.training.description
-        binding.durationTime.text = viewModel.training.timeInMinutes.toString()
+
+        val hours = viewModel.training.timeInMinutes / 60
+        val minutes = viewModel.training.timeInMinutes % 60
+
+        binding.durationTimeMinutes.text = minutes.toString()
+        binding.durationTimeHours.text = hours.toString()
+
+
     }
 
 

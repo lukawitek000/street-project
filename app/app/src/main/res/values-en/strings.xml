@@ -14,7 +14,7 @@
     <string name="link">Link</string>
     <string name="add">Add</string>
     <string name="add_new_exercise">Add new exercise</string>
-    <string name="number_of_repetition">Number of repetition</string>
+    <string name="number_of_repetition">Number of repetitions</string>
     <string name="add_link">Add link</string>
     <string name="search">search</string>
     <string name="description_label">Description:</string>
@@ -40,4 +40,7 @@
     <string name="create_exercise">Create exercise</string>
     <string name="update_exercise">Update exercise</string>
     <string name="language_changed">Language changed</string>
+    <string name="hour_abbreviation">h</string>
+    <string name="repetition_time">Repetition time:</string>
+    <string name="second_abbreviation">s</string>
 </resources>

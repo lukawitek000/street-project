@@ -36,7 +36,6 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
             binding.exerciseName.text = exercise.name
             binding.exerciseDescription.text = exercise.description
             binding.exerciseRepetition.text = exercise.numberOfRepetitions.toString()
-            binding.exerciseTime.text = exercise.time.toString()
 
             if(onClickExerciseListener is TrainingDetails) {
                 binding.editExerciseButton.visibility = View.GONE
@@ -61,8 +60,24 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
                 binding.exerciseRepetitionLabel.visibility = View.GONE
             }
 
-            if(exercise.time == 0){
-                binding.exerciseTime.visibility = View.GONE
+            val minutes = exercise.time / 60
+            val seconds = exercise.time % 60
+
+            binding.repetitionTimeMinutes.text = minutes.toString()
+            binding.repetitionTimeSeconds.text = seconds.toString()
+
+            if(minutes == 0){
+                binding.repetitionTimeMinutes.visibility = View.GONE
+                binding.repetitionTimeMinutesLabel.visibility = View.GONE
+            }
+
+            if(seconds == 0){
+                binding.repetitionTimeSeconds.visibility = View.GONE
+                binding.repetitionTimeSecondsLabel.visibility = View.GONE
+            }
+
+            if(minutes == 0 && seconds == 0){
+                binding.repetitionTimeLabel.visibility = View.GONE
             }
 
 

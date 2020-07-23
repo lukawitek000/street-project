@@ -30,14 +30,15 @@
                 tools:text="name" />
 
             <TextView
-                android:id="@+id/exercise_time"
+                android:id="@+id/repetition_time_minutes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                tools:text="time"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/exercise_name" />
+                android:layout_marginStart="4dp"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/repetition_time_label"
+                app:layout_constraintStart_toEndOf="@+id/repetition_time_label"
+                app:layout_constraintTop_toTopOf="@+id/repetition_time_label"
+                tools:text="2" />
 
             <TextView
                 android:id="@+id/exercise_repetition"
@@ -45,9 +46,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                tools:text="numberOfRepetitions"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/exercise_time" />
+                app:layout_constraintTop_toBottomOf="@+id/exercise_name"
+                tools:text="numberOfRepetitions" />
 
             <TextView
                 android:id="@+id/exercise_repetition_label"
@@ -56,6 +58,7 @@
                 android:layout_marginStart="2dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/repetitions"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/exercise_repetition"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/exercise_repetition"
@@ -67,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="8dp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/exercise_description_label"
                 app:layout_constraintTop_toBottomOf="@+id/exercise_description_label"
@@ -78,8 +82,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/description_label"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/exercise_repetition"
-                app:layout_constraintTop_toBottomOf="@+id/exercise_repetition" />
+                app:layout_constraintTop_toBottomOf="@+id/repetition_time_label" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/exercise_links"
@@ -116,6 +121,50 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/deleteExerciseButton" />
+
+            <TextView
+                android:id="@+id/repetition_time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/repetition_time"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/exercise_repetition" />
+
+            <TextView
+                android:id="@+id/repetition_time_minutes_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@string/min"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/repetition_time_minutes"
+                app:layout_constraintStart_toEndOf="@+id/repetition_time_minutes"
+                app:layout_constraintTop_toTopOf="@+id/repetition_time_minutes" />
+
+            <TextView
+                android:id="@+id/repetition_time_seconds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/repetition_time_minutes_label"
+                app:layout_constraintStart_toEndOf="@+id/repetition_time_minutes_label"
+                app:layout_constraintTop_toTopOf="@+id/repetition_time_minutes_label"
+                tools:text="30" />
+
+            <TextView
+                android:id="@+id/repetition_time_seconds_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@string/second_abbreviation"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/repetition_time_seconds"
+                app:layout_constraintStart_toEndOf="@+id/repetition_time_seconds"
+                app:layout_constraintTop_toTopOf="@+id/repetition_time_seconds" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

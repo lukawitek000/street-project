@@ -1,6 +1,7 @@
 package com.example.streetapp.fragments.adapters
 
 import android.app.Activity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,14 +38,32 @@ class TrainingsAdapter(val context: Activity, var onClickTrainingHandler: OnClic
             val date: String = simpleDateFormat.format(training.creatingDate)
             binding.trainingDate.text = date
 
-            val time = training.timeInMinutes.toString()
-            binding.timeTextView.text = time
 
-            if(training.timeInMinutes == 0){
-                binding.timeTextView.visibility = View.GONE
-                binding.timeLabel.visibility = View.GONE
+
+
+            val hours = training.timeInMinutes / 60
+            val minutes = training.timeInMinutes % 60
+
+            Log.i("TrainingsAdapter", "training: ${training.name} hours: $hours minutes: $minutes")
+
+            binding.timeMinutesTextView.text = minutes.toString()
+            binding.timeHoursTextView.text = hours.toString()
+            binding.timeHoursLabel.visibility = View.VISIBLE
+            binding.timeHoursTextView.visibility = View.VISIBLE
+            binding.timeMinutesLabel.visibility = View.VISIBLE
+            binding.timeMinutesTextView.visibility = View.VISIBLE
+
+            if(hours == 0){
+                binding.timeHoursLabel.visibility = View.GONE
+                binding.timeHoursTextView.visibility = View.GONE
             }
 
+            if(minutes == 0){
+                binding.timeMinutesLabel.visibility = View.GONE
+                binding.timeMinutesTextView.visibility = View.GONE
+            }
+
+            binding.trainingType.visibility = View.VISIBLE
             if(training.type.isEmpty()){
                 binding.trainingType.visibility = View.GONE
             }

@@ -19,7 +19,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:textAlignment="center"
-                android:textSize="30sp"
+                android:textSize="36sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/date"
@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="16dp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/description_label"
                 app:layout_constraintTop_toBottomOf="@+id/description_label"
@@ -43,6 +44,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/description_label"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/type" />
 
@@ -64,30 +66,33 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:textAlignment="center"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/name"
                 tools:text="type" />
 
             <TextView
-                android:id="@+id/durationTime"
+                android:id="@+id/durationTime_minutes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                tools:text="durationTime"
+                android:layout_marginStart="8dp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/durationTime_label"
-                app:layout_constraintStart_toEndOf="@+id/durationTime_label"
-                app:layout_constraintTop_toTopOf="@+id/durationTime_label" />
+                app:layout_constraintStart_toEndOf="@+id/durationTime_hours_label"
+                app:layout_constraintTop_toTopOf="@+id/durationTime_label"
+                app:layout_constraintVertical_bias="1.0"
+                tools:text="30" />
 
             <TextView
-                android:id="@+id/durationTime_min"
+                android:id="@+id/durationTime_minutes_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:text="@string/min"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/durationTime_label"
-                app:layout_constraintStart_toEndOf="@+id/durationTime"
+                app:layout_constraintStart_toEndOf="@+id/durationTime_minutes"
                 app:layout_constraintTop_toTopOf="@+id/durationTime_label"
                 app:layout_constraintVertical_bias="0.0"
                 tools:text="min" />
@@ -99,6 +104,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/approximate_training_time"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description" />
 
@@ -112,7 +118,7 @@
                 tools:text="links"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/durationTime" />
+                app:layout_constraintTop_toBottomOf="@+id/durationTime_minutes" />
 
             <TextView
                 android:id="@+id/exercise_label"
@@ -120,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/exercises"
-                android:textSize="22sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="@+id/exercise_links_recycler_view"
                 app:layout_constraintStart_toStartOf="@+id/exercise_links_recycler_view"
                 app:layout_constraintTop_toBottomOf="@+id/training_links" />
@@ -133,7 +139,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:background="#FF00FF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/exercise_label" />
@@ -161,6 +166,28 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/delete_training_button" />
+
+            <TextView
+                android:id="@+id/durationTime_hours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/durationTime_label"
+                app:layout_constraintStart_toEndOf="@+id/durationTime_label"
+                app:layout_constraintTop_toTopOf="@+id/durationTime_label"
+                tools:text="2" />
+
+            <TextView
+                android:id="@+id/durationTime_hours_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@string/hour_abbreviation"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/durationTime_hours"
+                app:layout_constraintStart_toEndOf="@+id/durationTime_hours"
+                app:layout_constraintTop_toTopOf="@+id/durationTime_hours" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

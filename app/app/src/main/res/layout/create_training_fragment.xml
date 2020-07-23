@@ -13,7 +13,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -33,7 +32,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/training_description_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -49,33 +47,6 @@
                 android:inputType="textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/training_time_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/time"
-            app:layout_constraintStart_toStartOf="@+id/training_description_layout"
-            app:layout_constraintTop_toBottomOf="@+id/training_description_layout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/training_time_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="time" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="136dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/min"
-            app:layout_constraintBottom_toBottomOf="@+id/training_time_layout"
-            app:layout_constraintStart_toEndOf="@+id/training_time_layout"
-            app:layout_constraintTop_toTopOf="@+id/training_time_layout" />
-
         <Button
             android:id="@+id/create_button"
             android:layout_width="wrap_content"
@@ -90,15 +61,15 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/training_type_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:hint="@string/type"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/training_time_layout"
-            app:layout_constraintTop_toBottomOf="@+id/training_time_layout">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/training_type_input"
@@ -133,7 +104,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/link_title_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/link_title">
@@ -148,7 +118,6 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/link_url_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
@@ -191,138 +160,62 @@
             app:layout_constraintStart_toStartOf="@+id/exercises_recycler_view"
             app:layout_constraintTop_toBottomOf="@+id/exercises_recycler_view" />
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="136dp"
-            android:layout_height="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/training_time_layout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toTopOf="@+id/training_time_layout" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/training_description_layout">
 
-        <!-- <LinearLayout
-             android:id="@+id/add_new_exercise_layout"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:orientation="vertical"
-             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintStart_toStartOf="parent"
-             app:layout_constraintTop_toBottomOf="@id/exercises_recycler_view"
-             android:background="#FFDDFF">
+            <TextView
+                android:id="@+id/textView_minutes_shortcut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@string/min"
+                app:layout_constraintBottom_toBottomOf="@+id/number_picker_minutes"
+                app:layout_constraintStart_toEndOf="@+id/number_picker_minutes"
+                app:layout_constraintTop_toTopOf="@+id/number_picker_minutes" />
 
+            <NumberPicker
+                android:id="@+id/number_picker_minutes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/number_picker_hours"
+                app:layout_constraintStart_toEndOf="@+id/textView_hour_shortcut"
+                app:layout_constraintTop_toTopOf="@+id/number_picker_hours" />
 
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="Add exercise to training" />
+            <TextView
+                android:id="@+id/textView_hour_shortcut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@string/hour_abbreviation"
+                app:layout_constraintBottom_toBottomOf="@+id/number_picker_hours"
+                app:layout_constraintStart_toEndOf="@+id/number_picker_hours"
+                app:layout_constraintTop_toTopOf="@+id/number_picker_hours" />
 
-             <com.google.android.material.textfield.TextInputLayout
-                 android:id="@+id/exercise_name_layout"
-                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:layout_marginTop="16dp"
-                 android:hint="Exercise title">
+            <NumberPicker
+                android:id="@+id/number_picker_hours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/time_label" />
 
-                 <com.google.android.material.textfield.TextInputEditText
-                     android:id="@+id/exercise_name_input"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content" />
-             </com.google.android.material.textfield.TextInputLayout>
-
-             <com.google.android.material.textfield.TextInputLayout
-                 android:id="@+id/exercise_time_layout"
-                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:layout_marginTop="16dp"
-                 android:hint="Time">
-
-                 <com.google.android.material.textfield.TextInputEditText
-                     android:id="@+id/exercise_time_input"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content" />
-             </com.google.android.material.textfield.TextInputLayout>
-
-             <com.google.android.material.textfield.TextInputLayout
-                 android:id="@+id/exercise_repetition_layout"
-                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:layout_marginTop="16dp"
-                 android:hint="Number of repetition">
-
-                 <com.google.android.material.textfield.TextInputEditText
-                     android:id="@+id/exercise_repetition_input"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content" />
-             </com.google.android.material.textfield.TextInputLayout>
-
-             <com.google.android.material.textfield.TextInputLayout
-                 android:id="@+id/exercise_description_layout"
-                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:layout_marginTop="16dp"
-                 android:hint="Description">
-
-                 <com.google.android.material.textfield.TextInputEditText
-                     android:id="@+id/exercise_description_input"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content" />
-             </com.google.android.material.textfield.TextInputLayout>
-
-
-             <androidx.recyclerview.widget.RecyclerView
-                 android:id="@+id/exercise_links_recycler_view"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content" />
-
-
-             <com.google.android.material.textfield.TextInputLayout
-                 android:id="@+id/exercise_link_title_layout"
-                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:layout_marginTop="16dp"
-                 android:hint="Link title">
-
-                 <com.google.android.material.textfield.TextInputEditText
-                     android:id="@+id/exercise_link_title_input"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content" />
-             </com.google.android.material.textfield.TextInputLayout>
-
-             <com.google.android.material.textfield.TextInputLayout
-                 android:id="@+id/exercise_link_url_layout"
-                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:layout_marginTop="16dp"
-                 android:hint="Link">
-
-                 <com.google.android.material.textfield.TextInputEditText
-                     android:id="@+id/exercise_link_url_input"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content" />
-             </com.google.android.material.textfield.TextInputLayout>
-
-             <Button
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:id="@+id/add_new_links_to_exercise"
-                 android:text="add link"
-                 android:gravity="center"/>
-
-             <Button
-                 android:id="@+id/exercise_add_button"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:text="Add" />
-
-
-         </LinearLayout>-->
+            <TextView
+                android:id="@+id/time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/approximate_training_time"
+                app:layout_constraintEnd_toEndOf="@+id/textView_minutes_shortcut"
+                app:layout_constraintStart_toStartOf="@+id/number_picker_hours"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
