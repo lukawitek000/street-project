@@ -9,7 +9,7 @@ import com.example.streetapp.models.Exercise
 import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
 
-@Database(entities = [Training::class, Exercise::class, Link::class], version = 9)
+@Database(entities = [Training::class, Exercise::class, Link::class], version = 10)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun trainingDao(): TrainingDao

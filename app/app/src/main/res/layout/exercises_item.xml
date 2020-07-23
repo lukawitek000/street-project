@@ -84,7 +84,7 @@
                 android:text="@string/description_label"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/exercise_repetition"
-                app:layout_constraintTop_toBottomOf="@+id/repetition_time_label" />
+                app:layout_constraintTop_toBottomOf="@+id/series_label" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/exercise_links"
@@ -165,6 +165,28 @@
                 app:layout_constraintBottom_toBottomOf="@+id/repetition_time_seconds"
                 app:layout_constraintStart_toEndOf="@+id/repetition_time_seconds"
                 app:layout_constraintTop_toTopOf="@+id/repetition_time_seconds" />
+
+            <TextView
+                android:id="@+id/series_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Series: "
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/repetition_time_label" />
+
+            <TextView
+                android:id="@+id/seriesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/series_label"
+                app:layout_constraintStart_toEndOf="@+id/series_label"
+                app:layout_constraintTop_toTopOf="@+id/series_label"
+                tools:text="1" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

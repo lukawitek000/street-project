@@ -80,6 +80,12 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
                 binding.repetitionTimeLabel.visibility = View.GONE
             }
 
+            binding.seriesTextView.text = exercise.series.toString()
+            if(exercise.series == 0 ){
+                binding.seriesTextView.visibility = View.GONE
+                binding.seriesLabel.visibility = View.GONE
+            }
+
 
 
         }
