@@ -52,11 +52,11 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                tools:text="date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="date" />
 
             <TextView
                 android:id="@+id/type"
@@ -139,33 +139,11 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/exercise_label" />
-
-            <Button
-                android:id="@+id/delete_training_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/delete"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/editTrainingButton"
-                app:layout_constraintTop_toBottomOf="@+id/exercise_links_recycler_view" />
-
-            <Button
-                android:id="@+id/editTrainingButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/edit"
-                app:layout_constraintBottom_toBottomOf="@+id/delete_training_button"
-                app:layout_constraintEnd_toStartOf="@+id/delete_training_button"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/delete_training_button" />
 
             <TextView
                 android:id="@+id/durationTime_hours"
@@ -188,6 +166,16 @@
                 app:layout_constraintBottom_toBottomOf="@+id/durationTime_hours"
                 app:layout_constraintStart_toEndOf="@+id/durationTime_hours"
                 app:layout_constraintTop_toTopOf="@+id/durationTime_hours" />
+
+            <ImageView
+                android:id="@+id/delete_training_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_clear_24" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
