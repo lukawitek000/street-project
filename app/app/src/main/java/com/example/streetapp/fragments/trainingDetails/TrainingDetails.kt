@@ -128,6 +128,10 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
         }
 
 
+        if(viewModel.training.exercises.size == 0){
+            binding.floatingButton.visibility = View.GONE
+        }
+
         binding.floatingButton.setOnClickListener {
             findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToDoTrainingFragment(viewModel.training))
         }

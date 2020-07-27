@@ -79,4 +79,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 
+
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
+
 }

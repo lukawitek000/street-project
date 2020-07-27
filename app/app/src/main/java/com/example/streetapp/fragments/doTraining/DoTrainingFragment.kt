@@ -25,7 +25,9 @@ class DoTrainingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this).get(DoTrainingViewModel::class.java)
+        val training = arguments?.get("training") as Training
+        val viewModelFactory = DoTrainingViewModelFactory(training)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(DoTrainingViewModel::class.java)
 
 
 
@@ -34,11 +36,11 @@ class DoTrainingFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
 
 
-        val training = arguments?.get("training") as Training
+
 
         (activity as AppCompatActivity).supportActionBar?.title = training.name
 
-        Log.i(TAG, "training: $training")
+        Log.i(TAG, "training: ${viewModel.training}")
 
         return inflater.inflate(R.layout.do_training_fragment, container, false)
     }
