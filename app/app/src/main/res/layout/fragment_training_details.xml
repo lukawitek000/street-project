@@ -2,182 +2,223 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/detailsLayout"
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".fragments.trainingDetails.TrainingDetails">
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:textAlignment="center"
-                android:textSize="36sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/date"
-                tools:text="name" />
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/description_label"
-                app:layout_constraintTop_toBottomOf="@+id/description_label"
-                tools:text="description" />
-
-            <TextView
-                android:id="@+id/description_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/description_label"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/type" />
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="date" />
-
-            <TextView
-                android:id="@+id/type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name"
-                tools:text="type" />
-
-            <TextView
-                android:id="@+id/durationTime_minutes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/durationTime_label"
-                app:layout_constraintStart_toEndOf="@+id/durationTime_hours_label"
-                app:layout_constraintTop_toTopOf="@+id/durationTime_label"
-                app:layout_constraintVertical_bias="1.0"
-                tools:text="30" />
-
-            <TextView
-                android:id="@+id/durationTime_minutes_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:text="@string/min"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/durationTime_label"
-                app:layout_constraintStart_toEndOf="@+id/durationTime_minutes"
-                app:layout_constraintTop_toTopOf="@+id/durationTime_label"
-                app:layout_constraintVertical_bias="0.0"
-                tools:text="min" />
-
-            <TextView
-                android:id="@+id/durationTime_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/approximate_training_time"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/training_links"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detailsLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                tools:text="links"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/durationTime_minutes" />
+                android:layout_height="match_parent"
+                tools:context=".fragments.trainingDetails.TrainingDetails">
 
-            <TextView
-                android:id="@+id/exercise_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/exercises"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="@+id/exercise_links_recycler_view"
-                app:layout_constraintStart_toStartOf="@+id/exercise_links_recycler_view"
-                app:layout_constraintTop_toBottomOf="@+id/training_links" />
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:textAlignment="center"
+                    android:textSize="36sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/date"
+                    tools:text="name" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="16dp"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/description_label"
+                    app:layout_constraintTop_toBottomOf="@+id/description_label"
+                    tools:text="description" />
+
+                <TextView
+                    android:id="@+id/description_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/description_label"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/type" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="date" />
+
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name"
+                    tools:text="type" />
+
+                <TextView
+                    android:id="@+id/durationTime_minutes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/durationTime_label"
+                    app:layout_constraintStart_toEndOf="@+id/durationTime_hours_label"
+                    app:layout_constraintTop_toTopOf="@+id/durationTime_label"
+                    app:layout_constraintVertical_bias="1.0"
+                    tools:text="30" />
+
+                <TextView
+                    android:id="@+id/durationTime_minutes_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="@string/min"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/durationTime_label"
+                    app:layout_constraintStart_toEndOf="@+id/durationTime_minutes"
+                    app:layout_constraintTop_toTopOf="@+id/durationTime_label"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="min" />
+
+                <TextView
+                    android:id="@+id/durationTime_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/approximate_training_time"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/description" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/training_links"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/durationTime_minutes"
+                    tools:text="links" />
+
+                <TextView
+                    android:id="@+id/exercise_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/exercises"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="@+id/exercise_links_recycler_view"
+                    app:layout_constraintStart_toStartOf="@+id/exercise_links_recycler_view"
+                    app:layout_constraintTop_toBottomOf="@+id/training_links" />
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/exercise_links_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/exercise_label" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/exercise_links_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="72dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/exercise_label"
+                    app:layout_constraintVertical_bias="1.0" />
 
-            <TextView
-                android:id="@+id/durationTime_hours"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/durationTime_label"
-                app:layout_constraintStart_toEndOf="@+id/durationTime_label"
-                app:layout_constraintTop_toTopOf="@+id/durationTime_label"
-                tools:text="2" />
+                <TextView
+                    android:id="@+id/durationTime_hours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/durationTime_label"
+                    app:layout_constraintStart_toEndOf="@+id/durationTime_label"
+                    app:layout_constraintTop_toTopOf="@+id/durationTime_label"
+                    tools:text="2" />
 
-            <TextView
-                android:id="@+id/durationTime_hours_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:text="@string/hour_abbreviation"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/durationTime_hours"
-                app:layout_constraintStart_toEndOf="@+id/durationTime_hours"
-                app:layout_constraintTop_toTopOf="@+id/durationTime_hours" />
+                <TextView
+                    android:id="@+id/durationTime_hours_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="@string/hour_abbreviation"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/durationTime_hours"
+                    app:layout_constraintStart_toEndOf="@+id/durationTime_hours"
+                    app:layout_constraintTop_toTopOf="@+id/durationTime_hours" />
 
-            <ImageView
-                android:id="@+id/delete_training_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_clear_24" />
+                <ImageView
+                    android:id="@+id/delete_training_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_clear_24" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+
+    </RelativeLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/ic_baseline_play_arrow_24"
+            android:tint="@color/white"
+            app:borderWidth="0dp"
+            app:layout_anchor="@id/relative_layout"
+            app:layout_anchorGravity="bottom|end"
+            android:layout_margin="16dp"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -128,6 +128,11 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
         }
 
 
+        binding.floatingButton.setOnClickListener {
+            findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToDoTrainingFragment(viewModel.training))
+        }
+
+
 
 
         setHasOptionsMenu(true)
