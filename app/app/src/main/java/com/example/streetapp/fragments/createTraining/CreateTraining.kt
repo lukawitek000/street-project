@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -121,8 +122,8 @@ class CreateTraining : Fragment(), LinksAdapter.OnClearClickListener, ExercisesA
         blockLinkWithoutUrl()
 
 
-
-
+        ViewCompat.setNestedScrollingEnabled(linksRecyclerView, false)
+        ViewCompat.setNestedScrollingEnabled(exercisesRecyclerView, false)
 
 
         return binding.root

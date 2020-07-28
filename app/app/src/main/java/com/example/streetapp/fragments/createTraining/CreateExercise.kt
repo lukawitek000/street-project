@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -79,6 +80,8 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
         createExerciseButtonListener()
         blockExerciseWithoutName()
         blockExerciseLinkWithoutUrl()
+
+        ViewCompat.setNestedScrollingEnabled(exerciseLinksRecyclerView, false)
 
         return binding.root
     }

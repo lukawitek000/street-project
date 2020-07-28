@@ -43,5 +43,5 @@
     <string name="hour_abbreviation">h</string>
     <string name="repetition_time">Repetition time:</string>
     <string name="second_abbreviation">s</string>
-    <string name="series">Series</string>
+    <string name="series">Sets</string>
 </resources>

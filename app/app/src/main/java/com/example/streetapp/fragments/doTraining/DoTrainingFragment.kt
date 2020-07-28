@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -127,6 +128,7 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
                 populateUI()
                 linksAdapter.links = viewModel.currentExercise.links
                 linksAdapter.notifyDataSetChanged()
+                changeTimerVisibility()
             }else {
                 findNavController().navigateUp()
             }
@@ -154,8 +156,19 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
             onTimerFinished()
         }
 
+        ViewCompat.setNestedScrollingEnabled(recyclerView, false)
+
+        changeTimerVisibility()
 
         return binding.root
+    }
+
+    fun changeTimerVisibility(){
+        if (viewModel.currentExercise.time == 0){
+            binding.timerLayout.visibility = View.GONE
+        }else{
+            binding.timerLayout.visibility = View.VISIBLE
+        }
     }
 
     override fun onResume() {

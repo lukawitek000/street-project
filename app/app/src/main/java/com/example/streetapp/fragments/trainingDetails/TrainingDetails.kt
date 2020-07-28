@@ -6,6 +6,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -138,7 +139,8 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
 
 
 
-
+        ViewCompat.setNestedScrollingEnabled(recyclerView, false)
+        ViewCompat.setNestedScrollingEnabled(recyclerViewLinks, false)
         setHasOptionsMenu(true)
         return binding.root
     }
