@@ -5,7 +5,7 @@ import androidx.preference.PreferenceManager
 import com.example.streetapp.fragments.doTraining.DoTrainingFragment
 
 class PrefUtil {
-
+/*
 
     companion object{
 
@@ -76,5 +76,5 @@ class PrefUtil {
 
     }
 
-
+*/
 }

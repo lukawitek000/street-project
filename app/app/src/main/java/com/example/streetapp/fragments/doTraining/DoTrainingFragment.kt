@@ -1,9 +1,5 @@
 package com.example.streetapp.fragments.doTraining
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -23,9 +19,6 @@ import com.example.streetapp.databinding.DoTrainingFragmentBinding
 import com.example.streetapp.fragments.adapters.LinksAdapter
 import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
-import kotlinx.android.synthetic.main.do_training_fragment.*
-import java.util.*
-import java.util.function.Predicate
 
 class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
 
@@ -35,7 +28,7 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
         val TAG: String? = DoTrainingFragment::class.simpleName
 
 
-
+/*
         fun setAlarm(context: Context, nowSeconds: Long, secondsRemaining: Long): Long{
             val wakeUpTime = (nowSeconds + secondsRemaining) * 1000
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -56,7 +49,7 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
 
 
         val nowSeconds: Long
-            get() = Calendar.getInstance().timeInMillis / 1000
+            get() = Calendar.getInstance().timeInMillis / 1000*/
 
     }
 
@@ -129,13 +122,17 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
                 linksAdapter.links = viewModel.currentExercise.links
                 linksAdapter.notifyDataSetChanged()
                 changeTimerVisibility()
+                onTimerFinished()
+                setUpTimer()
             }else {
                 findNavController().navigateUp()
             }
         }
 
 
-        timerLengthSeconds = viewModel.currentExercise.time.toLong()
+        setUpTimer()
+
+
         binding.startButton.setOnClickListener {
             Toast.makeText(context, "start exercise", Toast.LENGTH_SHORT).show()
             startTimer()
@@ -163,7 +160,17 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
         return binding.root
     }
 
-    fun changeTimerVisibility(){
+    private fun setUpTimer() {
+        timerState = TimerState.Stopped
+
+        timerLengthSeconds = viewModel.currentExercise.time.toLong()
+        secondsRemaining = timerLengthSeconds
+        updateButtons()
+        setNewTimerLength()
+        updateCountdownUI()
+    }
+
+    private fun changeTimerVisibility(){
         if (viewModel.currentExercise.time == 0){
             binding.timerLayout.visibility = View.GONE
         }else{
@@ -173,29 +180,31 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
 
     override fun onResume() {
         super.onResume()
-        initTimer()
+        //initTimer()
+        Log.i(TAG, "on resume")
 
-        removeAlarm(requireContext())
+       // removeAlarm(requireContext())
        // NotificationUtil.hideTimerNotification(requireContext())
 
     }
 
     override fun onPause() {
         super.onPause()
+        Log.i(TAG, "on pause")
         if(timerState == TimerState.Running){
             timer.cancel()
-            val wakeUpTime = setAlarm(requireContext(), nowSeconds, secondsRemaining)
+           // val wakeUpTime = setAlarm(requireContext(), nowSeconds, secondsRemaining)
            // NotificationUtil.showTimerRunning(requireContext(), wakeUpTime)
         }else if(timerState == TimerState.Paused){
             //NotificationUtil.showTimerPaused(requireContext())
         }
 
-        PrefUtil.setPreviousTimerLengthSeconds(timerLengthSeconds, requireContext())
+        //PrefUtil.setPreviousTimerLengthSeconds(timerLengthSeconds, requireContext())
 
-        PrefUtil.setSecondsRemaining(secondsRemaining, requireContext())
-        PrefUtil.setTimerState(timerState, requireContext())
+        //PrefUtil.setSecondsRemaining(secondsRemaining, requireContext())
+        //PrefUtil.setTimerState(timerState, requireContext())
     }
-
+/*
     private fun initTimer(){
         timerState = PrefUtil.getTimerState(requireContext())
         if(timerState == TimerState.Stopped){
@@ -212,7 +221,7 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
 
         val alarmSetTime = PrefUtil.getAlarmSetTime(requireContext())
         if(alarmSetTime > 0){
-            secondsRemaining -= nowSeconds - alarmSetTime
+            //secondsRemaining -= nowSeconds - alarmSetTime
         }
 
         if(secondsRemaining <= 0){
@@ -224,7 +233,7 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
         updateButtons()
         updateCountdownUI()
 
-    }
+    }*/
 
 
     private fun onTimerFinished(){
@@ -232,8 +241,11 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
         setNewTimerLength()
         //progress_countdown.progress = 0
         binding.progressCountdown.progress = 0
-        PrefUtil.setSecondsRemaining(timerLengthSeconds, requireContext())
+       // PrefUtil.setSecondsRemaining(timerLengthSeconds, requireContext())
         secondsRemaining = timerLengthSeconds
+        if(::timer.isInitialized) {
+            timer.cancel()
+        }
         updateButtons()
         updateCountdownUI()
 
@@ -244,8 +256,8 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
         timer = object : CountDownTimer(secondsRemaining * 1000, 1000){
             override fun onFinish() = onTimerFinished()
 
-            override fun onTick(p0: Long) {
-                secondsRemaining = p0 / 1000
+            override fun onTick(millisUntilFinished: Long) {
+                secondsRemaining = millisUntilFinished / 1000
                 updateCountdownUI()
             }
 
@@ -262,14 +274,14 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
        // progress_countdown.max = timerLengthSeconds.toInt()
         binding.progressCountdown.max = timerLengthSeconds.toInt()
     }
-
+/*
     private fun setPreviousTimerLength(){
-        timerLengthSeconds = PrefUtil.getPreviousTimerLengthSeconds(requireContext())
+       // timerLengthSeconds = PrefUtil.getPreviousTimerLengthSeconds(requireContext())
         //progress_countdown.max = timerLengthSeconds.toInt()
         binding.progressCountdown.max = timerLengthSeconds.toInt()
     }
 
-
+*/
 
     private fun updateCountdownUI(){
         val minutes = secondsRemaining / 60
@@ -310,14 +322,16 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
     private fun populateUI() {
         binding.exerciseName.text = viewModel.currentExercise.name
         binding.exerciseDescription.text = viewModel.currentExercise.description
-        binding.repsNumber.text = viewModel.currentExercise.series.toString() + "x" +
-                viewModel.currentExercise.numberOfRepetitions.toString() + "reps"
+        binding.repsNumber.text = viewModel.currentExercise.numberOfRepetitions.toString()
+        binding.setsNumber.text = viewModel.currentExercise.series.toString()
 
 
         if(viewModel.currentExercise.time == 0){
             binding.repsTime.visibility = View.GONE
-            binding.startButton.visibility = View.GONE
+            binding.repTimeLabel.visibility = View.GONE
         }else {
+            binding.repsTime.visibility = View.VISIBLE
+            binding.repTimeLabel.visibility = View.VISIBLE
             val minutes = (viewModel.currentExercise.time / 60)
             val seconds = (viewModel.currentExercise.time % 60)
             if(minutes == 0 && seconds != 0){
