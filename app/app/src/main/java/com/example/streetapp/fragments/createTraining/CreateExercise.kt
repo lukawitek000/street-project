@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -80,6 +81,8 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
         blockExerciseWithoutName()
         blockExerciseLinkWithoutUrl()
 
+        ViewCompat.setNestedScrollingEnabled(exerciseLinksRecyclerView, false)
+
         return binding.root
     }
 
@@ -131,6 +134,9 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
                 binding.numberPickerMinutes.value = minutes
             }
 
+            binding.seriesInput.text = viewModel.exercise!!.series.toString().toEditable()
+
+
             exerciseLinksRecyclerViewAdapter.links = viewModel.exercise!!.links
             viewModel.populateExerciseLinks(viewModel.exercise!!.links)
             binding.exerciseAddButton.text = UPDATE
@@ -178,13 +184,18 @@ class CreateExercise : Fragment(), LinksAdapter.OnClearClickListener {
         val exerciseRepetitions: Int = try {
             binding.exerciseRepetitionInput.text.toString().toInt()
         } catch (e: NumberFormatException) {
-            0
+            1
         }
         val exerciseDescription = binding.exerciseDescriptionInput.text.toString()
         val exerciseLinks = viewModel.exerciseLinks.value
+        val series = try {
+            binding.seriesInput.text.toString().toInt()
+        }catch (e: Exception){
+            1
+        }
         return Exercise(name = exerciseName, time = exerciseTime, numberOfRepetitions = exerciseRepetitions,
                 description = exerciseDescription,
-                links = exerciseLinks!!
+                links = exerciseLinks!!, series = series
             )
     }
 

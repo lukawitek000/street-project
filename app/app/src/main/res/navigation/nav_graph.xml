@@ -57,6 +57,15 @@
                 app:nullable="true"
                 android:defaultValue="@null" />
         </action>
+        <action
+            android:id="@+id/action_trainingDetails_to_doTrainingFragment"
+            app:destination="@id/doTrainingFragment">
+            <argument
+                android:name="training"
+                app:argType="com.example.streetapp.models.Training"
+                app:nullable="true"
+                android:defaultValue="@null" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/favourite_trainings"
@@ -97,4 +106,9 @@
                 app:destination="@id/createTraining2" />
         </fragment>
     </navigation>
+    <fragment
+        android:id="@+id/doTrainingFragment"
+        android:name="com.example.streetapp.fragments.doTraining.DoTrainingFragment"
+        android:label="do_training_fragment"
+        tools:layout="@layout/do_training_fragment" />
 </navigation>

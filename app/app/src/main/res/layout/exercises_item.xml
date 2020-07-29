@@ -12,21 +12,19 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFEDDD">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/exercise_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/deleteExerciseButton"
                 tools:text="name" />
 
             <TextView
@@ -84,7 +82,7 @@
                 android:text="@string/description_label"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/exercise_repetition"
-                app:layout_constraintTop_toBottomOf="@+id/repetition_time_label" />
+                app:layout_constraintTop_toBottomOf="@+id/series_label" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/exercise_links"
@@ -93,34 +91,22 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/edit_exercise_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/exercise_description"
                 tools:text="links" />
 
             <Button
-                android:id="@+id/deleteExerciseButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/delete"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/edit_exercise_button"
-                app:layout_constraintTop_toBottomOf="@+id/exercise_links" />
-
-            <Button
                 android:id="@+id/edit_exercise_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="@string/edit"
-                app:layout_constraintBottom_toBottomOf="@+id/deleteExerciseButton"
-                app:layout_constraintEnd_toStartOf="@+id/deleteExerciseButton"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/deleteExerciseButton" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/repetition_time_label"
@@ -165,6 +151,38 @@
                 app:layout_constraintBottom_toBottomOf="@+id/repetition_time_seconds"
                 app:layout_constraintStart_toEndOf="@+id/repetition_time_seconds"
                 app:layout_constraintTop_toTopOf="@+id/repetition_time_seconds" />
+
+            <TextView
+                android:id="@+id/series_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Series: "
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/repetition_time_label" />
+
+            <TextView
+                android:id="@+id/seriesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/series_label"
+                app:layout_constraintStart_toEndOf="@+id/series_label"
+                app:layout_constraintTop_toTopOf="@+id/series_label"
+                tools:text="1" />
+
+            <ImageView
+                android:id="@+id/deleteExerciseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_clear_24" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

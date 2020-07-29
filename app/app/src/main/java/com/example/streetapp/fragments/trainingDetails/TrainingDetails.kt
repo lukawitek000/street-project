@@ -2,12 +2,11 @@ package com.example.streetapp.fragments.trainingDetails
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -91,12 +90,12 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
             viewModel.deleteTraining()
             findNavController().navigateUp()
         }
-
+/*
         binding.editTrainingButton.setOnClickListener {
             findNavController().navigate(
                 TrainingDetailsDirections.actionTrainingDetailsToCreateTraining2(viewModel.training)
             )
-        }
+        }*/
 
 
         if(binding.description.text.isNullOrEmpty()){
@@ -130,11 +129,42 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
         }
 
 
+        if(viewModel.training.exercises.size == 0){
+            binding.floatingButton.visibility = View.GONE
+        }
+
+        binding.floatingButton.setOnClickListener {
+            findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToDoTrainingFragment(viewModel.training))
+        }
 
 
 
+        ViewCompat.setNestedScrollingEnabled(recyclerView, false)
+        ViewCompat.setNestedScrollingEnabled(recyclerViewLinks, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.details_training_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+            R.id.edit -> {
+                findNavController().navigate(
+                    TrainingDetailsDirections.actionTrainingDetailsToCreateTraining2(viewModel.training)
+                )
+                true
+            }
+            else -> {
+                false
+            }
+        }
+
+    }
+
 
     private fun populateUIWithData() {
         binding.name.text = viewModel.training.name

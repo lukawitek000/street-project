@@ -2,11 +2,13 @@ package com.example.streetapp.fragments.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.streetapp.R
 import com.example.streetapp.databinding.LinksItemBinding
+import com.example.streetapp.fragments.doTraining.DoTrainingFragment
 import com.example.streetapp.models.Link
 
 class LinksAdapter(var links: ArrayList<Link>?, val onClearClickListener: OnClearClickListener)
@@ -32,6 +34,11 @@ class LinksAdapter(var links: ArrayList<Link>?, val onClearClickListener: OnClea
                 Log.i("LinksAdapter", "on click link listener")
                 onClearClickListener.onClickLink(link)
             }
+
+            if (onClearClickListener is DoTrainingFragment){
+                binding.clearImageView.visibility = View.GONE
+            }
+
         }
 
 

@@ -9,6 +9,7 @@ import android.net.Uri
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -24,7 +25,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        val language = preferences.getString("language", "en")
+        if (language != null) {
+            updateLanguage(language)
+        }
+        val isBlackThemeOn = preferences.getBoolean("theme", false)
+        Log.i("SettingsFragment", "language $language, blacktheme $isBlackThemeOn")
+        updateTheme(isBlackThemeOn)
         setContentView(R.layout.activity_main)
+
+
+
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         bottomNav.visibility = View.GONE
@@ -35,13 +50,20 @@ class MainActivity : AppCompatActivity() {
        // supportActionBar?.displayOptions = androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM
        // supportActionBar?.setCustomView(R.layout.custom_toolbar)
         //supportActionBar?.title = "Street Workout Training App"
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
-        val language = preferences.getString("language", "en")
-        if (language != null) {
-            updateLanguage(language)
+
+    }
+
+
+    fun updateTheme(isBlackThemeOn: Boolean){
+        if(isBlackThemeOn){
+            setTheme(R.style.DarkTheme)
+        }else {
+            setTheme(R.style.AppTheme)
         }
     }
+
+
 
     fun updateLanguage(selectedLanguage: String){
 

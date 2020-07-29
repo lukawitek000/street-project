@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,9 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
     inner class ExercisesHolder(val binding : ExercisesItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val exerciseLinksRecyclerView: RecyclerView = binding.exerciseLinks
+        init {
+            ViewCompat.setNestedScrollingEnabled(exerciseLinksRecyclerView, false)
+        }
 
         fun bind(exercise: Exercise){
             binding.exerciseName.text = exercise.name
@@ -78,6 +82,12 @@ class ExercisesAdapter(private val exercises: ArrayList<Exercise>,
 
             if(minutes == 0 && seconds == 0){
                 binding.repetitionTimeLabel.visibility = View.GONE
+            }
+
+            binding.seriesTextView.text = exercise.series.toString()
+            if(exercise.series == 0 ){
+                binding.seriesTextView.visibility = View.GONE
+                binding.seriesLabel.visibility = View.GONE
             }
 
 
