@@ -1,5 +1,9 @@
 package com.example.streetapp.fragments.doTraining
 
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import android.media.RingtoneManager
+import android.media.SoundPool
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -254,7 +258,21 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
     private fun startTimer(){
         timerState = TimerState.Running
         timer = object : CountDownTimer(secondsRemaining * 1000, 1000){
-            override fun onFinish() = onTimerFinished()
+            override fun onFinish() {
+                val audioAttributes = AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build()
+
+                val soundPool = SoundPool.Builder()
+                    .setAudioAttributes(audioAttributes)
+                    .build()
+                val soundID = soundPool.load(context?.applicationContext, R.raw.front_desk_bells_daniel_simon, 1)
+                soundPool.setOnLoadCompleteListener { soundPool, i, i2 ->
+                    soundPool.play(i, 1F, 1F, 0, 0, 1F )
+                }
+                onTimerFinished()
+            }
 
             override fun onTick(millisUntilFinished: Long) {
                 secondsRemaining = millisUntilFinished / 1000
