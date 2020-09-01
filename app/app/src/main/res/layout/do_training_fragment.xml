@@ -71,8 +71,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Next"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="Next exercise"
+                app:layout_constraintEnd_toStartOf="@+id/next_set_button"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/exercise_links_recycler_view" />
@@ -165,6 +165,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:text="Sets:"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/rep_time_label"
@@ -191,9 +193,42 @@
                 android:layout_marginTop="8dp"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@+id/sets_label"
-                app:layout_constraintStart_toStartOf="@+id/sets_label"
                 app:layout_constraintTop_toBottomOf="@+id/sets_label"
                 tools:text="3" />
+
+            <Button
+                android:id="@+id/next_set_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Next set"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/next_exercise_button"
+                app:layout_constraintTop_toBottomOf="@+id/exercise_links_recycler_view" />
+
+            <TextView
+                android:id="@+id/sets_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/sets_number"
+                app:layout_constraintStart_toStartOf="@+id/sets_label"
+                app:layout_constraintTop_toTopOf="@+id/sets_number" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:text="/"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/sets_left"
+                app:layout_constraintEnd_toStartOf="@+id/sets_number"
+                app:layout_constraintStart_toEndOf="@+id/sets_left"
+                app:layout_constraintTop_toTopOf="@+id/sets_left" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
