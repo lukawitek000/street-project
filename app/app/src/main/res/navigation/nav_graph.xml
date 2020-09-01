@@ -110,5 +110,10 @@
         android:id="@+id/doTrainingFragment"
         android:name="com.example.streetapp.fragments.doTraining.DoTrainingFragment"
         android:label="do_training_fragment"
-        tools:layout="@layout/do_training_fragment" />
+        tools:layout="@layout/do_training_fragment" >
+        <argument
+            android:name="isItSeriesTypeOfTraining"
+            app:argType="boolean"
+            android:defaultValue="true" />
+    </fragment>
 </navigation>

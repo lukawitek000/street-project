@@ -76,7 +76,7 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
     private var secondsRemaining = 0L
 
 
-
+    private var isSetsTypeOfTraining: Boolean = true
 
 
 
@@ -87,6 +87,16 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.do_training_fragment, container, false)
+
+        isSetsTypeOfTraining = arguments?.get("isItSeriesTypeOfTraining") as Boolean
+        if(isSetsTypeOfTraining){
+            Toast.makeText(context, "This is sets type of training", Toast.LENGTH_SHORT).show()
+        }else{
+           // binding.nextExerciseButton.text == "Next exercise"
+            Toast.makeText(context, "This is exercise type of training", Toast.LENGTH_SHORT).show()
+        }
+
+
 
         val training = arguments?.get("training") as Training
         val viewModelFactory =
