@@ -1,8 +1,11 @@
 package com.example.streetapp.fragments.trainingDetails
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Button
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -134,7 +137,21 @@ class TrainingDetails : Fragment(), LinksAdapter.OnClearClickListener,
         }
 
         binding.floatingButton.setOnClickListener {
-            findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToDoTrainingFragment(viewModel.training))
+            val dialog = Dialog(requireContext())
+            dialog.setContentView(R.layout.way_of_training_dialog_window)
+            dialog.findViewById<Button>(R.id.select_exercise_type_button).setOnClickListener {
+                findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToDoTrainingFragment(viewModel.training, false))
+                dialog.dismiss()
+            }
+            dialog.findViewById<Button>(R.id.select_series_way_button).setOnClickListener {
+                findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToDoTrainingFragment(viewModel.training, true))
+                dialog.dismiss()
+            }
+            dialog.findViewById<ImageView>(R.id.close_dialog_window_image).setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
+           // findNavController().navigate(TrainingDetailsDirections.actionTrainingDetailsToDoTrainingFragment(viewModel.training))
         }
 
 

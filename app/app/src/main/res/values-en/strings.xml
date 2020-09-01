@@ -44,4 +44,15 @@
     <string name="repetition_time">Repetition time:</string>
     <string name="second_abbreviation">s</string>
     <string name="series">Sets</string>
+    <string name="how_do_you_want_to_do_your_training">How do you want to do your training?</string>
+    <string name="all_sets_of_one_exercise_at_once">All sets of one exercise at once</string>
+    <string name="exercise_in_series">Exercise in series</string>
+    <string name="next_exercise">Next exercise</string>
+    <string name="reps">Reps:</string>
+    <string name="sets">Sets:</string>
+    <string name="rep_time">Rep time:</string>
+    <string name="next_set">Next set</string>
+    <string name="backslash">/</string>
+    <string name="favourites">Favourites</string>
+    <string name="finish">Finish</string>
 </resources>

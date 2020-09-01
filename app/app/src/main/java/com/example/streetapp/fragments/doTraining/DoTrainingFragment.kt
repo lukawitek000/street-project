@@ -23,6 +23,8 @@ import com.example.streetapp.databinding.DoTrainingFragmentBinding
 import com.example.streetapp.fragments.adapters.LinksAdapter
 import com.example.streetapp.models.Link
 import com.example.streetapp.models.Training
+import kotlinx.android.synthetic.main.do_training_fragment.view.*
+import kotlin.properties.Delegates
 
 class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
 
@@ -75,11 +77,7 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
 
     private var secondsRemaining = 0L
 
-
-
-
-
-
+    private var isSetsTypeOfTraining: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,13 +86,28 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.do_training_fragment, container, false)
 
+
+        /*
+        if(isSetsTypeOfTraining){
+            Toast.makeText(context, "This is sets type of training", Toast.LENGTH_SHORT).show()
+            binding.nextSetButton.visibility = View.GONE
+        }else{
+            //binding.nextExerciseButton.text = "Next exercise"
+            binding.nextExerciseButton.visibility = View.GONE
+            Toast.makeText(context, "This is exercise type of training", Toast.LENGTH_SHORT).show()
+        }*/
+
+
+
         val training = arguments?.get("training") as Training
         val viewModelFactory =
             DoTrainingViewModelFactory(
                 training
             )
         viewModel = ViewModelProvider(this, viewModelFactory).get(DoTrainingViewModel::class.java)
+        isSetsTypeOfTraining = arguments?.get("isItSeriesTypeOfTraining") as Boolean
 
+        setTrainingType()
 
 
 
@@ -113,21 +126,50 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
 
         populateUI()
 
+        if(isSetsTypeOfTraining) {
+            checkEndOfTheTrainingAndLastExerciseInSet()
+        }else{
+            checkTheEndOfSet()
+        }
+        binding.nextSetButton.setOnClickListener {
+            if(isSetsTypeOfTraining){
+                //viewModel.nextExerciseAndChangeSetsLeft()
+                viewModel.firstExercise()
+                populateUI()
+                setTrainingType()
+                checkEndOfTheTrainingAndLastExerciseInSet()
+                updateTimerAndLinkAdapter()
+            }else{
+                viewModel.nextSet()
+                checkTheEndOfSet()
+                binding.setsLeft.text = viewModel.setsLeft.toString()
+            }
+
+        }
+
 
 
         binding.nextExerciseButton.setOnClickListener {
-            if(binding.nextExerciseButton.text == "Next") {
-                Toast.makeText(context, "next exercise", Toast.LENGTH_SHORT).show()
-                viewModel.nextExercise()
-                if (viewModel.isLastExercise()) {
-                    binding.nextExerciseButton.text = "Finish"
+            if(binding.nextExerciseButton.text == resources.getString(R.string.next_exercise)) {
+               // Toast.makeText(context, "next exercise", Toast.LENGTH_SHORT).show()
+                if(isSetsTypeOfTraining){
+                    viewModel.nextExerciseAndChangeSetsLeft()
+                    populateUI()
+                    setTrainingType()
+                    checkEndOfTheTrainingAndLastExerciseInSet()
+                }else {
+                    viewModel.nextExercise()
+                    if(viewModel.isLastExercise()){
+                        binding.nextExerciseButton.text = resources.getString(R.string.finish)
+                    }
+                    populateUI()
+                    setTrainingType()
+                    checkTheEndOfSet()
                 }
-                populateUI()
-                linksAdapter.links = viewModel.currentExercise.links
-                linksAdapter.notifyDataSetChanged()
-                changeTimerVisibility()
-                onTimerFinished()
-                setUpTimer()
+
+
+                updateTimerAndLinkAdapter()
+
             }else {
                 findNavController().navigateUp()
             }
@@ -162,6 +204,44 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
         changeTimerVisibility()
 
         return binding.root
+    }
+
+    private fun checkTheEndOfSet() {
+        if(viewModel.isLastSet()){
+            binding.nextExerciseButton.visibility = View.VISIBLE
+            binding.nextSetButton.visibility = View.GONE
+        }
+    }
+
+    private fun checkEndOfTheTrainingAndLastExerciseInSet() {
+        if(viewModel.isTheEndOfTheTraining()){
+            binding.nextExerciseButton.text = resources.getString(R.string.finish)
+        }else if(viewModel.isLastExerciseInSet()){
+            binding.nextSetButton.visibility = View.VISIBLE
+            binding.nextExerciseButton.visibility = View.GONE
+        }
+    }
+
+    private fun updateTimerAndLinkAdapter() {
+        linksAdapter.links = viewModel.currentExercise.links
+        linksAdapter.notifyDataSetChanged()
+        changeTimerVisibility()
+        onTimerFinished()
+        setUpTimer()
+    }
+
+    private fun setTrainingType() {
+        if(isSetsTypeOfTraining){
+           // Toast.makeText(context, "This is sets type of training", Toast.LENGTH_SHORT).show()
+            binding.nextSetButton.visibility = View.GONE
+            binding.nextExerciseButton.visibility = View.VISIBLE
+            binding.setsLeft.text = viewModel.getCurrentSetsLeft().toString()
+        }else{
+            //binding.nextExerciseButton.text = "Next exercise"
+            binding.nextExerciseButton.visibility = View.GONE
+            binding.nextSetButton.visibility = View.VISIBLE
+           // Toast.makeText(context, "This is exercise type of training", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setUpTimer() {
@@ -342,6 +422,12 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
         binding.exerciseDescription.text = viewModel.currentExercise.description
         binding.repsNumber.text = viewModel.currentExercise.numberOfRepetitions.toString()
         binding.setsNumber.text = viewModel.currentExercise.series.toString()
+
+        if(isSetsTypeOfTraining){
+            binding.setsLeft.text = viewModel.getCurrentSetsLeft().toString()
+        }else {
+            binding.setsLeft.text = viewModel.setsLeft.toString()
+        }
 
 
         if(viewModel.currentExercise.time == 0){
