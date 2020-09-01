@@ -150,7 +150,7 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
 
 
         binding.nextExerciseButton.setOnClickListener {
-            if(binding.nextExerciseButton.text == "Next exercise") {
+            if(binding.nextExerciseButton.text == "Next exercise" || binding.nextExerciseButton.text == "Następne ćwiczenie") {
                // Toast.makeText(context, "next exercise", Toast.LENGTH_SHORT).show()
                 if(isSetsTypeOfTraining){
                     viewModel.nextExerciseAndChangeSetsLeft()

@@ -44,4 +44,14 @@
     <string name="repetition_time">Czas powtórzenia:</string>
     <string name="second_abbreviation">s</string>
     <string name="series">Serie</string>
+    <string name="backslash">/</string>
+    <string name="how_do_you_want_to_do_your_training">W jaki sposób chcesz zrobić swój trening?</string>
+    <string name="all_sets_of_one_exercise_at_once">Wszystkie serie ćwiczenia za jednym razem</string>
+    <string name="exercise_in_series">Ćwiczenie w seriach</string>
+    <string name="next_exercise">Następne ćwiczenie</string>
+    <string name="reps">Powtórzenia:</string>
+    <string name="sets">Serie:</string>
+    <string name="rep_time">Czas powtórzenia:</string>
+    <string name="next_set">Następna seria</string>
+    <string name="favourites">Ulubione</string>
 </resources>
