@@ -150,7 +150,7 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
 
 
         binding.nextExerciseButton.setOnClickListener {
-            if(binding.nextExerciseButton.text == "Next exercise" || binding.nextExerciseButton.text == "Następne ćwiczenie") {
+            if(binding.nextExerciseButton.text == resources.getString(R.string.next_exercise)) {
                // Toast.makeText(context, "next exercise", Toast.LENGTH_SHORT).show()
                 if(isSetsTypeOfTraining){
                     viewModel.nextExerciseAndChangeSetsLeft()
@@ -160,7 +160,7 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
                 }else {
                     viewModel.nextExercise()
                     if(viewModel.isLastExercise()){
-                        binding.nextExerciseButton.text = "Finish"
+                        binding.nextExerciseButton.text = resources.getString(R.string.finish)
                     }
                     populateUI()
                     setTrainingType()
@@ -215,7 +215,7 @@ class DoTrainingFragment : Fragment(), LinksAdapter.OnClearClickListener {
 
     private fun checkEndOfTheTrainingAndLastExerciseInSet() {
         if(viewModel.isTheEndOfTheTraining()){
-            binding.nextExerciseButton.text = "Finish"
+            binding.nextExerciseButton.text = resources.getString(R.string.finish)
         }else if(viewModel.isLastExerciseInSet()){
             binding.nextSetButton.visibility = View.VISIBLE
             binding.nextExerciseButton.visibility = View.GONE
