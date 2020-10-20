@@ -1,2 +1,3 @@
 # street-project
-Application for Android smartphones
+
+Android application for creating your own street workout trainig plan.
